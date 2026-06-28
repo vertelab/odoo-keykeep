@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Vertel AB - License AGPL-3.0 -->
+<odoo>
+    <!-- Create Journal Entry Wizard Form -->
+    <record id="view_create_journal_entry_wizard_form" model="ir.ui.view">
+        <field name="name">keykeep.create.journal.entry.form</field>
+        <field name="model">keykeep.create.journal.entry</field>
+        <field name="arch" type="xml">
+            <form string="Create Journal Entry">
+                <group>
+                    <group>
+                        <field name="subscription_id" invisible="1"/>
+                        <field name="name"/>
+                        <field name="date"/>
+                        <field name="amount"/>
+                        <field name="currency_id" invisible="1"/>
+                        <field name="expense_account_id"/>
+                        <field name="partner_id" invisible="1"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_create_entry" type="object"
+                            string="Create Entry" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <!-- Reveal Credential Wizard Form -->
+    <record id="view_credential_reveal_form" model="ir.ui.view">
+        <field name="name">keykeep.credential.reveal.form</field>
+        <field name="model">keykeep.credential.reveal</field>
+        <field name="arch" type="xml">
+            <form string="Reveal Credential">
+                <group>
+                    <field name="credential_id" invisible="1"/>
+                    <field name="subscription"/>
+                    <field name="credential_name"/>
+                    <field name="credential_type"/>
+                    <field name="username" invisible="credential_type != 'login'"/>
+                    <field name="decrypted_value" nolabel="1" colspan="2"
+                           widget="text"
+                           invisible="not decrypted_value"/>
+                </group>
+                <footer>
+                    <button string="Close" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

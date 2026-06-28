@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Vertel AB - License AGPL-3.0 -->
+<odoo>
+    <!-- ===== Subscription Kanban View ===== -->
+    <record id="view_keykeep_subscription_kanban" model="ir.ui.view">
+        <field name="name">keykeep.subscription.kanban</field>
+        <field name="model">keykeep.subscription</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="category_id" class="o_kanban_small_column" on_create="quick_create">
+                <field name="name"/>
+                <field name="logo"/>
+                <field name="cost_amount"/>
+                <field name="currency_id"/>
+                <field name="next_renewal_date"/>
+                <field name="kanban_state"/>
+                <field name="days_until_renewal"/>
+                <field name="state"/>
+                <field name="category_id"/>
+                <field name="partner_id"/>
+                <field name="credential_count"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_card oe_kanban_global_click keykeep-card"
+                             t-att-data-urgency="record.kanban_state.raw_value">
+                            <div class="keykeep-card-header">
+                                <div class="keykeep-logo">
+                                    <img t-att-src="kanban_image('keykeep.subscription', 'logo', record.id.raw_value)"
+                                         alt="Logo" class="keykeep-logo-img"
+                                         t-attf-style="width: 48px; height: 48px; border-radius: 8px;"/>
+                                </div>
+                                <div class="keykeep-title">
+                                    <strong><field name="name"/></strong>
+                                    <div class="text-muted small">
+                                        <field name="partner_id"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="keykeep-card-body">
+                                <div class="keykeep-amount">
+                                    <t t-esc="record.cost_amount.raw_value and record.cost_amount.value or '—'"/>
+                                    <t t-esc="record.currency_id.raw_value and record.currency_id.value"/>
+                                </div>
+                                <div t-attf-class="keykeep-days #{record.kanban_state.raw_value}">
+                                    <t t-if="record.state.raw_value == 'active' and record.days_until_renewal.raw_value != null">
+                                        <t t-if="record.days_until_renewal.value &lt; 0">
+                                            <span class="text-danger">⚠ Overdue</span>
+                                        </t>
+                                        <t t-elif="record.days_until_renewal.value == 0">
+                                            <span class="text-warning">⏰ Today</span>
+                                        </t>
+                                        <t t-else="">
+                                            <span class="text-info" t-esc="record.days_until_renewal.value + ' days'"/>
+                                        </t>
+                                    </t>
+                                    <t t-if="record.state.raw_value == 'cancelled'">
+                                        <span class="text-muted">Cancelled</span>
+                                    </t>
+                                    <t t-if="record.state.raw_value == 'expired'">
+                                        <span class="text-danger">Expired</span>
+                                    </t>
+                                </div>
+                                <div class="keykeep-next">
+                                    <small>Next: <field name="next_renewal_date"/></small>
+                                </div>
+                            </div>
+                            <div class="keykeep-card-footer">
+                                <span class="badge rounded-pill" t-attf-class="badge rounded-pill #{record.kanban_state.raw_value}">
+                                    <t t-if="record.kanban_state.raw_value == 'ok'" t-out="'Active'"/>
+                                    <t t-if="record.kanban_state.raw_value == 'warning'" t-out="'Expiring'"/>
+                                    <t t-if="record.kanban_state.raw_value == 'critical'" t-out="'Overdue'"/>
+                                    <t t-if="record.kanban_state.raw_value == 'inactive'" t-out="'Inactive'"/>
+                                </span>
+                                <span class="badge rounded-pill bg-secondary" t-if="record.credential_count.raw_value &gt; 0">
+                                    <t t-esc="record.credential_count.value"/> keys
+                                </span>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ===== Subscription Tree View ===== -->
+    <record id="view_keykeep_subscription_tree" model="ir.ui.view">
+        <field name="name">keykeep.subscription.tree</field>
+        <field name="model">keykeep.subscription</field>
+        <field name="arch" type="xml">
+            <list default_order="next_renewal_date asc">
+                <field name="name"/>
+                <field name="partner_id" optional="show"/>
+                <field name="category_id" optional="show"/>
+                <field name="cost_amount" sum="Total"/>
+                <field name="currency_id" optional="hide"/>
+                <field name="renewal_frequency" optional="hide"/>
+                <field name="next_renewal_date" decoration-danger="kanban_state == 'critical'" decoration-warning="kanban_state == 'warning'" decoration-muted="state != 'active'"/>
+                <field name="days_until_renewal" optional="show"/>
+                <field name="state"/>
+                <field name="responsible_id" optional="show"/>
+                <field name="company_id" optional="hide" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ===== Subscription Form View ===== -->
+    <record id="view_keykeep_subscription_form" model="ir.ui.view">
+        <field name="name">keykeep.subscription.form</field>
+        <field name="model">keykeep.subscription</field>
+        <field name="arch" type="xml">
+            <form string="Subscription">
+                <header>
+                    <button name="action_fetch_logo" type="object"
+                            string="Fetch Logo" class="btn-secondary"
+                            help="Auto-fetch logo from Clearbit using the service URL."
+                            invisible="not url"/>
+                    <field name="state" widget="statusbar"
+                            statusbar_visible="active,cancelled,expired"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <div class="d-flex align-items-center mb-3">
+                            <field name="logo" widget="image" class="oe_avatar me-3"
+                                   options="{'size': [64, 64]}"/>
+                            <h1><field name="name" placeholder="e.g. Slack, GitHub Enterprise"/></h1>
+                        </div>
+                    </div>
+                    <notebook>
+                        <!-- Tab 1: General -->
+                        <page string="General">
+                            <group>
+                                <group>
+                                    <field name="partner_id"/>
+                                    <field name="category_id"/>
+                                    <field name="responsible_id"/>
+                                    <field name="url" widget="url"/>
+                                </group>
+                                <group>
+                                    <field name="company_id" groups="base.group_multi_company"/>
+                                    <field name="active"/>
+                                    <field name="replacement_subscription_id"
+                                           domain="[('id', '!=', id)]"/>
+                                </group>
+                            </group>
+                            <group string="Renewal">
+                                <group>
+                                    <field name="start_date"/>
+                                    <field name="next_renewal_date"/>
+                                    <field name="renewal_frequency"/>
+                                    <field name="renewal_cycle" invisible="renewal_frequency == 'monthly'"/>
+                                </group>
+                                <group>
+                                    <field name="auto_renew"/>
+                                    <field name="notify_days_before"/>
+                                    <field name="cancellation_date"
+                                           invisible="state != 'cancelled'"/>
+                                </group>
+                            </group>
+                            <group string="Logo">
+                                <field name="logo_url" widget="url"
+                                       help="URL to fetch logo from. Clearbit: https://logo.clearbit.com/example.com"/>
+                                <field name="logo" widget="image" class="oe_avatar"
+                                       options="{'size': [128, 128]}"/>
+                            </group>
+                        </page>
+
+                        <!-- Tab 2: Financial -->
+                        <page string="Financial">
+                            <group>
+                                <group>
+                                    <field name="cost_amount"/>
+                                    <field name="currency_id"/>
+                                    <field name="payment_method_id"/>
+                                </group>
+                            </group>
+                            <group string="Linked Invoices" colspan="4">
+                                <field name="invoice_ids" nolabel="1" context="{'default_move_type': 'in_invoice'}">
+                                    <list>
+                                        <field name="name"/>
+                                        <field name="date"/>
+                                        <field name="amount_total"/>
+                                        <field name="state"/>
+                                    </list>
+                                </field>
+                            </group>
+                            <group string="Journal Entries" colspan="4">
+                                <field name="journal_entry_ids" nolabel="1">
+                                    <list>
+                                        <field name="name"/>
+                                        <field name="date"/>
+                                        <field name="amount_total"/>
+                                        <field name="state"/>
+                                    </list>
+                                </field>
+                            </group>
+                        </page>
+
+                        <!-- Tab 3: Credentials -->
+                        <page string="Credentials &amp; API Keys" autofocus="0">
+                            <field name="credential_ids" nolabel="1"
+                                   context="{'default_subscription_id': id}">
+                                <list editable="top">
+                                    <field name="name"/>
+                                    <field name="credential_type"/>
+                                    <field name="username" optional="show"/>
+                                    <field name="purpose" optional="show"/>
+                                    <field name="expiry_date"/>
+                                </list>
+                                <form>
+                                    <group>
+                                        <group>
+                                            <field name="name"/>
+                                            <field name="credential_type"/>
+                                            <field name="purpose"/>
+                                            <field name="username"
+                                                   invisible="credential_type != 'login' and credential_type != 'other'"/>
+                                            <field name="password" password="True"
+                                                   invisible="credential_type != 'login'"/>
+                                            <field name="key_value" widget="text"
+                                                   invisible="credential_type != 'api_key' and credential_type != 'token' and credential_type != 'other'"
+                                                   placeholder="Paste API key or token value..."/>
+                                        </group>
+                                        <group>
+                                            <field name="expiry_date"/>
+                                            <field name="renewal_reminder"/>
+                                        </group>
+                                    </group>
+                                    <group string="Notes">
+                                        <field name="notes"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+
+                        <!-- Tab 4: Notes -->
+                        <page string="Notes">
+                            <field name="notes" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- ===== Subscription Calendar View ===== -->
+    <record id="view_keykeep_subscription_calendar" model="ir.ui.view">
+        <field name="name">keykeep.subscription.calendar</field>
+        <field name="model">keykeep.subscription</field>
+        <field name="arch" type="xml">
+            <calendar date_start="next_renewal_date" color="category_id">
+                <field name="name"/>
+                <field name="partner_id"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- ===== Subscription Pivot View ===== -->
+    <record id="view_keykeep_subscription_pivot" model="ir.ui.view">
+        <field name="name">keykeep.subscription.pivot</field>
+        <field name="model">keykeep.subscription</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="category_id" type="row"/>
+                <field name="partner_id" type="col"/>
+                <field name="cost_amount" type="measure"/>
+                <field name="currency_id" type="col"/>
+                <field name="state" type="col"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- ===== Subscription Graph View ===== -->
+    <record id="view_keykeep_subscription_graph" model="ir.ui.view">
+        <field name="name">keykeep.subscription.graph</field>
+        <field name="model">keykeep.subscription</field>
+        <field name="arch" type="xml">
+            <graph>
+                <field name="category_id" type="row"/>
+                <field name="cost_amount" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- ===== Subscription Search View ===== -->
+    <record id="view_keykeep_subscription_search" model="ir.ui.view">
+        <field name="name">keykeep.subscription.search</field>
+        <field name="model">keykeep.subscription</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="category_id"/>
+                <field name="responsible_id"/>
+                <separator/>
+                <filter name="active" string="Active" domain="[('state', '=', 'active')]" default="1"/>
+                <filter name="cancelled" string="Cancelled" domain="[('state', '=', 'cancelled')]"/>
+                <filter name="expired" string="Expired" domain="[('state', '=', 'expired')]"/>
+                <separator/>
+                <filter name="expiring_soon" string="Expiring Soon"
+                        domain="[('kanban_state', '=', 'warning')]"/>
+                <filter name="overdue" string="Overdue"
+                        domain="[('kanban_state', '=', 'critical')]"/>
+                <filter name="auto_renew" string="Auto Renew"
+                        domain="[('auto_renew', '=', True)]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter name="group_category" string="Category"
+                            domain="[]" context="{'group_by': 'category_id'}"/>
+                    <filter name="group_partner" string="Vendor"
+                            domain="[]" context="{'group_by': 'partner_id'}"/>
+                    <filter name="group_state" string="State"
+                            domain="[]" context="{'group_by': 'state'}"/>
+                    <filter name="group_renewal" string="Renewal Frequency"
+                            domain="[]" context="{'group_by': 'renewal_frequency'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ===== Subscription Action (Main Window) ===== -->
+    <record id="action_keykeep_subscription" model="ir.actions.act_window">
+        <field name="name">SaaS Subscriptions</field>
+        <field name="res_model">keykeep.subscription</field>
+        <field name="view_mode">kanban,tree,form,calendar,pivot,graph</field>
+        <field name="search_view_id" ref="view_keykeep_subscription_search"/>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <!-- ===== Server Action: Create Journal Entry ===== -->
+    <record id="action_create_journal_entry_wizard" model="ir.actions.act_window">
+        <field name="name">Create Journal Entry</field>
+        <field name="res_model">keykeep.create.journal.entry</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_keykeep_subscription"/>
+        <field name="binding_view_types">form</field>
+    </record>
+</odoo>

@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_keykeep_category_user,keykeep.category.user,model_keykeep_category,keykeep.group_user,1,0,0,0
+access_keykeep_category_manager,keykeep.category.manager,model_keykeep_category,keykeep.group_manager,1,1,1,1
+access_keykeep_payment_method_user,keykeep.payment.method.user,model_keykeep_payment_method,keykeep.group_user,1,0,0,0
+access_keykeep_payment_method_manager,keykeep.payment.method.manager,model_keykeep_payment_method,keykeep.group_manager,1,1,1,1
+access_keykeep_subscription_user,keykeep.subscription.user,model_keykeep_subscription,keykeep.group_user,1,0,0,0
+access_keykeep_subscription_manager,keykeep.subscription.manager,model_keykeep_subscription,keykeep.group_manager,1,1,1,1
+access_keykeep_credential_manager,keykeep.credential.manager,model_keykeep_credential,keykeep.group_manager,1,1,1,1
+access_keykeep_credential_admin,keykeep.credential.admin,model_keykeep_credential,keykeep.group_admin,1,1,1,1
+access_keykeep_cost_forecast_user,keykeep.cost.forecast.user,model_keykeep_cost_forecast,keykeep.group_user,1,0,0,0
+access_keykeep_cost_forecast_manager,keykeep.cost.forecast.manager,model_keykeep_cost_forecast,keykeep.group_manager,1,1,1,1
+access_keykeep_credential_reveal_admin,keykeep.credential.reveal.admin,model_keykeep_credential_reveal,keykeep.group_admin,1,1,1,1
+access_keykeep_create_journal_entry_manager,keykeep.create.journal.entry.manager,model_keykeep_create_journal_entry,keykeep.group_manager,1,1,1,1

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Vertel AB - License AGPL-3.0 -->
+<odoo>
+    <!-- Category Tree View -->
+    <record id="view_keykeep_category_tree" model="ir.ui.view">
+        <field name="name">keykeep.category.tree</field>
+        <field name="model">keykeep.category</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="parent_id" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Category Form View -->
+    <record id="view_keykeep_category_form" model="ir.ui.view">
+        <field name="name">keykeep.category.form</field>
+        <field name="model">keykeep.category</field>
+        <field name="arch" type="xml">
+            <form string="Category">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Category Name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="parent_id"/>
+                            <field name="expense_account_id"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Category Action -->
+    <record id="action_keykeep_category" model="ir.actions.act_window">
+        <field name="name">Categories</field>
+        <field name="res_model">keykeep.category</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+    </record>
+</odoo>

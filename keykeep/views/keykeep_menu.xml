@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Vertel AB - License AGPL-3.0 -->
+<odoo>
+    <!-- Main Menu Items -->
+    <menuitem id="menu_keykeep_root"
+              name="Keykeep"
+              web_icon="keykeep,static/description/icon.png"
+              sequence="70"/>
+
+    <menuitem id="menu_keykeep_subscription"
+              name="Subscriptions"
+              parent="menu_keykeep_root"
+              action="action_keykeep_subscription"
+              sequence="10"/>
+
+    <menuitem id="menu_keykeep_config"
+              name="Configuration"
+              parent="menu_keykeep_root"
+              sequence="90"
+              groups="keykeep.group_manager"/>
+
+    <menuitem id="menu_keykeep_category"
+              name="Categories"
+              parent="menu_keykeep_config"
+              action="action_keykeep_category"
+              sequence="10"/>
+
+    <menuitem id="menu_keykeep_payment_method"
+              name="Payment Methods"
+              parent="menu_keykeep_config"
+              action="action_keykeep_payment_method"
+              sequence="20"/>
+</odoo>

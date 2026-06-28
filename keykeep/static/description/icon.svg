@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140">
+  <rect width="140" height="140" rx="20" fill="#7C3AED"/>
+  <g transform="translate(70,70)" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round">
+    <!-- Key body -->
+    <circle cx="-15" cy="15" r="18"/>
+    <circle cx="-15" cy="15" r="8" fill="#fff"/>
+    <!-- Key shaft -->
+    <line x1="-15" y1="33" x2="5" y2="33"/>
+    <!-- Key teeth -->
+    <line x1="5" y1="33" x2="5" y2="22"/>
+    <line x1="5" y1="33" x2="5" y2="44"/>
+    <line x1="10" y1="33" x2="10" y2="26"/>
+    <line x1="10" y1="33" x2="10" y2="40"/>
+    <!-- Shield -->
+    <path d="M-50,-55 L-25,-70 L0,-55 L25,-70 L50,-55 L50,-10 Q50,30 0,45 Q-50,30 -50,-10 Z" fill="#A78BFA" fill-opacity="0.3" stroke="#A78BFA"/>
+  </g>
+</svg>

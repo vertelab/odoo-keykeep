@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Vertel AB - License AGPL-3.0 -->
+<odoo>
+    <data noupdate="1">
+        <!-- Predefined categories (inspired by Wallos) -->
+        <record id="category_technology" model="keykeep.category">
+            <field name="name">Technology</field>
+        </record>
+        <record id="category_productivity" model="keykeep.category">
+            <field name="name">Productivity</field>
+        </record>
+        <record id="category_entertainment" model="keykeep.category">
+            <field name="name">Entertainment</field>
+        </record>
+        <record id="category_finance" model="keykeep.category">
+            <field name="name">Banking &amp; Finance</field>
+        </record>
+        <record id="category_education" model="keykeep.category">
+            <field name="name">Education</field>
+        </record>
+        <record id="category_marketing" model="keykeep.category">
+            <field name="name">Marketing</field>
+        </record>
+        <record id="category_infrastructure" model="keykeep.category">
+            <field name="name">Infrastructure</field>
+        </record>
+        <record id="category_security" model="keykeep.category">
+            <field name="name">Security</field>
+        </record>
+        <record id="category_communication" model="keykeep.category">
+            <field name="name">Communication</field>
+        </record>
+        <record id="category_design" model="keykeep.category">
+            <field name="name">Design</field>
+        </record>
+        <record id="category_ai_ml" model="keykeep.category">
+            <field name="name">AI &amp; Machine Learning</field>
+        </record>
+        <record id="category_insurance" model="keykeep.category">
+            <field name="name">Insurance</field>
+        </record>
+        <record id="category_utilities" model="keykeep.category">
+            <field name="name">Utilities</field>
+        </record>
+        <record id="category_other" model="keykeep.category">
+            <field name="name">Other</field>
+        </record>
+    </data>
+</odoo>
