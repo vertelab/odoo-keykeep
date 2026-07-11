@@ -5,7 +5,7 @@ from odoo import fields, models
 
 
 class KeykeepCredentialReveal(models.TransientModel):
-    """Simple wizard to display decrypted credential values."""
+    """Wizard to display decrypted credential values with audit context."""
 
     _name = "keykeep.credential.reveal"
     _description = "Reveal Credential"
@@ -20,6 +20,9 @@ class KeykeepCredentialReveal(models.TransientModel):
     credential_type = fields.Selection(
         related="credential_id.credential_type", readonly=True
     )
+    environment = fields.Selection(
+        related="credential_id.environment", readonly=True
+    )
     username = fields.Char(related="credential_id.username", readonly=True)
     subscription = fields.Char(
         related="credential_id.subscription_id.name", readonly=True
@@ -27,6 +30,37 @@ class KeykeepCredentialReveal(models.TransientModel):
     decrypted_value = fields.Text(
         string="Decrypted Value",
         compute="_compute_decrypted",
+        readonly=True,
+    )
+    # Audit info
+    audit_user = fields.Char(
+        string="Logged As",
+        compute="_compute_audit",
+        readonly=True,
+    )
+    audit_time = fields.Char(
+        string="Accessed At",
+        compute="_compute_audit",
+        readonly=True,
+    )
+    last_accessed_by = fields.Char(
+        string="Last Accessed By",
+        compute="_compute_audit",
+        readonly=True,
+    )
+    last_accessed_at = fields.Char(
+        string="Last Accessed At",
+        compute="_compute_audit",
+        readonly=True,
+    )
+    recent_access = fields.Text(
+        string="Recent Access",
+        compute="_compute_recent",
+        readonly=True,
+    )
+    reveal_timeout = fields.Integer(
+        string="Auto-Close (seconds)",
+        compute="_compute_timeout",
         readonly=True,
     )
 
@@ -45,3 +79,43 @@ class KeykeepCredentialReveal(models.TransientModel):
                 wiz.decrypted_value = f"Username: {uname}\nPassword: {pw}"
             else:
                 wiz.decrypted_value = ""
+
+    def _compute_audit(self):
+        for wiz in self:
+            wiz.audit_user = wiz.env.user.name
+            wiz.audit_time = fields.Datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            cred = wiz.credential_id
+            if cred and cred.last_accessed_at:
+                last = cred.access_log_ids.filtered(
+                    lambda l: l.action in ("reveal", "copy") and l.id != cred.access_log_ids[0].id
+                )
+                if last:
+                    wiz.last_accessed_by = last[0].user_id.name
+                    wiz.last_accessed_at = last[0].accessed_at.strftime("%Y-%m-%d %H:%M:%S")
+                else:
+                    wiz.last_accessed_by = "-"
+                    wiz.last_accessed_at = "-"
+            else:
+                wiz.last_accessed_by = "Never"
+                wiz.last_accessed_at = "Never"
+
+    def _compute_recent(self):
+        for wiz in self:
+            cred = wiz.credential_id
+            if cred:
+                logs = cred.access_log_ids[:3]
+                lines = []
+                for l in logs:
+                    lines.append(
+                        f"{l.accessed_at.strftime('%Y-%m-%d %H:%M')} | {l.user_id.name} | {l.action}"
+                    )
+                wiz.recent_access = "\n".join(lines) if lines else "No previous access"
+            else:
+                wiz.recent_access = ""
+
+    def _compute_timeout(self):
+        for wiz in self:
+            timeout = wiz.env["ir.config_parameter"].sudo().get_param(
+                "keykeep.reveal_timeout_seconds", "60"
+            )
+            wiz.reveal_timeout = int(timeout)

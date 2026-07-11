@@ -6,8 +6,15 @@ access_keykeep_payment_method_manager,keykeep.payment.method.manager,model_keyke
 access_keykeep_subscription_user,keykeep.subscription.user,model_keykeep_subscription,keykeep.group_user,1,0,0,0
 access_keykeep_subscription_manager,keykeep.subscription.manager,model_keykeep_subscription,keykeep.group_manager,1,1,1,1
 access_keykeep_credential_manager,keykeep.credential.manager,model_keykeep_credential,keykeep.group_manager,1,1,1,1
+access_keykeep_credential_devops,keykeep.credential.devops,model_keykeep_credential,keykeep.group_devops,1,1,1,1
 access_keykeep_credential_admin,keykeep.credential.admin,model_keykeep_credential,keykeep.group_admin,1,1,1,1
+access_keykeep_credential_version_manager,keykeep.credential.version.manager,model_keykeep_credential_version,keykeep.group_manager,1,0,0,0
+access_keykeep_credential_version_devops,keykeep.credential.version.devops,model_keykeep_credential_version,keykeep.group_devops,1,1,1,1
+access_keykeep_credential_version_admin,keykeep.credential.version.admin,model_keykeep_credential_version,keykeep.group_admin,1,1,1,1
+access_keykeep_credential_access_log_devops,keykeep.credential.access.log.devops,model_keykeep_credential_access_log,keykeep.group_devops,1,0,0,0
+access_keykeep_credential_access_log_admin,keykeep.credential.access.log.admin,model_keykeep_credential_access_log,keykeep.group_admin,1,1,1,1
 access_keykeep_cost_forecast_user,keykeep.cost.forecast.user,model_keykeep_cost_forecast,keykeep.group_user,1,0,0,0
 access_keykeep_cost_forecast_manager,keykeep.cost.forecast.manager,model_keykeep_cost_forecast,keykeep.group_manager,1,1,1,1
 access_keykeep_credential_reveal_admin,keykeep.credential.reveal.admin,model_keykeep_credential_reveal,keykeep.group_admin,1,1,1,1
+access_keykeep_credential_reveal_devops,keykeep.credential.reveal.devops,model_keykeep_credential_reveal,keykeep.group_devops,1,0,0,0
 access_keykeep_create_journal_entry_manager,keykeep.create.journal.entry.manager,model_keykeep_create_journal_entry,keykeep.group_manager,1,1,1,1

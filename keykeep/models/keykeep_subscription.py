@@ -188,18 +188,36 @@ class KeykeepSubscription(models.Model):
             else:
                 rec.days_until_renewal = 0
 
-    @api.depends("next_renewal_date", "state", "active")
+    @api.depends("next_renewal_date", "state", "active", "credential_ids", "credential_ids.expiry_date", "credential_ids.rotation_age")
     def _compute_kanban_state(self):
         today = date.today()
         for rec in self:
             if rec.state != "active" or not rec.active:
                 rec.kanban_state = "inactive"
-            elif rec.next_renewal_date and rec.next_renewal_date < today:
+                continue
+            # Check renewal status
+            if rec.next_renewal_date and rec.next_renewal_date < today:
                 rec.kanban_state = "critical"
-            elif rec.next_renewal_date and (rec.next_renewal_date - today).days <= rec.notify_days_before:
+                continue
+            # Check credential health: any expired credentials → critical
+            expired_creds = rec.credential_ids.filtered(
+                lambda c: c.expiry_date and c.expiry_date < today
+            )
+            if expired_creds:
+                rec.kanban_state = "critical"
+                continue
+            # Check renewal warning
+            if rec.next_renewal_date and (rec.next_renewal_date - today).days <= rec.notify_days_before:
                 rec.kanban_state = "warning"
-            else:
-                rec.kanban_state = "ok"
+                continue
+            # Check credential health: any expiring within notify_days_before
+            expiring_creds = rec.credential_ids.filtered(
+                lambda c: c.expiry_date and 0 <= (c.expiry_date - today).days <= rec.notify_days_before
+            )
+            if expiring_creds:
+                rec.kanban_state = "warning"
+                continue
+            rec.kanban_state = "ok"
 
     @api.depends("credential_ids")
     def _compute_credential_count(self):
@@ -331,6 +349,49 @@ class KeykeepSubscription(models.Model):
                     },
                     partner_ids=cred.subscription_id.responsible_id.partner_id.ids,
                 )
+
+    # --- Cron: Credential rotation health ---
+
+    @api.model
+    def _cron_check_credential_rotation(self):
+        """Daily cron: warn about credentials not rotated for >90 days."""
+        today = date.today()
+        creds = self.env["keykeep.credential"].search([])
+        for cred in creds:
+            if cred.rotation_age and cred.rotation_age > 90:
+                cred.subscription_id.message_post(
+                    body=_(
+                        "🔄 **Rotation Needed**: '%(cred)s' (%(type)s) for %(sub)s "
+                        "has not been rotated for %(days)d days."
+                    )
+                    % {
+                        "cred": cred.name,
+                        "type": cred.get_credential_type_display(),
+                        "sub": cred.subscription_id.name,
+                        "days": cred.rotation_age,
+                    },
+                    partner_ids=cred.subscription_id.responsible_id.partner_id.ids,
+                )
+
+    # --- Cron: Access log cleanup ---
+
+    @api.model
+    def _cron_cleanup_access_logs(self):
+        """Daily cron: delete access log entries older than retention period."""
+        retention_days = int(
+            self.env["ir.config_parameter"].sudo().get_param(
+                "keykeep.access_log_retention_days", "730"
+            )
+        )
+        if retention_days <= 0:
+            return
+        cutoff = fields.Datetime.now() - timedelta(days=retention_days)
+        logs = self.env["keykeep.credential.access.log"].search([
+            ("accessed_at", "<", cutoff),
+        ])
+        count = len(logs)
+        logs.unlink()
+        _logger.info("Keykeep: Cleaned up %d access log entries older than %d days.", count, retention_days)
 
     # --- Constraints ---
 

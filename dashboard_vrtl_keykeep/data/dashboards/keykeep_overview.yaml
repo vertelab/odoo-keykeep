@@ -1,0 +1,255 @@
+dashboard:
+  key: keykeep_overview
+  name: "Keykeep Overview"
+  name_sv: "Keykeep Översikt"
+  description: "SaaS subscriptions, costs, credentials, and renewal overview."
+  icon: fa-key
+  category: SaaS
+  auto_refresh: "300000"
+  cache_ttl: 300
+
+filters:
+  - key: subscription_state
+    type: selection
+    label: "Status"
+    label_sv: "Status"
+    optional: true
+    options:
+      - [active, "Active"]
+      - [cancelled, "Cancelled"]
+      - [expired, "Expired"]
+    default: active
+
+metrics:
+  # ── Subscription KPIs ──
+  - key: keykeep.active_subscriptions
+    label: "Active Subscriptions"
+    label_sv: "Aktiva Prenumerationer"
+    source_type: model
+    model: keykeep.subscription
+    aggregation: count
+    unit: integer
+    domain:
+      - [state, "=", active]
+      - [active, "=", True]
+
+  - key: keykeep.monthly_cost
+    label: "Monthly Cost"
+    label_sv: "Månadskostnad"
+    source_type: model
+    model: keykeep.subscription
+    field: cost_amount
+    aggregation: sum
+    unit: monetary
+    domain:
+      - [state, "=", active]
+
+  - key: keykeep.renewals_30d
+    label: "Renewals (30 days)"
+    label_sv: "Förnyelser (30 dagar)"
+    source_type: model
+    model: keykeep.subscription
+    aggregation: count
+    unit: integer
+    domain:
+      - [state, "=", active]
+      - [next_renewal_date, "!=", False]
+    # Note: date filter for 30 days is applied via the date_field comparison
+    date_field: next_renewal_date
+
+  - key: keykeep.overdue_renewals
+    label: "Overdue Renewals"
+    label_sv: "Försenade Förnyelser"
+    source_type: model
+    model: keykeep.subscription
+    aggregation: count
+    unit: integer
+    domain:
+      - [state, "=", active]
+      - [kanban_state, "=", critical]
+
+  # ── Credential KPIs ──
+  - key: keykeep.total_credentials
+    label: "Total Credentials"
+    label_sv: "Totalt Antal Nycklar"
+    source_type: model
+    model: keykeep.credential
+    aggregation: count
+    unit: integer
+
+  - key: keykeep.expiring_credentials
+    label: "Expiring Credentials"
+    label_sv: "Utgående Nycklar"
+    source_type: model
+    model: keykeep.credential
+    aggregation: count
+    unit: integer
+    domain:
+      - [expiry_date, "!=", False]
+
+  - key: keykeep.stale_rotation
+    label: "Stale Rotations (>90d)"
+    label_sv: "Inaktuella Rotationer"
+    source_type: model
+    model: keykeep.credential
+    aggregation: count
+    unit: integer
+    domain:
+      - [rotation_age, ">", 90]
+
+  # ── Cost by Category ──
+  - key: keykeep.cost_by_category
+    label: "Cost by Category"
+    label_sv: "Kostnad per Kategori"
+    source_type: model
+    model: keykeep.subscription
+    field: cost_amount
+    aggregation: sum
+    unit: monetary
+    domain:
+      - [state, "=", active]
+
+  # ── Credentials by Environment ──
+  - key: keykeep.credentials_by_env
+    label: "Credentials by Environment"
+    label_sv: "Nycklar per Miljö"
+    source_type: model
+    model: keykeep.credential
+    aggregation: count
+    unit: integer
+
+  # ── Recent Access Activity ──
+  - key: keykeep.recent_access
+    label: "Recent Access Activity"
+    label_sv: "Senaste Åtkomst"
+    source_type: model
+    model: keykeep.credential.access.log
+    aggregation: count
+    unit: integer
+    date_field: accessed_at
+
+  # ── Credential Kanban ──
+  - key: keykeep.credential_kanban
+    label: "Credentials Overview"
+    label_sv: "Nyckelöversikt"
+    source_type: model
+    model: keykeep.credential
+    aggregation: count
+    unit: integer
+    kanban:
+      state_field: environment
+      state_colors:
+        production: "#22c55e"
+        staging: "#eab308"
+        development: "#3b82f6"
+        testing: "#9ca3af"
+      state_icons:
+        production: "fa-server"
+        staging: "fa-flask"
+        development: "fa-code"
+        testing: "fa-vial"
+      card_title_field: name
+      card_subtitle_field: credential_type
+      card_body_fields: [rotation_age, expiry_date]
+      card_footer_fields: [subscription_id]
+      group_field: environment
+
+charts:
+  # ── Top Row: KPI Tiles ──
+  - key: kpi_active_subs
+    type: kpi
+    metric: keykeep.active_subscriptions
+    label: "Active"
+    label_sv: "Aktiva"
+    comparison: previous_period
+    layout: {x: 0, y: 0, w: 3, h: 2}
+
+  - key: kpi_monthly_cost
+    type: kpi
+    metric: keykeep.monthly_cost
+    label: "Monthly"
+    label_sv: "Månadskostnad"
+    layout: {x: 3, y: 0, w: 3, h: 2}
+
+  - key: kpi_renewals
+    type: kpi
+    metric: keykeep.renewals_30d
+    label: "Due 30d"
+    label_sv: "Förnyas 30d"
+    layout: {x: 6, y: 0, w: 3, h: 2}
+
+  - key: kpi_overdue
+    type: kpi
+    metric: keykeep.overdue_renewals
+    label: "Overdue"
+    label_sv: "Försenade"
+    layout: {x: 9, y: 0, w: 3, h: 2}
+
+  # ── Second Row: Credential Health ──
+  - key: kpi_total_creds
+    type: kpi
+    metric: keykeep.total_credentials
+    label: "Total Keys"
+    label_sv: "Totalt Nycklar"
+    layout: {x: 0, y: 2, w: 3, h: 2}
+
+  - key: kpi_expiring_creds
+    type: kpi
+    metric: keykeep.expiring_credentials
+    label: "Expiring"
+    label_sv: "Utgående"
+    layout: {x: 3, y: 2, w: 3, h: 2}
+
+  - key: kpi_stale_rot
+    type: kpi
+    metric: keykeep.stale_rotation
+    label: "Stale"
+    label_sv: "Inaktuella"
+    layout: {x: 6, y: 2, w: 3, h: 2}
+
+  - key: kpi_recent_access
+    type: kpi
+    metric: keykeep.recent_access
+    label: "Recent Access"
+    label_sv: "Åtkomst (30d)"
+    layout: {x: 9, y: 2, w: 3, h: 2}
+
+  # ── Middle Row: Charts ──
+  - key: chart_cost_by_category
+    type: pie_chart
+    metric: keykeep.cost_by_category
+    label: "Cost by Category"
+    label_sv: "Kostnad per Kategori"
+    layout: {x: 0, y: 4, w: 6, h: 4}
+    config:
+      dimension: category_id
+
+  - key: chart_credentials_by_env
+    type: doughnut_chart
+    metric: keykeep.credentials_by_env
+    label: "Credentials by Environment"
+    label_sv: "Nycklar per Miljö"
+    layout: {x: 6, y: 4, w: 6, h: 4}
+    config:
+      dimension: environment
+
+  # ── Bottom Row: Credential Kanban ──
+  - key: kanban_credentials
+    type: kanban
+    metric: keykeep.credential_kanban
+    label: "Credentials"
+    label_sv: "Nycklar"
+    layout: {x: 0, y: 8, w: 12, h: 6}
+
+layout:
+  - {chartId: null, x: 0, y: 0, w: 3, h: 2}
+  - {chartId: null, x: 3, y: 0, w: 3, h: 2}
+  - {chartId: null, x: 6, y: 0, w: 3, h: 2}
+  - {chartId: null, x: 9, y: 0, w: 3, h: 2}
+  - {chartId: null, x: 0, y: 2, w: 3, h: 2}
+  - {chartId: null, x: 3, y: 2, w: 3, h: 2}
+  - {chartId: null, x: 6, y: 2, w: 3, h: 2}
+  - {chartId: null, x: 9, y: 2, w: 3, h: 2}
+  - {chartId: null, x: 0, y: 4, w: 6, h: 4}
+  - {chartId: null, x: 6, y: 4, w: 6, h: 4}
+  - {chartId: null, x: 0, y: 8, w: 12, h: 6}

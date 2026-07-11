@@ -10,7 +10,7 @@
             <xpath expr="//page[@name='sales_purchases']" position="after">
                 <page string="SaaS Subscriptions" name="keykeep"
                       invisible="partner_share">
-                    <field name="subscription_ids" context="{'default_partner_id': active_id}">
+                    <field name="subscription_ids">
                         <list>
                             <field name="name"/>
                             <field name="category_id"/>

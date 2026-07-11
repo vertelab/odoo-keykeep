@@ -90,8 +90,8 @@
                 <field name="name"/>
                 <field name="partner_id" optional="show"/>
                 <field name="category_id" optional="show"/>
-                <field name="cost_amount" sum="Total"/>
-                <field name="currency_id" optional="hide"/>
+                <field name="cost_amount" sum="Total" groups="keykeep.group_manager"/>
+                <field name="currency_id" optional="hide" groups="keykeep.group_manager"/>
                 <field name="renewal_frequency" optional="hide"/>
                 <field name="next_renewal_date" decoration-danger="kanban_state == 'critical'" decoration-warning="kanban_state == 'warning'" decoration-muted="state != 'active'"/>
                 <field name="days_until_renewal" optional="show"/>
@@ -164,7 +164,7 @@
                         </page>
 
                         <!-- Tab 2: Financial -->
-                        <page string="Financial">
+                        <page string="Financial" groups="keykeep.group_manager">
                             <group>
                                 <group>
                                     <field name="cost_amount"/>
@@ -196,20 +196,32 @@
 
                         <!-- Tab 3: Credentials -->
                         <page string="Credentials &amp; API Keys" autofocus="0">
+                            <!-- Rotation Health Warning -->
+                            <div class="alert alert-warning mb-3" role="alert"
+                                 groups="keykeep.group_devops,keykeep.group_admin">
+                                <strong>🔄 Rotation Health:</strong>
+                                <span>Credentials not rotated in over 90 days are flagged as stale. Review below.</span>
+                            </div>
                             <field name="credential_ids" nolabel="1"
                                    context="{'default_subscription_id': id}">
                                 <list editable="top">
                                     <field name="name"/>
+                                    <field name="environment" optional="show"/>
                                     <field name="credential_type"/>
                                     <field name="username" optional="show"/>
                                     <field name="purpose" optional="show"/>
-                                    <field name="expiry_date"/>
+                                    <field name="expiry_date"
+                                           decoration-danger="expiry_date and expiry_date &lt; context_today()"
+                                           decoration-warning="expiry_date and (expiry_date - context_today()).days &lt;= 30"/>
+                                    <field name="rotation_age" optional="show"
+                                           decoration-warning="rotation_age &gt; 90"/>
                                 </list>
                                 <form>
                                     <group>
                                         <group>
                                             <field name="name"/>
                                             <field name="credential_type"/>
+                                            <field name="environment"/>
                                             <field name="purpose"/>
                                             <field name="username"
                                                    invisible="credential_type != 'login' and credential_type != 'other'"/>
@@ -296,7 +308,7 @@
                 <field name="category_id"/>
                 <field name="responsible_id"/>
                 <separator/>
-                <filter name="active" string="Active" domain="[('state', '=', 'active')]" default="1"/>
+                <filter name="active" string="Active" domain="[('state', '=', 'active')]"/>
                 <filter name="cancelled" string="Cancelled" domain="[('state', '=', 'cancelled')]"/>
                 <filter name="expired" string="Expired" domain="[('state', '=', 'expired')]"/>
                 <separator/>
@@ -325,7 +337,7 @@
     <record id="action_keykeep_subscription" model="ir.actions.act_window">
         <field name="name">SaaS Subscriptions</field>
         <field name="res_model">keykeep.subscription</field>
-        <field name="view_mode">kanban,tree,form,calendar,pivot,graph</field>
+        <field name="view_mode">kanban,list,form,calendar,pivot,graph</field>
         <field name="search_view_id" ref="view_keykeep_subscription_search"/>
         <field name="domain">[]</field>
         <field name="context">{}</field>

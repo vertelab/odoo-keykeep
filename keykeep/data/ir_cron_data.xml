@@ -10,8 +10,6 @@
             <field name="code">model._cron_update_renewal_dates()</field>
             <field name="interval_number">1</field>
             <field name="interval_type">days</field>
-            <field name="numbercall">-1</field>
-            <field name="doall" eval="False"/>
             <field name="active" eval="True"/>
         </record>
 
@@ -23,8 +21,6 @@
             <field name="code">model._cron_send_renewal_notifications()</field>
             <field name="interval_number">1</field>
             <field name="interval_type">days</field>
-            <field name="numbercall">-1</field>
-            <field name="doall" eval="False"/>
             <field name="active" eval="True"/>
         </record>
 
@@ -36,8 +32,28 @@
             <field name="code">model._cron_check_credential_expiry()</field>
             <field name="interval_number">1</field>
             <field name="interval_type">days</field>
-            <field name="numbercall">-1</field>
-            <field name="doall" eval="False"/>
+            <field name="active" eval="True"/>
+        </record>
+
+        <!-- Cron: Check credential rotation health (daily at 9:30 AM) -->
+        <record id="cron_check_credential_rotation" model="ir.cron">
+            <field name="name">Keykeep: Check Credential Rotation Health</field>
+            <field name="model_id" ref="model_keykeep_subscription"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_check_credential_rotation()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active" eval="True"/>
+        </record>
+
+        <!-- Cron: Cleanup old access logs (daily at 3:00 AM) -->
+        <record id="cron_cleanup_access_logs" model="ir.cron">
+            <field name="name">Keykeep: Cleanup Old Access Logs</field>
+            <field name="model_id" ref="model_keykeep_subscription"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_cleanup_access_logs()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
             <field name="active" eval="True"/>
         </record>
     </data>
