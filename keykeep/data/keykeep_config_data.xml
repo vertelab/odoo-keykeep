@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Vertel AB - License AGPL-3.0 -->
+<odoo>
+    <data noupdate="1">
+        <!-- System Configuration Parameters -->
+        <record id="param_access_log_retention_days" model="ir.config_parameter">
+            <field name="key">keykeep.access_log_retention_days</field>
+            <field name="value">730</field>
+        </record>
+
+        <record id="param_reveal_timeout_seconds" model="ir.config_parameter">
+            <field name="key">keykeep.reveal_timeout_seconds</field>
+            <field name="value">60</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <function model="dashboard.dashboard"
+              name="load_from_module_yaml"
+              eval="['dashboard_vrtl_keykeep', 'data/dashboards/keykeep_overview.yaml']"/>
+</odoo>

@@ -4,8 +4,8 @@
 {
     "name": "Keykeep — SaaS Subscription Manager",
     "summary": "Manage SaaS subscriptions, credentials, API keys, and costs",
-    "version": "18.0.1.0.0",
-    "development_status": "Alpha",
+    "version": "18.0.1.1.0",
+    "development_status": "Beta",
     "category": "Productivity",
     "website": "https://github.com/vertelab/odoo-keykeep",
     "author": "Vertel AB",
@@ -31,6 +31,7 @@
         "views/res_partner_views.xml",
         "data/keykeep_category_data.xml",
         "data/ir_cron_data.xml",
+        "data/keykeep_config_data.xml",
         "wizards/create_journal_entry_views.xml",
     ],
     "assets": {

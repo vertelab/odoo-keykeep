@@ -32,16 +32,48 @@
         <field name="model">keykeep.credential.reveal</field>
         <field name="arch" type="xml">
             <form string="Reveal Credential">
+                <!-- Audit Warning -->
+                <div class="alert alert-warning mb-2" role="alert">
+                    <strong>⚠️ This access is logged</strong><br/>
+                    User: <field name="audit_user" nolabel="1" class="d-inline"/><br/>
+                    Time: <field name="audit_time" nolabel="1" class="d-inline"/>
+                </div>
+
+                <!-- Credential Context -->
                 <group>
                     <field name="credential_id" invisible="1"/>
                     <field name="subscription"/>
                     <field name="credential_name"/>
                     <field name="credential_type"/>
+                    <field name="environment" widget="badge"/>
                     <field name="username" invisible="credential_type != 'login'"/>
+                </group>
+
+                <!-- Decrypted Value -->
+                <group string="Value" invisible="not decrypted_value">
                     <field name="decrypted_value" nolabel="1" colspan="2"
                            widget="text"
                            invisible="not decrypted_value"/>
                 </group>
+
+                <!-- Last Access Info -->
+                <group string="Last Access" colspan="2">
+                    <div class="d-flex justify-content-between">
+                        <span class="text-muted">By: <field name="last_accessed_by" nolabel="1" class="d-inline"/></span>
+                        <span class="text-muted">At: <field name="last_accessed_at" nolabel="1" class="d-inline"/></span>
+                    </div>
+                </group>
+
+                <!-- Recent Access History -->
+                <group string="Recent Access History" invisible="not recent_access" colspan="2">
+                    <field name="recent_access" nolabel="1" colspan="2"/>
+                </group>
+
+                <!-- Auto-close info -->
+                <div class="text-muted small text-center mb-2">
+                    This window will auto-close in <field name="reveal_timeout" nolabel="1" class="d-inline"/> seconds
+                </div>
+
                 <footer>
                     <button string="Close" class="btn-secondary" special="cancel"/>
                 </footer>

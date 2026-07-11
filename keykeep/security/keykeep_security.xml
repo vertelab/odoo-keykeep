@@ -22,11 +22,18 @@
             <field name="comment">Can manage all subscriptions and view financial data.</field>
         </record>
 
+        <record id="group_devops" model="res.groups">
+            <field name="name">Keykeep DevOps</field>
+            <field name="category_id" ref="module_category_keykeep"/>
+            <field name="implied_ids" eval="[(4, ref('group_user'))]"/>
+            <field name="comment">Can view and manage credentials, but cannot see financial data.</field>
+        </record>
+
         <record id="group_admin" model="res.groups">
             <field name="name">Keykeep Admin</field>
             <field name="category_id" ref="module_category_keykeep"/>
-            <field name="implied_ids" eval="[(4, ref('group_manager'))]"/>
-            <field name="comment">Can view and manage encrypted credentials.</field>
+            <field name="implied_ids" eval="[(4, ref('group_manager')), (4, ref('group_devops'))]"/>
+            <field name="comment">Can view and manage encrypted credentials. Has full access.</field>
         </record>
     </data>
 </odoo>
