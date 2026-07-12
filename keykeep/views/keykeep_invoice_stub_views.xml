@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Vertel AB - License AGPL-3.0 -->
+<odoo>
+    <!-- Invoice Stub List View -->
+    <record id="view_keykeep_invoice_stub_list" model="ir.ui.view">
+        <field name="name">keykeep.invoice.stub.list</field>
+        <field name="model">keykeep.invoice.stub</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="subscription_id"/>
+                <field name="date"/>
+                <field name="period_date_end"/>
+                <field name="amount" sum="Total"/>
+                <field name="state"/>
+                <field name="account_move_id"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Invoice Stub Form View -->
+    <record id="view_keykeep_invoice_stub_form" model="ir.ui.view">
+        <field name="name">keykeep.invoice.stub.form</field>
+        <field name="model">keykeep.invoice.stub</field>
+        <field name="arch" type="xml">
+            <form string="Invoice Stub">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="subscription_id"/>
+                            <field name="date"/>
+                            <field name="period_date_end"/>
+                            <field name="amount"/>
+                            <field name="state"/>
+                        </group>
+                        <group>
+                            <field name="account_move_id"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
