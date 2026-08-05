@@ -38,7 +38,7 @@
     <record id="action_keykeep_category" model="ir.actions.act_window">
         <field name="name">Categories</field>
         <field name="res_model">keykeep.category</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="domain">[]</field>
     </record>
 </odoo>
