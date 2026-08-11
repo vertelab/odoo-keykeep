@@ -9,12 +9,12 @@ import { FormController } from "@web/views/form/form_controller";
 // Auto-close timer for reveal dialog
 patch(FormController.prototype, {
     setup() {
-        this._super(...arguments);
+        super.setup();
         this._keykeepRevealTimer = null;
     },
 
     async onRecordSaved(record) {
-        await this._super(...arguments);
+        await super.onRecordSaved(record);
         // Check if this is the reveal dialog
         if (this.props.resModel === "keykeep.credential.reveal") {
             this._startRevealTimer();
@@ -38,7 +38,7 @@ patch(FormController.prototype, {
         if (this._keykeepRevealTimer) {
             clearTimeout(this._keykeepRevealTimer);
         }
-        this._super(...arguments);
+        super.onWillDestroy();
     },
 });
 
