@@ -9,3 +9,4 @@ from . import keykeep_credential_access_log
 from . import keykeep_cost_forecast
 from . import res_partner
 from . import account_move
+from . import res_config_settings

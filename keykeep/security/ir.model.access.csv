@@ -18,3 +18,4 @@ access_keykeep_cost_forecast_manager,keykeep.cost.forecast.manager,model_keykeep
 access_keykeep_credential_reveal_admin,keykeep.credential.reveal.admin,model_keykeep_credential_reveal,keykeep.group_admin,1,1,1,1
 access_keykeep_credential_reveal_devops,keykeep.credential.reveal.devops,model_keykeep_credential_reveal,keykeep.group_devops,1,0,0,0
 access_keykeep_create_journal_entry_manager,keykeep.create.journal.entry.manager,model_keykeep_create_journal_entry,keykeep.group_manager,1,1,1,1
+access_keykeep_cron_line_admin,keykeep.cron.line admin,model_keykeep_cron_line,keykeep.group_manager,1,1,1,1

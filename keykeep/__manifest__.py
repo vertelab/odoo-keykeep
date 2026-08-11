@@ -27,6 +27,7 @@
         "views/keykeep_payment_method_views.xml",
         "views/keykeep_credential_views.xml",
         "views/keykeep_subscription_views.xml",
+        "views/res_config_settings_views.xml",
         "views/keykeep_menu.xml",
         "views/res_partner_views.xml",
         "data/keykeep_category_data.xml",
