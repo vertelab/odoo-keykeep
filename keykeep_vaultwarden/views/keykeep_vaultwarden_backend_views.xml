@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="keykeep_vaultwarden_backend_form" model="ir.ui.view">
+        <field name="name">keykeep.vaultwarden.backend.form</field>
+        <field name="model">keykeep.vaultwarden.backend</field>
+        <field name="arch" type="xml">
+            <form string="Keykeep Vaultwarden Backend">
+                <group>
+                    <group>
+                        <field name="name"/>
+                        <field name="company_id"/>
+                        <field name="active"/>
+                    </group>
+                    <group>
+                        <field name="vault_url"/>
+                        <field name="token_ref"/>
+                        <field name="collection_name"/>
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="keykeep_vaultwarden_backend_tree" model="ir.ui.view">
+        <field name="name">keykeep.vaultwarden.backend.tree</field>
+        <field name="model">keykeep.vaultwarden.backend</field>
+        <field name="arch" type="xml">
+            <tree string="Vaultwarden Backend">
+                <field name="name"/>
+                <field name="vault_url"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_keykeep_vaultwarden_backend" model="ir.actions.act_window">
+        <field name="name">Vaultwarden Backend</field>
+        <field name="res_model">keykeep.vaultwarden.backend</field>
+        <field name="view_mode">tree,form</field>
+        <field name="groups_id" eval="[(4, ref('keykeep.group_manager'))]"/>
+    </record>
+
+    <menuitem id="menu_keykeep_vaultwarden_backend"
+              parent="keykeep.menu_keykeep_root" sequence="50"
+              action="action_keykeep_vaultwarden_backend"/>
+</odoo>

@@ -27,6 +27,8 @@ class KeykeepCredentialAccessLog(models.Model):
             ("reveal_version", "Reveal Historical Version"),
             ("copy", "Copy"),
             ("rotate", "Rotate"),
+            ("system_read", "System Read"),
+            ("purge", "Purge Versions"),
             ("view_metadata", "View Metadata"),
         ],
         required=True,

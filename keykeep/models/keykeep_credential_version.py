@@ -78,7 +78,7 @@ class KeykeepCredentialVersion(models.Model):
         """Decrypt a version snapshot using credential's Fernet cipher."""
         if not encrypted_value:
             return None
-        cipher = credential._get_fernet_cipher()
+        cipher = credential._get_credential_key()
         if cipher:
             try:
                 return cipher.decrypt(encrypted_value.encode()).decode()
