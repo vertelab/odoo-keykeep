@@ -49,17 +49,35 @@
             <field name="groups" eval="[(4, ref('group_devops'))]"/>
             <field name="domain_force">[('subscription_id.company_id', '=', user.company_id.id)]</field>
         </record>
+        <record id="rule_credential_admin_global" model="ir.rule">
+            <field name="name">Credential: global (admin)</field>
+            <field name="model_id" ref="model_keykeep_credential"/>
+            <field name="groups" eval="[(4, ref('group_admin'))]"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+        </record>
         <record id="rule_credential_version_company" model="ir.rule">
             <field name="name">Credential version: own company</field>
             <field name="model_id" ref="model_keykeep_credential_version"/>
             <field name="groups" eval="[(4, ref('group_manager')), (4, ref('group_devops'))]"/>
             <field name="domain_force">[('credential_id.subscription_id.company_id', '=', user.company_id.id)]</field>
         </record>
+        <record id="rule_credential_version_admin_global" model="ir.rule">
+            <field name="name">Credential version: global (admin)</field>
+            <field name="model_id" ref="model_keykeep_credential_version"/>
+            <field name="groups" eval="[(4, ref('group_admin'))]"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+        </record>
         <record id="rule_credential_access_log_company" model="ir.rule">
             <field name="name">Credential access log: own company</field>
             <field name="model_id" ref="model_keykeep_credential_access_log"/>
             <field name="groups" eval="[(4, ref('group_manager')), (4, ref('group_devops'))]"/>
             <field name="domain_force">[('credential_id.subscription_id.company_id', '=', user.company_id.id)]</field>
+        </record>
+        <record id="rule_credential_access_log_admin_global" model="ir.rule">
+            <field name="name">Credential access log: global (admin)</field>
+            <field name="model_id" ref="model_keykeep_credential_access_log"/>
+            <field name="groups" eval="[(4, ref('group_admin'))]"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
         </record>
     </data>
 </odoo>

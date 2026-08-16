@@ -160,11 +160,12 @@ class KeykeepCredential(models.Model):
         pw = self._decrypt_with(self.password_cipher, old_key)
         kv = self._decrypt_with(self.key_value_cipher, old_key)
         new_key = Fernet.generate_key()
+        new_cipher = Fernet(new_key)
         wrapped = self._get_fernet_cipher().encrypt(new_key).decode()
         self.write({"secret_key": wrapped})
-        self.password_cipher = self._encrypt_with(pw, new_key) if pw else False
-        self.key_value_cipher = self._encrypt_with(kv, new_key) if kv else False
-        self._reencrypt_all_versions(old_key, new_key)
+        self.password_cipher = self._encrypt_with(pw, new_cipher) if pw else False
+        self.key_value_cipher = self._encrypt_with(kv, new_cipher) if kv else False
+        self._reencrypt_all_versions(old_key, new_cipher)
         self._log_access("rotate", fields_accessed="both")
         return True
 
@@ -438,3 +439,24 @@ class KeykeepCredential(models.Model):
             to_remove.unlink()
             self._log_access("purge", fields_accessed="versions")
         return count
+
+    @api.model
+    def _cron_purge_credential_versions(self):
+        """Daily cron: purge old version snapshots beyond the retention limit.
+
+        Retention configurable via ir.config_parameter
+        `keykeep.credential_version_retention` (default 10 versions kept per
+        credential). Logs each purge in the credential access log.
+        """
+        keep = int(
+            self.env["ir.config_parameter"]
+            .sudo()
+            .get_param("keykeep.credential_version_retention", "10")
+        )
+        if keep <= 0:
+            return 0
+        total = 0
+        for cred in self.search([("version_ids", "!=", False)]):
+            total += cred.purge_old_versions(keep=keep)
+        _logger.info("Keykeep: purged %d credential versions (keep=%d)", total, keep)
+        return total

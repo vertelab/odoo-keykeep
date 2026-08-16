@@ -25,11 +25,11 @@
         <field name="name">keykeep.vaultwarden.backend.tree</field>
         <field name="model">keykeep.vaultwarden.backend</field>
         <field name="arch" type="xml">
-            <tree string="Vaultwarden Backend">
+            <list string="Vaultwarden Backend">
                 <field name="name"/>
                 <field name="vault_url"/>
                 <field name="active"/>
-            </tree>
+            </list>
         </field>
     </record>
 

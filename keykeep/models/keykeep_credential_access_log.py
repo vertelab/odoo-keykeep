@@ -29,6 +29,7 @@ class KeykeepCredentialAccessLog(models.Model):
             ("rotate", "Rotate"),
             ("system_read", "System Read"),
             ("purge", "Purge Versions"),
+            ("backend_switch", "Backend Switch"),
             ("view_metadata", "View Metadata"),
         ],
         required=True,
@@ -39,6 +40,7 @@ class KeykeepCredentialAccessLog(models.Model):
             ("password", "Password"),
             ("key_value", "Key Value"),
             ("both", "Both"),
+            ("versions", "Versions"),
         ],
         string="Fields Accessed",
     )

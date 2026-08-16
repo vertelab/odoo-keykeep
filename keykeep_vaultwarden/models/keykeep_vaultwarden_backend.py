@@ -124,3 +124,60 @@ class KeykeepCredential(models.Model):
             backend.delete_item(self)
         else:
             return super()._delete_encrypted(field_name)
+
+    # ── Backend switch (internal ↔ vault) ──────────────────────────
+
+    def action_switch_backend(self, to_vault=True):
+        """Convert credentials between internal storage and the vault.
+
+        Batch operation: for each credential, reads the plaintext via the
+        current backend (system-read audit), writes it to the target backend,
+        deletes it from the source, and logs a `backend_switch` audit entry.
+
+        Raises UserError per credential when the target backend's item
+        operations are unavailable (e.g. the bitwarden-sdk spike is pending),
+        so the operator knows exactly which credentials could not be moved.
+        """
+        backend = self.env["keykeep.vaultwarden.backend"]._get_active()
+        target_available = backend and backend._is_configured()
+        moved, failed = [], []
+        for cred in self:
+            current_is_vault = bool(cred.vault_item_id)
+            if current_is_vault == to_vault:
+                continue  # already on the target backend
+            try:
+                # Read plaintext via the current backend (audit-logged).
+                pw = cred._read_encrypted("password", system=True)
+                kv = cred._read_encrypted("key_value", system=True)
+                if to_vault:
+                    if not target_available:
+                        raise UserError(_("Vaultwarden bridge is not configured."))
+                    if pw:
+                        backend.store_item(cred, "password", pw)
+                    if kv:
+                        backend.store_item(cred, "key_value", kv)
+                    cred.vault_item_id = cred.vault_item_id or "vault-managed"
+                else:
+                    if pw:
+                        cred._store_encrypted("password", pw)
+                    if kv:
+                        cred._store_encrypted("key_value", kv)
+                    cred.vault_item_id = False
+                # Remove from the source backend.
+                if current_is_vault:
+                    backend.delete_item(cred)
+                else:
+                    cred._delete_encrypted("password")
+                    cred._delete_encrypted("key_value")
+                cred._log_access("backend_switch", fields_accessed="both")
+                moved.append(cred.display_name)
+            except UserError as exc:
+                _logger.warning("Keykeep backend switch failed for %s: %s",
+                                cred.display_name, exc)
+                failed.append(f"{cred.display_name}: {exc}")
+        if failed:
+            raise UserError(
+                _("Backend switch: moved %(moved)d, failed %(failed)s")
+                % {"moved": len(moved), "failed": "; ".join(failed)}
+            )
+        return moved

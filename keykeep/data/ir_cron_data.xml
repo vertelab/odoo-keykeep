@@ -56,5 +56,16 @@
             <field name="interval_type">days</field>
             <field name="active" eval="True"/>
         </record>
+
+        <!-- Cron: Purge old credential versions (daily at 3:15 AM) -->
+        <record id="cron_purge_credential_versions" model="ir.cron">
+            <field name="name">Keykeep: Purge Old Credential Versions</field>
+            <field name="model_id" ref="model_keykeep_credential"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_purge_credential_versions()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active" eval="True"/>
+        </record>
     </data>
 </odoo>
