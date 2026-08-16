@@ -119,6 +119,27 @@
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
+                        <button name="action_view_credentials" type="object"
+                                class="oe_stat_button" icon="fa-key">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">API Keys</span>
+                                <field name="credential_count" class="o_stat_value" widget="statinfo"/>
+                            </div>
+                        </button>
+                        <button name="action_view_invoices" type="object"
+                                class="oe_stat_button" icon="fa-file-text-o">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Invoices</span>
+                                <field name="invoice_count" class="o_stat_value" widget="statinfo"/>
+                            </div>
+                        </button>
+                        <button name="action_view_journal_entries" type="object"
+                                class="oe_stat_button" icon="fa-book">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Journal Entries</span>
+                                <field name="journal_entry_count" class="o_stat_value" widget="statinfo"/>
+                            </div>
+                        </button>
                         <button name="action_view_topups" type="object"
                                 class="oe_stat_button" icon="fa-arrow-up">
                             <div class="o_stat_info">
@@ -273,11 +294,7 @@
                         </page>
                     </notebook>
                 </sheet>
-                <div class="oe_chatter">
-                    <field name="message_follower_ids"/>
-                    <field name="activity_ids"/>
-                    <field name="message_ids"/>
-                </div>
+                <chatter/>
             </form>
         </field>
     </record>

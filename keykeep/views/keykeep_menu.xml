@@ -16,7 +16,7 @@
     <menuitem id="menu_keykeep_config"
               name="Configuration"
               parent="menu_keykeep_root"
-              sequence="90"
+              sequence="1"
               groups="keykeep.group_manager"/>
 
     <menuitem id="menu_keykeep_category"

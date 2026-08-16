@@ -296,6 +296,26 @@ class KeykeepSubscription(models.Model):
         for rec in self:
             rec.invoice_count = len(rec.invoice_ids)
 
+    journal_entry_count = fields.Integer(
+        string="Journal Entries", compute="_compute_journal_entry_count"
+    )
+
+    @api.depends("journal_entry_ids")
+    def _compute_journal_entry_count(self):
+        for rec in self:
+            rec.journal_entry_count = len(rec.journal_entry_ids)
+
+    def action_view_journal_entries(self):
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_window",
+            "name": _("Journal Entries"),
+            "res_model": "account.move",
+            "view_mode": "list,form",
+            "domain": [("id", "in", self.journal_entry_ids.ids)],
+            "context": {"default_move_type": "entry"},
+        }
+
     # --- Actions ---
 
     def action_view_invoices(self):
