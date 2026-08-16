@@ -18,4 +18,6 @@
         </field>
     </record>
 
+    <!-- Ta bort gamla SaaS-pagen (finns kvar i DB från tidigare deploy) -->
+    <delete model="ir.ui.view" id="view_partner_keykeep_form"/>
 </odoo>
