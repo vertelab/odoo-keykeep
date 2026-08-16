@@ -1,29 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Copyright 2026 Vertel AB - License AGPL-3.0 -->
 <odoo>
-    <!-- Add Keykeep tab to Partner Form -->
-    <record id="view_partner_keykeep_form" model="ir.ui.view">
-        <field name="name">res.partner.keykeep.form</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_form"/>
-        <field name="arch" type="xml">
-            <xpath expr="//page[@name='sales_purchases']" position="after">
-                <page string="SaaS Subscriptions" name="keykeep"
-                      invisible="partner_share">
-                    <field name="subscription_ids">
-                        <list>
-                            <field name="name"/>
-                            <field name="category_id"/>
-                            <field name="cost_amount"/>
-                            <field name="currency_id"/>
-                            <field name="next_renewal_date"/>
-                            <field name="state"/>
-                        </list>
-                    </field>
-                </page>
-            </xpath>
-        </field>
-    </record>
+
 
     <!-- KeyKeep-kryssruta i standardformen, i höjd med is_bifrost_provider -->
     <record id="view_partner_keykeep_checkbox" model="ir.ui.view">
