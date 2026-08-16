@@ -27,3 +27,8 @@ class ResPartner(models.Model):
             "view_mode": "kanban,tree,form",
             "domain": [("partner_id", "=", self.id)],
         }
+
+    is_keykeep_partner = fields.Boolean(
+        string="KeyKeep",
+        help="Partner managed in KeyKeep (supplier with subscriptions/credentials).",
+    )

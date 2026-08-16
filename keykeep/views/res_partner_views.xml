@@ -24,4 +24,20 @@
             </xpath>
         </field>
     </record>
+
+    <!-- KeyKeep-kryssruta i standardformen, i höjd med is_bifrost_provider -->
+    <record id="view_partner_keykeep_checkbox" model="ir.ui.view">
+        <field name="name">res.partner.keykeep.checkbox</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <field name="is_bifrost_provider" position="after">
+                <div class="o_row">
+                    <field name="is_keykeep_partner"/>
+                    <label for="is_keykeep_partner" string="KeyKeep"/>
+                </div>
+            </field>
+        </field>
+    </record>
+
 </odoo>
