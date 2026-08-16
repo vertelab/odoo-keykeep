@@ -10,8 +10,6 @@
     <!-- Suppliers-parent + barn ligger i bifrost_keykeep-bryggan
          (Suppliers-aktionen finns där; Subscriptions flyttas dit som barn). -->
 
-    <!-- Gamla direkta Subscriptions-menyn (ersatt av Suppliers → Subscriptions) -->
-    <delete model="ir.ui.menu" id="menu_keykeep_subscription"/>
 
     <!-- Configuration — SIST i huvudmenyn (Odoo-standard) -->
     <menuitem id="menu_keykeep_config"
