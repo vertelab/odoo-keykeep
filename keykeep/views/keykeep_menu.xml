@@ -7,27 +7,35 @@
               web_icon="keykeep,static/description/icon.png"
               sequence="70"/>
 
-    <menuitem id="menu_keykeep_subscription"
-              name="Subscriptions"
-              parent="menu_keykeep_root"
-              action="action_keykeep_subscription"
-              sequence="10"/>
+    <!-- Suppliers-parent + barn ligger i bifrost_keykeep-bryggan
+         (Suppliers-aktionen finns där; Subscriptions flyttas dit som barn). -->
 
+    <!-- Gamla direkta Subscriptions-menyn (ersatt av Suppliers → Subscriptions) -->
+    <delete model="ir.ui.menu" id="menu_keykeep_subscription"/>
+
+    <!-- Configuration — SIST i huvudmenyn (Odoo-standard) -->
     <menuitem id="menu_keykeep_config"
               name="Configuration"
               parent="menu_keykeep_root"
-              sequence="1"
+              sequence="90"
               groups="keykeep.group_manager"/>
+
+    <!-- Settings — FÖRST i Configuration -->
+    <menuitem id="menu_keykeep_settings"
+              name="Settings"
+              parent="menu_keykeep_config"
+              sequence="10"
+              action="action_keykeep_settings"/>
 
     <menuitem id="menu_keykeep_category"
               name="Categories"
               parent="menu_keykeep_config"
               action="action_keykeep_category"
-              sequence="10"/>
+              sequence="20"/>
 
     <menuitem id="menu_keykeep_payment_method"
               name="Payment Methods"
               parent="menu_keykeep_config"
               action="action_keykeep_payment_method"
-              sequence="20"/>
+              sequence="30"/>
 </odoo>

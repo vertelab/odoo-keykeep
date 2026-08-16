@@ -52,9 +52,4 @@
         <field name="context">{'module': 'keykeep', 'bin_size': False}</field>
     </record>
 
-    <menuitem id="menu_keykeep_settings"
-              name="Settings"
-              parent="keykeep.menu_keykeep_config"
-              sequence="30"
-              action="action_keykeep_settings"/>
 </odoo>
