@@ -143,6 +143,73 @@ class KeykeepSubscription(models.Model):
         inverse_name="subscription_id",
         string="Cost Forecasts",
     )
+
+    # ── Top-ups (händelsejournal) ────────────────────────────────────────
+    topup_ids = fields.One2many(
+        comodel_name="keykeep.topup",
+        inverse_name="subscription_id",
+        string="Top-ups",
+    )
+    topup_count = fields.Integer(
+        string="Top-ups",
+        compute="_compute_topup_count",
+    )
+    topup_sum = fields.Monetary(
+        currency_field="currency_id",
+        string="Top-up Sum",
+        compute="_compute_topup_count",
+        help="Summa av confirmed/reconciled top-ups.",
+    )
+    forecast_count = fields.Integer(
+        string="Forecast",
+        compute="_compute_forecast_count",
+    )
+
+    @api.depends("topup_ids", "topup_ids.state", "topup_ids.amount")
+    def _compute_topup_count(self):
+        for rec in self:
+            rec.topup_count = len(rec.topup_ids)
+            rec.topup_sum = sum(
+                t.amount for t in rec.topup_ids if t.state in ("confirmed", "reconciled")
+            )
+
+    @api.depends("cost_forecast_ids")
+    def _compute_forecast_count(self):
+        for rec in self:
+            rec.forecast_count = len(rec.cost_forecast_ids)
+
+    def action_view_topups(self):
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_window",
+            "name": "Top-ups",
+            "res_model": "keykeep.topup",
+            "domain": [("subscription_id", "=", self.id)],
+            "view_mode": "list,form",
+            "context": {"default_subscription_id": self.id},
+        }
+
+    def action_view_forecast(self):
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_window",
+            "name": "Cost Forecast",
+            "res_model": "keykeep.cost.forecast",
+            "domain": [("subscription_id", "=", self.id)],
+            "view_mode": "list,form",
+            "context": {"default_subscription_id": self.id},
+        }
+
+    def action_add_topup(self):
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_window",
+            "name": "Record Top-up",
+            "res_model": "keykeep.topup.wizard",
+            "view_mode": "form",
+            "target": "new",
+            "context": {"default_subscription_id": self.id},
+        }
     active = fields.Boolean(default=True)
 
     # === Computed Display Fields (Kanban) ===

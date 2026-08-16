@@ -2,3 +2,4 @@
 
 from . import create_journal_entry
 from . import credential_reveal
+from . import topup_wizard

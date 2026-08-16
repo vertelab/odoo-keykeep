@@ -19,3 +19,10 @@ access_keykeep_credential_reveal_admin,keykeep.credential.reveal.admin,model_key
 access_keykeep_credential_reveal_devops,keykeep.credential.reveal.devops,model_keykeep_credential_reveal,keykeep.group_devops,1,0,0,0
 access_keykeep_create_journal_entry_manager,keykeep.create.journal.entry.manager,model_keykeep_create_journal_entry,keykeep.group_manager,1,1,1,1
 access_keykeep_cron_line_admin,keykeep.cron.line admin,model_keykeep_cron_line,keykeep.group_manager,1,1,1,1
+access_keykeep_topup_user,keykeep.topup.user,model_keykeep_topup,keykeep.group_user,1,0,0,0
+access_keykeep_topup_manager,keykeep.topup.manager,model_keykeep_topup,keykeep.group_manager,1,1,1,1
+access_keykeep_topup_devops,keykeep.topup.devops,model_keykeep_topup,keykeep.group_devops,1,1,1,1
+access_keykeep_topup_admin,keykeep.topup.admin,model_keykeep_topup,keykeep.group_admin,1,1,1,1
+access_keykeep_topup_wizard_manager,keykeep.topup.wizard.manager,model_keykeep_topup_wizard,keykeep.group_manager,1,1,1,1
+access_keykeep_topup_wizard_devops,keykeep.topup.wizard.devops,model_keykeep_topup_wizard,keykeep.group_devops,1,1,1,1
+access_keykeep_topup_wizard_admin,keykeep.topup.wizard.admin,model_keykeep_topup_wizard,keykeep.group_admin,1,1,1,1

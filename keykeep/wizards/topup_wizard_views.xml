@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Wizard: Record Top-up (same file as topup_wizard.py) -->
+    <record id="view_keykeep_topup_wizard_form" model="ir.ui.view">
+        <field name="name">keykeep.topup.wizard.form</field>
+        <field name="model">keykeep.topup.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Record Top-up">
+                <group>
+                    <field name="subscription_id"/>
+                    <field name="provider_id"/>
+                    <field name="date"/>
+                    <field name="amount"/>
+                    <field name="currency_id"/>
+                    <field name="method"/>
+                    <field name="source"/>
+                    <field name="payment_method_id"/>
+                    <field name="receipt_ref"/>
+                </group>
+                <group string="Note">
+                    <field name="note" nolabel="1"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" type="object" string="Confirm Top-up"
+                            class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
