@@ -19,14 +19,15 @@
                 <field name="partner_id"/>
                 <field name="credential_count"/>
                 <templates>
-                    <t t-name="kanban-box">
+                    <t t-name="card">
                         <div t-attf-class="oe_kanban_card oe_kanban_global_click keykeep-card"
                              t-att-data-urgency="record.kanban_state.raw_value">
                             <div class="keykeep-card-header">
                                 <div class="keykeep-logo">
-                                    <img t-att-src="kanban_image('keykeep.subscription', 'logo', record.id.raw_value)"
-                                         alt="Logo" class="keykeep-logo-img"
-                                         t-attf-style="width: 48px; height: 48px; border-radius: 8px;"/>
+                                    <field name="logo" widget="image" class="keykeep-logo-img"
+                                           options="{'img_class': 'object-fit-cover'}"
+                                           alt="Logo"
+                                           t-attf-style="width: 48px; height: 48px; border-radius: 8px;"/>
                                 </div>
                                 <div class="keykeep-title">
                                     <strong><field name="name"/></strong>
@@ -117,6 +118,50 @@
                             statusbar_visible="active,cancelled,expired"/>
                 </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_credentials" type="object"
+                                class="oe_stat_button" icon="fa-key">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">API Keys</span>
+                                <field name="credential_count" class="o_stat_value" widget="statinfo"/>
+                            </div>
+                        </button>
+                        <button name="action_view_invoices" type="object"
+                                class="oe_stat_button" icon="fa-file-text-o">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Invoices</span>
+                                <field name="invoice_count" class="o_stat_value" widget="statinfo"/>
+                            </div>
+                        </button>
+                        <button name="action_view_journal_entries" type="object"
+                                class="oe_stat_button" icon="fa-book">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Journal Entries</span>
+                                <field name="journal_entry_count" class="o_stat_value" widget="statinfo"/>
+                            </div>
+                        </button>
+                        <button name="action_view_topups" type="object"
+                                class="oe_stat_button" icon="fa-arrow-up">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Top-ups</span>
+                                <field name="topup_count" class="o_stat_value" widget="statinfo"/>
+                            </div>
+                        </button>
+                        <button name="action_view_forecast" type="object"
+                                class="oe_stat_button" icon="fa-line-chart">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Forecast</span>
+                                <field name="forecast_count" class="o_stat_value" widget="statinfo"/>
+                            </div>
+                        </button>
+                        <button name="action_add_topup" type="object"
+                                class="oe_stat_button" icon="fa-plus-circle"
+                                groups="keykeep.group_manager,keykeep.group_admin,keykeep.group_devops">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Record Top-up</span>
+                            </div>
+                        </button>
+                    </div>
                     <div class="oe_title">
                         <div class="d-flex align-items-center mb-3">
                             <field name="logo" widget="image" class="oe_avatar me-3"
@@ -249,11 +294,7 @@
                         </page>
                     </notebook>
                 </sheet>
-                <div class="oe_chatter">
-                    <field name="message_follower_ids"/>
-                    <field name="activity_ids"/>
-                    <field name="message_ids"/>
-                </div>
+                <chatter/>
             </form>
         </field>
     </record>

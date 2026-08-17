@@ -1,0 +1,2021 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* keykeep
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0-20260816\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-16 14:45+0000\n"
+"PO-Revision-Date: 2026-08-16 14:45+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: keykeep
+#. odoo-python
+#: code:addons/keykeep/wizards/create_journal_entry.py:0
+msgid "%(sub)s — %(date)s"
+msgstr ""
+
+#. module: keykeep
+#. odoo-python
+#: code:addons/keykeep/models/keykeep_invoice_stub.py:0
+msgid "%(sub)s — %(period)s"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_credential_reveal_form
+msgid ""
+"<br/>\n"
+"                    Time:"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
+msgid "<span class=\"o_stat_text\">API Keys</span>"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
+msgid "<span class=\"o_stat_text\">Forecast</span>"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
+msgid "<span class=\"o_stat_text\">Invoices</span>"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
+msgid "<span class=\"o_stat_text\">Journal Entries</span>"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
+msgid "<span class=\"o_stat_text\">Record Top-up</span>"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
+msgid "<span class=\"o_stat_text\">Top-ups</span>"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_kanban
+msgid "<span class=\"text-danger\">Expired</span>"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_kanban
+msgid "<span class=\"text-danger\">⚠ Overdue</span>"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_kanban
+msgid "<span class=\"text-muted\">Cancelled</span>"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_kanban
+msgid "<span class=\"text-warning\">⏰ Today</span>"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_credential_reveal_form
+msgid ""
+"<strong>⚠️ This access is logged</strong><br/>\n"
+"                    User:"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
+msgid ""
+"<strong>🔄 Rotation Health:</strong>\n"
+"                                <span>Credentials not rotated in over 90 days are flagged as stale. Review below.</span>"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.constraint,message:keykeep.constraint_keykeep_credential_name_subscription_env_uniq
+msgid ""
+"A credential with this name already exists for this subscription and "
+"environment."
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.constraint,message:keykeep.constraint_keykeep_topup_topup_receipt_uniq
+msgid ""
+"A top-up with the same subscription, date and receipt reference already "
+"exists."
+msgstr ""
+
+#. module: keykeep
+#: model:keykeep.category,name:keykeep.category_ai_ml
+msgid "AI & Machine Learning"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_topup__method__api
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_topup_wizard__method__api
+msgid "API"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_credential__credential_type__api_key
+msgid "API Key"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential__access_log_ids
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_credential_form
+msgid "Access Log"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_access_log__accessed_at
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_reveal__audit_time
+msgid "Accessed At"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_access_log__action
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_credential_access_log_search
+msgid "Action"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_payment_method__active
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__active
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_subscription__state__active
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_search
+msgid "Active"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__activity_ids
+msgid "Activities"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__activity_state
+msgid "Activity State"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__activity_type_icon
+msgid "Activity Type Icon"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_cron_line__cron_active
+msgid "Aktiv"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_create_journal_entry__amount
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_topup__amount
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_topup_wizard__amount
+msgid "Amount"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_credential_reveal_form
+msgid "At:"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.actions.act_window,name:keykeep.action_keykeep_audit_log
+msgid "Audit Log"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_topup__method__auto
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_topup_wizard__method__auto
+msgid "Auto"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__auto_renew
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_search
+msgid "Auto Renew"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_reveal__reveal_timeout
+msgid "Auto-Close (seconds)"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
+msgid "Auto-fetch logo from Clearbit using the service URL."
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_credential_access_log__action__backend_switch
+msgid "Backend Switch"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_settings
+msgid "Background Jobs"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_payment_method__method_type__bank_transfer
+msgid "Bank Transfer"
+msgstr ""
+
+#. module: keykeep
+#: model:keykeep.category,name:keykeep.category_finance
+msgid "Banking & Finance"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_topup__state
+msgid "Bara confirmed/reconciled räknas in i prognoserna."
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_topup__source__bifrost_budget
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_topup_wizard__source__bifrost_budget
+msgid "Bifrost Budget"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_credential_access_log__fields_accessed__both
+msgid "Both"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_credential_reveal_form
+msgid "By:"
+msgstr ""
+
+#. module: keykeep
+#: model:res.groups,comment:keykeep.group_manager
+msgid "Can manage all subscriptions and view financial data."
+msgstr ""
+
+#. module: keykeep
+#: model:res.groups,comment:keykeep.group_devops
+msgid "Can view and manage credentials, but cannot see financial data."
+msgstr ""
+
+#. module: keykeep
+#: model:res.groups,comment:keykeep.group_admin
+msgid "Can view and manage encrypted credentials. Has full access."
+msgstr ""
+
+#. module: keykeep
+#: model:res.groups,comment:keykeep.group_user
+msgid "Can view own subscriptions and receive notifications."
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_create_journal_entry_wizard_form
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_topup_wizard_form
+msgid "Cancel"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__cancellation_date
+msgid "Cancellation Date"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_subscription__state__cancelled
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_search
+msgid "Cancelled"
+msgstr ""
+
+#. module: keykeep
+#. odoo-python
+#: code:addons/keykeep/models/keykeep_invoice_stub.py:0
+msgid "Cannot delete stub %s: it has a posted invoice."
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_payment_method__method_type__card
+msgid "Card"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_payment_method_form
+msgid "Card Details"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_payment_method__card_expiry_date
+msgid "Card Expiry Date"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_payment_method__card_holder_name
+msgid "Card Holder Name"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_payment_method__card_last_four
+msgid "Card Last 4 Digits"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.actions.act_window,name:keykeep.action_keykeep_category
+#: model:ir.ui.menu,name:keykeep.menu_keykeep_category
+msgid "Categories"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__category_id
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_category_form
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_search
+msgid "Category"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_category_form
+msgid "Category Name"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_credential__credential_type__certificate
+msgid "Certificate"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_version__change_note
+msgid "Change Note"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_version__changed_at
+msgid "Changed At"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_version__changed_by
+msgid "Changed By"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_category__child_ids
+msgid "Child Categories"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_credential_reveal_form
+msgid "Close"
+msgstr ""
+
+#. module: keykeep
+#: model:keykeep.category,name:keykeep.category_communication
+msgid "Communication"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_cost_forecast__company_id
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential__company_id
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_access_log__company_id
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_version__company_id
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_payment_method__company_id
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__company_id
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_topup__company_id
+msgid "Company"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_cost_forecast__source__computed
+msgid "Computed"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model,name:keykeep.model_res_config_settings
+msgid "Config Settings"
+msgstr "Inställningar"
+
+#. module: keykeep
+#: model:ir.ui.menu,name:keykeep.menu_keykeep_config
+msgid "Configuration"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_topup_form
+msgid "Confirm"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_topup_wizard_form
+msgid "Confirm Top-up"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_topup__state__confirmed
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_topup_search
+msgid "Confirmed"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model,name:keykeep.model_res_partner
+msgid "Contact"
+msgstr "Kontakt"
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_credential_access_log_search
+msgid "Copies"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_credential_access_log__action__copy
+msgid "Copy"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__cost_amount
+msgid "Cost"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__cost_forecast_ids
+msgid "Cost Forecasts"
+msgstr ""
+
+#. module: keykeep
+#. odoo-python
+#: code:addons/keykeep/models/keykeep_subscription.py:0
+msgid "Could not fetch logo from %s. Try uploading manually."
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_create_journal_entry_wizard_form
+msgid "Create Entry"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.actions.act_window,name:keykeep.action_create_journal_entry_wizard
+#: model_terms:ir.ui.view,arch_db:keykeep.view_create_journal_entry_wizard_form
+msgid "Create Journal Entry"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model,name:keykeep.model_keykeep_create_journal_entry
+msgid "Create Journal Entry from Subscription"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_category__create_uid
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_cost_forecast__create_uid
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_create_journal_entry__create_uid
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential__create_uid
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_access_log__create_uid
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_reveal__create_uid
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_version__create_uid
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_cron_line__create_uid
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_payment_method__create_uid
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__create_uid
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_topup__create_uid
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_topup_wizard__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_category__create_date
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_cost_forecast__create_date
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_create_journal_entry__create_date
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential__create_date
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_access_log__create_date
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_reveal__create_date
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_version__create_date
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_cron_line__create_date
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_payment_method__create_date
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__create_date
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_topup__create_date
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_topup_wizard__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_access_log__credential_id
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_reveal__credential_id
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_version__credential_id
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_topup__credential_id
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_credential_form
+msgid "Credential"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__credential_count
+msgid "Credential Count"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential__credential_type
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_reveal__credential_type
+msgid "Credential Type"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_credential_version_form
+msgid "Credential Version"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential__secret_key
+msgid "Credential key (wrapped)"
+msgstr ""
+
+#. module: keykeep
+#. odoo-python
+#: code:addons/keykeep/models/keykeep_credential.py:0
+msgid "Credential key could not be unwrapped (wrong master key?)"
+msgstr ""
+
+#. module: keykeep
+#. odoo-python
+#: code:addons/keykeep/models/keykeep_credential.py:0
+msgid "Credential key rotated"
+msgstr ""
+
+#. module: keykeep
+#. odoo-python
+#: code:addons/keykeep/models/keykeep_subscription.py:0
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_credential_form
+msgid "Credentials"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__credential_ids
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
+msgid "Credentials & API Keys"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_cron_line__cron_id
+msgid "Cron"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_settings
+msgid "Cron-jobb"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_res_config_settings__keykeep_cron_line_ids
+msgid "Cron-rader"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_cost_forecast__currency_id
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_create_journal_entry__currency_id
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__currency_id
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_topup__currency_id
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_topup_wizard__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_subscription__renewal_frequency__custom
+msgid "Custom"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_cron_line__cron_interval_type__days
+msgid "Dagar"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_create_journal_entry__date
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_topup__date
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_topup_wizard__date
+msgid "Date"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential__rotation_age
+msgid "Days Since Rotation"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__days_until_renewal
+msgid "Days Until Renewal"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_credential_form
+msgid "Days since this credential was last updated."
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_reveal__decrypted_value
+msgid "Decrypted Value"
+msgstr ""
+
+#. module: keykeep
+#. odoo-python
+#: code:addons/keykeep/models/keykeep_credential.py:0
+msgid "Decryption failed for a credential value (wrong key?)"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_category__expense_account_id
+msgid "Default Expense Account"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_category__expense_account_id
+msgid ""
+"Default expense account for journal entries created from subscriptions in "
+"this category."
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_credential__purpose
+msgid "Description of what this key is used for."
+msgstr ""
+
+#. module: keykeep
+#: model:keykeep.category,name:keykeep.category_design
+msgid "Design"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_credential__environment__development
+msgid "Development"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_payment_method__method_type__direct_debit
+msgid "Direct Debit"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_category__display_name
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_cost_forecast__display_name
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_create_journal_entry__display_name
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential__display_name
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_access_log__display_name
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_reveal__display_name
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_version__display_name
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_cron_line__display_name
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_payment_method__display_name
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__display_name
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_topup__display_name
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_topup_wizard__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_topup__state__draft
+msgid "Draft"
+msgstr ""
+
+#. module: keykeep
+#: model:keykeep.category,name:keykeep.category_education
+msgid "Education"
+msgstr ""
+
+#. module: keykeep
+#: model:keykeep.category,name:keykeep.category_entertainment
+msgid "Entertainment"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential__environment
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_reveal__environment
+msgid "Environment"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_create_journal_entry__expense_account_id
+msgid "Expense Account"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_subscription__state__expired
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_search
+msgid "Expired"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_subscription__kanban_state__warning
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_search
+msgid "Expiring Soon"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential__expiry_date
+msgid "Expiry Date"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_cron_line__cron_failure_count
+msgid "Fel"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
+msgid "Fetch Logo"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_access_log__fields_accessed
+msgid "Fields Accessed"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
+msgid "Financial"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_subscription__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__forecast_count
+msgid "Forecast"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_cost_forecast__forecast_amount
+msgid "Forecast Amount"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_cost_forecast__forecast_date
+msgid "Forecast Date"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
+msgid "General"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_credential_access_log_search
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_search
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_topup_search
+msgid "Group By"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_category__id
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_cost_forecast__id
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_create_journal_entry__id
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential__id
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_access_log__id
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_reveal__id
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_version__id
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_cron_line__id
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_payment_method__id
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__id
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_topup__id
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_topup_wizard__id
+msgid "ID"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_access_log__ip_address
+msgid "IP Address"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_credential_access_log__ip_address
+msgid "IP address of the user at the time of access."
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_subscription__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_subscription__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_subscription__message_has_error
+#: model:ir.model.fields,help:keykeep.field_keykeep_subscription__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_subscription__kanban_state__inactive
+msgid "Inactive"
+msgstr ""
+
+#. module: keykeep
+#: model:keykeep.category,name:keykeep.category_infrastructure
+msgid "Infrastructure"
+msgstr ""
+
+#. module: keykeep
+#: model:keykeep.category,name:keykeep.category_insurance
+msgid "Insurance"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_cron_line__cron_interval_number
+msgid "Intervall"
+msgstr ""
+
+#. module: keykeep
+#. odoo-python
+#: code:addons/keykeep/models/keykeep_invoice_stub.py:0
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_payment_method__method_type__invoice
+msgid "Invoice"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__invoice_count
+msgid "Invoice Count"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_topup__invoice_stub_id
+msgid "Invoice Stub"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: keykeep
+#. odoo-python
+#: code:addons/keykeep/models/keykeep_subscription.py:0
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__journal_entry_count
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__journal_entry_ids
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
+msgid "Journal Entries"
+msgstr ""
+
+#. module: keykeep
+#. odoo-python
+#: code:addons/keykeep/wizards/create_journal_entry.py:0
+#: model:ir.model,name:keykeep.model_account_move
+msgid "Journal Entry"
+msgstr "Verifikat"
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_create_journal_entry__name
+msgid "Journal Entry Label"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential__key_value
+msgid "Key / Token Value"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_credential_form
+msgid "Key Details"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_credential_access_log__fields_accessed__key_value
+msgid "Key Value"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_version__key_value
+msgid "Key Value (Encrypted)"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential__key_value_cipher
+msgid "Key Value (ciphertext)"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.module.category,name:keykeep.module_category_keykeep
+#: model:ir.ui.menu,name:keykeep.menu_keykeep_root
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_settings
+msgid "Keykeep"
+msgstr ""
+
+#. module: keykeep
+#: model:res.groups,name:keykeep.group_admin
+msgid "Keykeep Admin"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model,name:keykeep.model_keykeep_category
+msgid "Keykeep Category"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model,name:keykeep.model_keykeep_cost_forecast
+msgid "Keykeep Cost Forecast"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model,name:keykeep.model_keykeep_credential
+msgid "Keykeep Credential"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model,name:keykeep.model_keykeep_credential_access_log
+msgid "Keykeep Credential Access Log"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model,name:keykeep.model_keykeep_credential_version
+msgid "Keykeep Credential Version"
+msgstr ""
+
+#. module: keykeep
+#: model:res.groups,name:keykeep.group_devops
+msgid "Keykeep DevOps"
+msgstr ""
+
+#. module: keykeep
+#: model:res.groups,name:keykeep.group_manager
+msgid "Keykeep Manager"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model,name:keykeep.model_keykeep_payment_method
+msgid "Keykeep Payment Method"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.actions.act_window,name:keykeep.action_keykeep_settings
+msgid "Keykeep Settings"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model,name:keykeep.model_keykeep_subscription
+msgid "Keykeep Subscription"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_account_bank_statement_line__keykeep_subscription_ids
+#: model:ir.model.fields,field_description:keykeep.field_account_move__keykeep_subscription_ids
+msgid "Keykeep Subscriptions"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model,name:keykeep.model_keykeep_topup
+msgid "Keykeep Top-up"
+msgstr ""
+
+#. module: keykeep
+#: model:res.groups,name:keykeep.group_user
+msgid "Keykeep User"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model,name:keykeep.model_keykeep_cron_line
+msgid "Keykeep cron configuration line"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.actions.server,name:keykeep.cron_check_credential_expiry_ir_actions_server
+msgid "Keykeep: Check Credential Expiry"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.actions.server,name:keykeep.cron_check_credential_rotation_ir_actions_server
+msgid "Keykeep: Check Credential Rotation Health"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.actions.server,name:keykeep.cron_cleanup_access_logs_ir_actions_server
+msgid "Keykeep: Cleanup Old Access Logs"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.actions.server,name:keykeep.cron_purge_credential_versions_ir_actions_server
+msgid "Keykeep: Purge Old Credential Versions"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.actions.server,name:keykeep.cron_send_renewal_notifications_ir_actions_server
+msgid "Keykeep: Send Renewal Notifications"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.actions.server,name:keykeep.cron_update_renewal_dates_ir_actions_server
+msgid "Keykeep: Update Renewal Dates"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_topup__receipt_ref
+msgid "Kvitto/order-ref från providern."
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_settings
+msgid "Kör nu"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential__name
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_reveal__credential_name
+msgid "Label"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_credential_reveal_form
+msgid "Last Access"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential__last_accessed_at
+msgid "Last Accessed"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_reveal__last_accessed_at
+msgid "Last Accessed At"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_reveal__last_accessed_by
+msgid "Last Accessed By"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_category__write_uid
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_cost_forecast__write_uid
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_create_journal_entry__write_uid
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential__write_uid
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_access_log__write_uid
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_reveal__write_uid
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_version__write_uid
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_cron_line__write_uid
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_payment_method__write_uid
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__write_uid
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_topup__write_uid
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_topup_wizard__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_category__write_date
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_cost_forecast__write_date
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_create_journal_entry__write_date
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential__write_date
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_access_log__write_date
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_reveal__write_date
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_version__write_date
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_cron_line__write_date
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_payment_method__write_date
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__write_date
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_topup__write_date
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_topup_wizard__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_payment_method__card_last_four
+msgid "Last four digits of the card number (PCI-DSS safe)."
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential__latest_version
+msgid "Latest Version"
+msgstr ""
+
+#. module: keykeep
+#. odoo-python
+#: code:addons/keykeep/models/keykeep_subscription.py:0
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__invoice_ids
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
+msgid "Linked Invoices"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_reveal__audit_user
+msgid "Logged As"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_credential__credential_type__login
+msgid "Login"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_credential_form
+msgid "Login Details"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__logo
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_kanban
+msgid "Logo"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__logo_url
+msgid "Logo URL"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__activity_main_partner_id
+msgid "Main Contact"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_cost_forecast__source__manual
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_topup__method__manual
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_topup_wizard__method__manual
+msgid "Manual"
+msgstr ""
+
+#. module: keykeep
+#: model:keykeep.category,name:keykeep.category_marketing
+msgid "Marketing"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_topup__method
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_topup_wizard__method
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_topup_search
+msgid "Method"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_payment_method__method_type
+msgid "Method Type"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_cron_line__cron_code
+msgid "Metod"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_cron_line__cron_interval_type__minutes
+msgid "Minuter"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_subscription__renewal_frequency__monthly
+msgid "Monthly"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_topup__credential_id
+msgid "Motstående konto/nyckel (valfritt)."
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_cron_line__cron_interval_type__months
+msgid "Månader"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_category__name
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_payment_method__name
+msgid "Name"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_cron_line__cron_name
+msgid "Namn"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__next_renewal_date
+msgid "Next Renewal"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_kanban
+msgid "Next:"
+msgstr ""
+
+#. module: keykeep
+#. odoo-python
+#: code:addons/keykeep/models/keykeep_invoice_stub.py:0
+msgid "No invoice lines defined. Add lines under the Invoice tab first."
+msgstr ""
+
+#. module: keykeep
+#. odoo-python
+#: code:addons/keykeep/models/keykeep_invoice_stub.py:0
+msgid "No purchase journal found. Please create one."
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_topup__note
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_topup_wizard__note
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_topup_form
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_topup_wizard_form
+msgid "Note"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential__notes
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_payment_method__notes
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__notes
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_credential_form
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_payment_method_form
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
+msgid "Notes"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__notify_days_before
+msgid "Notify Days Before"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_subscription__renewal_cycle
+msgid ""
+"Number of frequency units between renewals (e.g. 3 for quarterly means every"
+" 3 months)."
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_subscription__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_subscription__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_subscription__kanban_state__ok
+msgid "OK"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_topup__invoice_stub_id
+msgid "Om top-up:en faktureras vidare."
+msgstr ""
+
+#. module: keykeep
+#. odoo-python
+#: code:addons/keykeep/models/keykeep_credential.py:0
+msgid "Only Keykeep admins and DevOps can copy credentials."
+msgstr ""
+
+#. module: keykeep
+#. odoo-python
+#: code:addons/keykeep/models/keykeep_credential.py:0
+msgid "Only Keykeep admins and DevOps can reveal credentials."
+msgstr ""
+
+#. module: keykeep
+#. odoo-python
+#: code:addons/keykeep/models/keykeep_credential.py:0
+msgid "Only Keykeep admins can rotate credential keys."
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.constraint,message:keykeep.constraint_keykeep_cost_forecast_sub_forecast_month_uniq
+msgid "Only one forecast entry per subscription per month."
+msgstr ""
+
+#. module: keykeep
+#. odoo-python
+#: code:addons/keykeep/models/keykeep_credential_version.py:0
+msgid "Only users with reveal permission can view historical version values."
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_credential__credential_type__other
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_payment_method__method_type__other
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_topup__source__other
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_topup_wizard__source__other
+#: model:keykeep.category,name:keykeep.category_other
+msgid "Other"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_subscription__kanban_state__critical
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_search
+msgid "Overdue"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_category__parent_id
+msgid "Parent Category"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_category__parent_path
+msgid "Parent Path"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential__password
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_credential_access_log__fields_accessed__password
+msgid "Password"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_version__password
+msgid "Password (Encrypted)"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential__password_cipher
+msgid "Password (ciphertext)"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_credential_form
+msgid "Password (encrypted)"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
+msgid "Paste API key or token value..."
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_credential_form
+msgid "Paste your API key or token here..."
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_payment_method__method_type__paypal
+msgid "PayPal"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__payment_method_id
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_topup__payment_method_id
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_topup_wizard__payment_method_id
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_payment_method_form
+msgid "Payment Method"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.actions.act_window,name:keykeep.action_keykeep_payment_method
+#: model:ir.ui.menu,name:keykeep.menu_keykeep_payment_method
+msgid "Payment Methods"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_cron_line__cron_interval_type
+msgid "Period"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_cron_line__cron_lastcall
+msgid ""
+"Previous time the cron ran successfully, provided to the job through the "
+"context on the `lastcall` key"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_credential__environment__production
+msgid "Production"
+msgstr ""
+
+#. module: keykeep
+#: model:keykeep.category,name:keykeep.category_productivity
+msgid "Productivity"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_cost_forecast__provider_id
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_topup__provider_id
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_topup_wizard__provider_id
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_topup_search
+msgid "Provider"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_topup__provider_id
+msgid ""
+"Provider (res.partner) the top-up was made for — convenience, related from "
+"subscription."
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_topup__source__provider_api
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_topup_wizard__source__provider_api
+msgid "Provider API"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_topup__source__provider_portal
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_topup_wizard__source__provider_portal
+msgid "Provider Portal"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_cost_forecast__provider_id
+msgid ""
+"Provider the forecast row applies to (related from subscription partner)."
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_credential_access_log__action__purge
+msgid "Purge Versions"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential__purpose
+msgid "Purpose"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_subscription__renewal_frequency__quarterly
+msgid "Quarterly"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_topup__receipt_ref
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_topup_wizard__receipt_ref
+msgid "Receipt Reference"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_reveal__recent_access
+msgid "Recent Access"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_credential_reveal_form
+msgid "Recent Access History"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_topup_form
+msgid "Reconcile"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_topup__state__reconciled
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_topup_search
+msgid "Reconciled"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model,name:keykeep.model_keykeep_topup_wizard
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_topup_wizard_form
+msgid "Record Top-up"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential__renewal_reminder
+msgid "Remind Before Expiry"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
+msgid "Renewal"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__renewal_cycle
+msgid "Renewal Cycle"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__renewal_frequency
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_search
+msgid "Renewal Frequency"
+msgstr ""
+
+#. module: keykeep
+#. odoo-python
+#: code:addons/keykeep/models/keykeep_subscription.py:0
+msgid "Renewal cycle must be positive."
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__replacement_subscription_id
+msgid "Replacement Service"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__responsible_id
+msgid "Responsible"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__activity_user_id
+msgid "Responsible User"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_credential_access_log__action__reveal
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_credential_form
+msgid "Reveal"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model,name:keykeep.model_keykeep_credential_reveal
+#: model_terms:ir.ui.view,arch_db:keykeep.view_credential_reveal_form
+msgid "Reveal Credential"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_credential_access_log__action__reveal_version
+msgid "Reveal Historical Version"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_credential_version_form
+msgid "Reveal Value"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_credential_form
+msgid "Reveal the decrypted password/key"
+msgstr ""
+
+#. module: keykeep
+#. odoo-python
+#: code:addons/keykeep/models/keykeep_credential.py:0
+msgid "Reveal: %s — %s"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_credential_access_log_search
+msgid "Reveals"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_credential_access_log__action__rotate
+msgid "Rotate"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_credential_access_log_search
+msgid "Rotations"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.actions.act_window,name:keykeep.action_keykeep_subscription
+#: model:ir.model.fields,field_description:keykeep.field_res_partner__subscription_ids
+#: model:ir.model.fields,field_description:keykeep.field_res_users__subscription_ids
+#: model_terms:ir.ui.view,arch_db:keykeep.view_partner_keykeep_form
+msgid "SaaS Subscriptions"
+msgstr ""
+
+#. module: keykeep
+#: model:keykeep.category,name:keykeep.category_security
+msgid "Security"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_cron_line__cron_lastcall
+msgid "Senaste körning"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_subscription__notify_days_before
+msgid "Send notification this many days before the next renewal date."
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_reveal__subscription
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__name
+msgid "Service Name"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__url
+msgid "Service URL"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_subscription__replacement_subscription_id
+msgid "Service that replaced this subscription."
+msgstr ""
+
+#. module: keykeep
+#. odoo-python
+#: code:addons/keykeep/models/keykeep_subscription.py:0
+msgid "Set a URL first to auto-fetch the logo."
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_cron_line__settings_id
+#: model:ir.ui.menu,name:keykeep.menu_keykeep_settings
+msgid "Settings"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_cost_forecast__source
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_topup__source
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_topup_wizard__source
+msgid "Source"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_credential__environment__staging
+msgid "Staging"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__start_date
+msgid "Start Date"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__state
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_search
+msgid "State"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__kanban_state
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_topup__state
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_topup_search
+msgid "Status"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_subscription__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_cost_forecast__subscription_id
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_create_journal_entry__subscription_id
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential__subscription_id
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_access_log__subscription_id
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_topup__subscription_id
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_topup_wizard__subscription_id
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_credential_access_log_search
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
+msgid "Subscription"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_category__subscription_count
+#: model:ir.model.fields,field_description:keykeep.field_res_partner__subscription_count
+#: model:ir.model.fields,field_description:keykeep.field_res_users__subscription_count
+msgid "Subscription Count"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_category__subscription_ids
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_payment_method__subscription_ids
+#: model:ir.ui.menu,name:keykeep.menu_keykeep_subscription
+msgid "Subscriptions"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_subscription__topup_sum
+msgid "Summa av confirmed/reconciled top-ups."
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_credential_access_log__action__system_read
+msgid "System Read"
+msgstr ""
+
+#. module: keykeep
+#: model:keykeep.category,name:keykeep.category_technology
+msgid "Technology"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_credential__environment__testing
+msgid "Testing"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_cron_line__cron_failure_count
+msgid ""
+"The number of consecutive failures of this job. It is automatically reset on"
+" success."
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_credential_access_log_search
+msgid "This Week"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_credential_reveal_form
+msgid "This window will auto-close in"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_cron_line__cron_interval_type__hours
+msgid "Timmar"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_credential_access_log_search
+msgid "Today"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_credential__credential_type__token
+msgid "Token"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_topup_form
+msgid "Top-up"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__topup_sum
+msgid "Top-up Sum"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.actions.act_window,name:keykeep.action_keykeep_topup
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__topup_count
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__topup_ids
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_topup_list
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_topup_search
+msgid "Top-ups"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_tree
+msgid "Total"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_subscription__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_subscription__logo_url
+msgid "URL to auto-fetch the logo from (e.g. Clearbit)."
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
+msgid ""
+"URL to fetch logo from. Clearbit: https://logo.clearbit.com/example.com"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_access_log__user_id
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_credential_access_log_search
+msgid "User"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential__username
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_reveal__username
+msgid "Username"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_version__username
+msgid "Username (Snapshot)"
+msgstr ""
+
+#. module: keykeep
+#: model:keykeep.category,name:keykeep.category_utilities
+msgid "Utilities"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_credential_reveal_form
+msgid "Value"
+msgstr ""
+
+#. module: keykeep
+#. odoo-python
+#: code:addons/keykeep/models/keykeep_credential.py:0
+msgid "Values and version history re-encrypted with a new key."
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_cron_line__cron_interval_type__weeks
+msgid "Veckor"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_create_journal_entry__partner_id
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__partner_id
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_search
+msgid "Vendor"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_version__version_number
+msgid "Version"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential__version_ids
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_credential_form
+msgid "Version History"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential__version_count
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_credential_access_log__fields_accessed__versions
+msgid "Versions"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_credential_access_log__action__view_metadata
+msgid "View Metadata"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_credential_version_form
+msgid "View the decrypted value from this historical version"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_subscription__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_credential_form
+msgid "When this credential was last revealed or copied."
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_cron_line__cron_code
+msgid ""
+"Write Python code that the action will execute. Some variables are available"
+" for use; help about python expression is given in the help tab."
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_subscription__renewal_frequency__yearly
+msgid "Yearly"
+msgstr ""
+
+#. module: keykeep
+#. odoo-python
+#: code:addons/keykeep/models/keykeep_credential.py:0
+msgid "cryptography is required for keykeep credentials"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_credential_form
+msgid "e.g. Admin Login, Production API Key"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_payment_method_form
+msgid "e.g. Company VISA Card"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
+msgid "e.g. Slack, GitHub Enterprise"
+msgstr ""
+
+#. module: keykeep
+#. odoo-python
+#: code:addons/keykeep/models/keykeep_credential.py:0
+msgid ""
+"keykeep_encryption_key is not configured. Add it to odoo.conf (Fernet key: "
+"python -c 'from cryptography.fernet import Fernet; "
+"print(Fernet.generate_key())')."
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_kanban
+msgid "keys"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_topup__method
+msgid ""
+"manual = gjord av operatören; auto = auto-top-up-konfig; api = provider-API-"
+"exekvering."
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_cost_forecast__source
+msgid ""
+"manual = operatörssatt (bevaras); computed = genererad av prognos-cronen."
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_credential_reveal_form
+msgid "seconds"
+msgstr ""
+
+#. module: keykeep
+#. odoo-python
+#: code:addons/keykeep/models/keykeep_subscription.py:0
+msgid ""
+"⏰ **Renewal Reminder**: %(name)s is due for renewal on %(date)s.\n"
+"Cost: %(amount)s %(currency)s"
+msgstr ""
+
+#. module: keykeep
+#. odoo-python
+#: code:addons/keykeep/models/keykeep_subscription.py:0
+msgid ""
+"⚠️ **Credential Expiry**: '%(cred)s' (%(type)s) for %(sub)s expires in "
+"%(days)d days on %(date)s."
+msgstr ""
+
+#. module: keykeep
+#. odoo-python
+#: code:addons/keykeep/models/keykeep_subscription.py:0
+msgid ""
+"🔄 **Rotation Needed**: '%(cred)s' (%(type)s) for %(sub)s has not been "
+"rotated for %(days)d days."
+msgstr ""

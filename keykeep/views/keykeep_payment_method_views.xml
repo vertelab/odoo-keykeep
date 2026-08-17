@@ -51,7 +51,7 @@
     <record id="action_keykeep_payment_method" model="ir.actions.act_window">
         <field name="name">Payment Methods</field>
         <field name="res_model">keykeep.payment.method</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="domain">[]</field>
     </record>
 </odoo>

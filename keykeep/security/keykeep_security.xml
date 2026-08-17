@@ -35,5 +35,49 @@
             <field name="implied_ids" eval="[(4, ref('group_manager')), (4, ref('group_devops'))]"/>
             <field name="comment">Can view and manage encrypted credentials. Has full access.</field>
         </record>
+
+        <!-- Record rules (need-to-know, 2026-08-13): company_id on all objects -->
+        <record id="rule_credential_manager_company" model="ir.rule">
+            <field name="name">Credential: own company (manager)</field>
+            <field name="model_id" ref="model_keykeep_credential"/>
+            <field name="groups" eval="[(4, ref('group_manager'))]"/>
+            <field name="domain_force">[('subscription_id.company_id', '=', user.company_id.id)]</field>
+        </record>
+        <record id="rule_credential_devops_company" model="ir.rule">
+            <field name="name">Credential: own company (devops)</field>
+            <field name="model_id" ref="model_keykeep_credential"/>
+            <field name="groups" eval="[(4, ref('group_devops'))]"/>
+            <field name="domain_force">[('subscription_id.company_id', '=', user.company_id.id)]</field>
+        </record>
+        <record id="rule_credential_admin_global" model="ir.rule">
+            <field name="name">Credential: global (admin)</field>
+            <field name="model_id" ref="model_keykeep_credential"/>
+            <field name="groups" eval="[(4, ref('group_admin'))]"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+        </record>
+        <record id="rule_credential_version_company" model="ir.rule">
+            <field name="name">Credential version: own company</field>
+            <field name="model_id" ref="model_keykeep_credential_version"/>
+            <field name="groups" eval="[(4, ref('group_manager')), (4, ref('group_devops'))]"/>
+            <field name="domain_force">[('credential_id.subscription_id.company_id', '=', user.company_id.id)]</field>
+        </record>
+        <record id="rule_credential_version_admin_global" model="ir.rule">
+            <field name="name">Credential version: global (admin)</field>
+            <field name="model_id" ref="model_keykeep_credential_version"/>
+            <field name="groups" eval="[(4, ref('group_admin'))]"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+        </record>
+        <record id="rule_credential_access_log_company" model="ir.rule">
+            <field name="name">Credential access log: own company</field>
+            <field name="model_id" ref="model_keykeep_credential_access_log"/>
+            <field name="groups" eval="[(4, ref('group_manager')), (4, ref('group_devops'))]"/>
+            <field name="domain_force">[('credential_id.subscription_id.company_id', '=', user.company_id.id)]</field>
+        </record>
+        <record id="rule_credential_access_log_admin_global" model="ir.rule">
+            <field name="name">Credential access log: global (admin)</field>
+            <field name="model_id" ref="model_keykeep_credential_access_log"/>
+            <field name="groups" eval="[(4, ref('group_admin'))]"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+        </record>
     </data>
 </odoo>

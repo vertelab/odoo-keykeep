@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_keykeep_topup_form" model="ir.ui.view">
+        <field name="name">keykeep.topup.form</field>
+        <field name="model">keykeep.topup</field>
+        <field name="arch" type="xml">
+            <form string="Top-up">
+                <header>
+                    <button name="action_confirm" type="object" string="Confirm"
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_reconcile" type="object" string="Reconcile"
+                            invisible="state != 'confirmed'"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="subscription_id"/>
+                            <field name="provider_id"/>
+                            <field name="date"/>
+                            <field name="amount"/>
+                            <field name="currency_id"/>
+                            <field name="method"/>
+                            <field name="source"/>
+                        </group>
+                        <group>
+                            <field name="state"/>
+                            <field name="payment_method_id"/>
+                            <field name="receipt_ref"/>
+                            <field name="credential_id"/>
+                            <field name="invoice_stub_id"/>
+                        </group>
+                    </group>
+                    <group string="Note">
+                        <field name="note" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_keykeep_topup_list" model="ir.ui.view">
+        <field name="name">keykeep.topup.list</field>
+        <field name="model">keykeep.topup</field>
+        <field name="arch" type="xml">
+            <list string="Top-ups">
+                <field name="date"/>
+                <field name="provider_id"/>
+                <field name="subscription_id"/>
+                <field name="amount"/>
+                <field name="currency_id"/>
+                <field name="method"/>
+                <field name="source"/>
+                <field name="state" widget="badge"/>
+                <field name="receipt_ref" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_keykeep_topup_search" model="ir.ui.view">
+        <field name="name">keykeep.topup.search</field>
+        <field name="model">keykeep.topup</field>
+        <field name="arch" type="xml">
+            <search string="Top-ups">
+                <field name="provider_id"/>
+                <field name="subscription_id"/>
+                <field name="method"/>
+                <field name="source"/>
+                <filter name="confirmed" string="Confirmed" domain="[('state', '=', 'confirmed')]"/>
+                <filter name="reconciled" string="Reconciled" domain="[('state', '=', 'reconciled')]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_provider" string="Provider" context="{'group_by': 'provider_id'}"/>
+                    <filter name="group_method" string="Method" context="{'group_by': 'method'}"/>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_keykeep_topup" model="ir.actions.act_window">
+        <field name="name">Top-ups</field>
+        <field name="res_model">keykeep.topup</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_keykeep_topup_search"/>
+    </record>
+</odoo>

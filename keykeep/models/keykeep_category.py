@@ -18,7 +18,7 @@ class KeykeepCategory(models.Model):
         index=True,
         ondelete="cascade",
     )
-    parent_path = fields.Char(index=True, unaccent=False)
+    parent_path = fields.Char(index=True)
     child_ids = fields.One2many(
         comodel_name="keykeep.category",
         inverse_name="parent_id",

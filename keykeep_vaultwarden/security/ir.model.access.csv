@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_keykeep_vaultwarden_backend_manager,keykeep.vaultwarden.backend.manager,model_keykeep_vaultwarden_backend,keykeep.group_manager,1,1,1,1
+access_keykeep_vaultwarden_backend_admin,keykeep.vaultwarden.backend.admin,model_keykeep_vaultwarden_backend,keykeep.group_admin,1,1,1,1
