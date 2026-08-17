@@ -24,8 +24,9 @@ class ResPartner(models.Model):
             "type": "ir.actions.act_window",
             "name": "SaaS Subscriptions",
             "res_model": "keykeep.subscription",
-            "view_mode": "kanban,tree,form",
+            "view_mode": "kanban,list,form",
             "domain": [("partner_id", "=", self.id)],
+            "context": {"default_partner_id": self.id},
         }
 
     is_keykeep_partner = fields.Boolean(
@@ -64,7 +65,7 @@ class ResPartner(models.Model):
             "type": "ir.actions.act_window",
             "name": "API Keys",
             "res_model": "keykeep.credential",
-            "view_mode": "tree,form",
+            "view_mode": "list,form",
             "domain": [("id", "in", credentials.ids)],
             "context": {"default_subscription_id": self.subscription_ids[:1].id},
         }
@@ -76,7 +77,7 @@ class ResPartner(models.Model):
             "type": "ir.actions.act_window",
             "name": "Invoices",
             "res_model": "account.move",
-            "view_mode": "tree,form",
+            "view_mode": "list,form",
             "domain": [("id", "in", invoices.ids)],
             "context": {"create": False},
         }

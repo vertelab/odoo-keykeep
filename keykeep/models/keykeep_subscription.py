@@ -33,7 +33,7 @@ class KeykeepSubscription(models.Model):
     )
     partner_id = fields.Many2one(
         comodel_name="res.partner",
-        string="Vendor",
+        string="Supplier",
         domain="[('company_id', 'in', [company_id, False])]",
         tracking=True,
     )
@@ -59,6 +59,18 @@ class KeykeepSubscription(models.Model):
     )
     url = fields.Char(string="Service URL")
     notes = fields.Html(string="Notes")
+
+    @api.model
+    def default_get(self, fields_list):
+        """When created from a supplier (partner_id via context), default the
+        Service URL from the partner's website if not explicitly provided."""
+        res = super().default_get(fields_list)
+        partner_id = self.env.context.get("default_partner_id")
+        if partner_id and not res.get("url"):
+            partner = self.env["res.partner"].browse(partner_id)
+            if partner.website:
+                res["url"] = partner.website
+        return res
 
     # === Financial Info ===
     cost_amount = fields.Monetary(currency_field="currency_id", string="Cost", tracking=True)
@@ -229,6 +241,38 @@ class KeykeepSubscription(models.Model):
         string="Status",
     )
 
+    # === Renewal semaphore (green/yellow/red) ===
+    # Green = ok; Yellow = within notify window; Red = overdue/expired/inactive.
+    # Extended by bifrost_keykeep to also consider budget days/burn rate.
+    renewal_semaphore = fields.Selection(
+        selection=[
+            ("green", "Green"),
+            ("yellow", "Yellow"),
+            ("red", "Red"),
+        ],
+        compute="_compute_renewal_semaphore",
+        store=True,
+        index=True,
+        string="Renewal Semaphore",
+        help="green = ok; yellow = within notify window; red = overdue/expired/inactive.",
+    )
+
+    @api.depends("state", "active", "next_renewal_date", "notify_days_before")
+    def _compute_renewal_semaphore(self):
+        today = date.today()
+        for rec in self:
+            if rec.state != "active" or not rec.active:
+                rec.renewal_semaphore = "red"
+                continue
+            if rec.next_renewal_date and rec.next_renewal_date < today:
+                rec.renewal_semaphore = "red"
+                continue
+            if rec.next_renewal_date and \
+                    (rec.next_renewal_date - today).days <= rec.notify_days_before:
+                rec.renewal_semaphore = "yellow"
+                continue
+            rec.renewal_semaphore = "green"
+
     @api.depends("start_date", "renewal_frequency", "renewal_cycle")
     def _compute_next_renewal_date(self):
         """Compute next_renewal_date from start_date + frequency + cycle.
@@ -324,7 +368,7 @@ class KeykeepSubscription(models.Model):
             "type": "ir.actions.act_window",
             "name": _("Linked Invoices"),
             "res_model": "account.move",
-            "view_mode": "tree,form",
+            "view_mode": "list,form",
             "domain": [("id", "in", self.invoice_ids.ids)],
             "context": {"create": False},
         }
@@ -335,7 +379,7 @@ class KeykeepSubscription(models.Model):
             "type": "ir.actions.act_window",
             "name": _("Credentials"),
             "res_model": "keykeep.credential",
-            "view_mode": "tree,form",
+            "view_mode": "list,form",
             "domain": [("subscription_id", "=", self.id)],
         }
 
