@@ -2,20 +2,97 @@
 <!-- Copyright 2026 Vertel AB - License AGPL-3.0 -->
 <odoo>
 
-
-    <!-- KeyKeep-kryssruta i standardformen, i höjd med is_bifrost_provider -->
+    <!-- KeyKeep-kryssruta i standardformen — ankrar på basfältet company_type
+         (oberoende av bifrost/bifrost_keykeep). -->
     <record id="view_partner_keykeep_checkbox" model="ir.ui.view">
         <field name="name">res.partner.keykeep.checkbox</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
-            <field name="is_bifrost_provider" position="after">
+            <field name="company_type" position="after">
                 <div class="o_row">
                     <field name="is_keykeep_partner"/>
                     <label for="is_keykeep_partner" string="KeyKeep"/>
                 </div>
             </field>
         </field>
+    </record>
+
+    <!-- ==================================================================
+         Suppliers — självförsörjande i keykeep (oberoende av
+         bifrost_keykeep-bryggan). Visar partners där is_keykeep_partner
+         är satt, med keykeep-egna fält enbart (base + keykeep).
+         ================================================================== -->
+
+    <!-- Suppliers list -->
+    <record id="view_keykeep_supplier_list" model="ir.ui.view">
+        <field name="name">res.partner.keykeep.supplier.list</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <list string="Suppliers">
+                <field name="name" string="Supplier"/>
+                <field name="email"/>
+                <field name="is_keykeep_partner" string="KeyKeep"/>
+                <field name="subscription_count" string="Subscriptions"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Suppliers form (self-sufficient: base-partnerfält + keykeep-fält) -->
+    <record id="view_keykeep_supplier_form" model="ir.ui.view">
+        <field name="name">res.partner.keykeep.supplier.form</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <form string="Supplier">
+                <sheet>
+                    <div class="oe_button_box">
+                        <button name="action_view_subscriptions" type="object"
+                                class="oe_stat_button" icon="fa-list-alt">
+                            <div class="o_stat_info">
+                                <field name="subscription_count"/>
+                                <span class="o_stat_text">Subscriptions</span>
+                            </div>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="is_company"/>
+                            <field name="email"/>
+                            <field name="phone"/>
+                            <field name="is_keykeep_partner"/>
+                        </group>
+                        <group>
+                            <field name="website"/>
+                            <field name="vat"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Subscriptions" name="subscriptions">
+                            <field name="subscription_ids" readonly="0">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="state"/>
+                                    <field name="category_id"/>
+                                    <field name="cost_amount"/>
+                                    <field name="next_renewal_date"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Suppliers action -->
+    <record id="action_keykeep_suppliers" model="ir.actions.act_window">
+        <field name="name">Suppliers</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('is_keykeep_partner', '=', True)]</field>
+        <field name="context">{'default_is_keykeep_partner': True}</field>
+        <field name="view_ids" eval="[(5, 0, 4), (0, 0, {'sequence': 1, 'view_mode': 'list', 'view_id': ref('view_keykeep_supplier_list')}), (0, 0, {'sequence': 2, 'view_mode': 'form', 'view_id': ref('view_keykeep_supplier_form')})]"/>
     </record>
 
     <!-- Ta bort gamla SaaS-pagen (finns kvar i DB från tidigare deploy) -->

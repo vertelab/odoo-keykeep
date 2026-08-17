@@ -7,9 +7,26 @@
               web_icon="keykeep,static/description/icon.png"
               sequence="70"/>
 
-    <!-- Suppliers-parent + barn ligger i bifrost_keykeep-bryggan
-         (Suppliers-aktionen finns där; Subscriptions flyttas dit som barn). -->
+    <!-- Suppliers — FÖRST i huvudmenyn. Självförsörjande i keykeep:
+         Suppliers-aktionen använder keykeep-partnerfältet is_keykeep_partner
+         (inget beroende av bifrost_keykeep-bryggan). Subscriptions ligger här
+         som barn. -->
+    <menuitem id="menu_keykeep_suppliers"
+              name="Suppliers"
+              parent="menu_keykeep_root"
+              sequence="10"/>
 
+    <menuitem id="menu_keykeep_supplier_list"
+              name="Suppliers"
+              parent="menu_keykeep_suppliers"
+              sequence="10"
+              action="action_keykeep_suppliers"/>
+
+    <menuitem id="menu_keykeep_subscriptions"
+              name="Subscriptions"
+              parent="menu_keykeep_suppliers"
+              sequence="20"
+              action="action_keykeep_subscription"/>
 
     <!-- Configuration — SIST i huvudmenyn (Odoo-standard) -->
     <menuitem id="menu_keykeep_config"
