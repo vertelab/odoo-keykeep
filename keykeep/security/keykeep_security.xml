@@ -35,7 +35,18 @@
             <field name="implied_ids" eval="[(4, ref('group_manager')), (4, ref('group_devops'))]"/>
             <field name="comment">Can view and manage encrypted credentials. Has full access.</field>
         </record>
+    </data>
 
+    <!-- Admins (base.group_system) är automatiskt Keykeep-administratörer →
+         ser Configuration + Settings utan manuellt gruppval (samma mönster
+         som ai_agent_core). -->
+    <data noupdate="0">
+        <record id="base.group_system" model="res.groups">
+            <field name="implied_ids" eval="[(4, ref('group_admin'))]"/>
+        </record>
+    </data>
+
+    <data noupdate="1">
         <!-- Record rules (need-to-know, 2026-08-13): company_id on all objects -->
         <record id="rule_credential_manager_company" model="ir.rule">
             <field name="name">Credential: own company (manager)</field>
