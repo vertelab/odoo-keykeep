@@ -218,8 +218,27 @@
                                            
                                 </group>
                             </group>
-                                                        
-                        
+
+                            <!-- Balance and Forecast — ägs av keykeep -->
+                            <group string="Balance and Forecast"
+                                   invisible="contract_type not in ['top_up','subscription_plus_topup']">
+                                <group string="Balance">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <label for="last_balance"/>
+                                        <field name="last_balance"
+                                               widget="monetary" options="{'currency_field': 'balance_currency'}"/>
+                                        <span>(<field name="balance_currency"/>)</span>
+                                    </div>
+                                    <field name="last_balance_checked_at" readonly="1"/>
+                                </group>
+                                <group string="Forecast">
+                                    <field name="burn_rate_day" widget="monetary"
+                                           options="{'currency_field': 'burn_rate_currency'}"/>
+                                    <field name="burn_rate_currency" groups="base.group_no_one"/>
+                                    <field name="days_until_empty"/>
+                                    <field name="projected_empty_date"/>
+                                </group>
+                            </group>
                         </page>
                         
                                               

@@ -288,6 +288,139 @@ class KeykeepSubscription(models.Model):
         help="Renewal type",
     )
 
+    # ══════════════════════════════════════════════════════════════════
+    # Balance & Forecast — ägs av keykeep (basmodul).
+    #
+    # Fälten uppdateras normalt av bifrost_keykeep (balance-koll, cron,
+    # prognos-körningar), men keykeep äger definitionerna så att de finns
+    # även utan bifrost-bryggan. Onchange beräknar burn/days/projected när
+    # användaren ändrar last_balance eller burn_rate_day i formuläret.
+    # ══════════════════════════════════════════════════════════════════
+
+    last_forecast_recommendation = fields.Text(
+        string="Last Forecast Recommendation",
+        readonly=True,
+        help="Latest recommendation generated from the consumption forecast.",
+    )
+    budget_limit = fields.Float(
+        string="Budget Limit (USD)",
+        digits=(16, 4),
+        help="Provider budget ceiling in USD (bifrost governance max_limit).",
+    )
+    last_balance = fields.Monetary(
+        string="Last Balance",
+        currency_field="balance_currency",
+        help="Senast kända kreditsaldo hos providern (USD eller provider-valuta).",
+    )
+    balance_currency = fields.Many2one(
+        "res.currency",
+        string="Balance Currency",
+        help="Valuta för last_balance (default USD).",
+    )
+    last_balance_checked_at = fields.Datetime(
+        string="Last Balance Checked",
+        help="När saldot senast avlästes (API eller manuellt).",
+    )
+    balance_source = fields.Selection(
+        selection=[
+            ("deepseek_balance", "DeepSeek /user/balance"),
+            ("openrouter_credits", "OpenRouter /api/v1/credits"),
+            ("manual", "Manual"),
+            ("none", "None"),
+        ],
+        string="Balance Source",
+        default="none",
+        help="Hur providerns faktiska kreditsaldo avläses.",
+    )
+    burn_rate_day = fields.Monetary(
+        string="Burn Rate (USD/day)",
+        currency_field="burn_rate_currency",
+        digits=(16, 4),
+        help="Rolling average daily cost (mirrored from the provider / computed from last_balance).",
+    )
+    burn_rate_currency = fields.Many2one(
+        comodel_name="res.currency",
+        string="Burn Rate Currency",
+        help="Valuta för burn_rate_day.",
+    )
+    days_until_empty = fields.Float(
+        string="Days Until Budget Empty",
+        digits=(16, 1),
+        help="(budget_limit − current_usage) / burn_rate_day (mirrored).",
+    )
+    projected_empty_date = fields.Date(
+        string="Projected Empty Date",
+        help="Today + days_until_empty (mirrored).",
+    )
+    budget_warning_threshold = fields.Float(
+        string="Warning Threshold (%)",
+        default=20.0,
+        help="Warn when remaining balance drops below this % of the budget.",
+    )
+    budget_critical_threshold = fields.Float(
+        string="Critical Threshold (%)",
+        default=10.0,
+        help="Flag critical when remaining balance drops below this % of the budget.",
+    )
+    abnormal_spike_multiplier = fields.Float(
+        string="Abnormal Spike Multiplier",
+        default=3.0,
+        help="Multiplier over rolling average flagged as abnormal consumption.",
+    )
+    abnormal_window = fields.Integer(
+        string="Abnormal Window (days)",
+        default=7,
+        help="Look-back window for abnormal consumption detection.",
+    )
+    tripwire_enabled = fields.Boolean(
+        string="Tripwire Enabled",
+        default=True,
+        help="Hard tripwire that auto-excludes a provider on critical thresholds.",
+    )
+    auto_exclude_on_critical = fields.Boolean(
+        string="Auto-exclude on Critical",
+        default=False,
+        help="Automatically exclude the provider when the tripwire trips.",
+    )
+
+    @api.onchange("last_balance")
+    def _onchange_last_balance(self):
+        """When last_balance changes, recompute burn rate (from provider
+        snapshots when available), days until empty and projected empty date,
+        and stamp the checked-at timestamp."""
+        from datetime import timedelta
+        for rec in self:
+            partner = rec.partner_id
+            if not partner:
+                rec.last_balance_checked_at = fields.Datetime.now()
+                continue
+            # Ask the provider for its burn-rate forecast (snapshot-based)
+            if hasattr(partner, "_compute_burn_forecast"):
+                partner._compute_burn_forecast()
+                rec.burn_rate_day = partner.burn_rate_day
+                rec.burn_rate_currency = partner.balance_currency or rec.currency_id
+                rec.days_until_empty = partner.days_until_empty
+                rec.projected_empty_date = partner.projected_empty_date
+            elif rec.burn_rate_day and rec.last_balance:
+                days = rec.last_balance / rec.burn_rate_day
+                rec.days_until_empty = round(days, 1)
+                rec.projected_empty_date = fields.Date.today() + timedelta(days=days)
+            rec.last_balance_checked_at = fields.Datetime.now()
+
+    @api.onchange("burn_rate_day")
+    def _onchange_burn_rate_day(self):
+        """When burn_rate_day changes, recompute days_until_empty and
+        projected_empty_date from the current last_balance."""
+        from datetime import timedelta
+        for rec in self:
+            if rec.burn_rate_day and rec.last_balance:
+                days = rec.last_balance / rec.burn_rate_day
+                rec.days_until_empty = round(days, 1)
+                rec.projected_empty_date = fields.Date.today() + timedelta(days=days)
+            else:
+                rec.days_until_empty = False
+                rec.projected_empty_date = False
+
 
 
     @api.depends("start_date", "renewal_frequency", "renewal_cycle")
