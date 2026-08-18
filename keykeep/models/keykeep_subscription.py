@@ -333,9 +333,10 @@ class KeykeepSubscription(models.Model):
         help="Hur providerns faktiska kreditsaldo avläses.",
     )
     burn_rate_day = fields.Monetary(
-        string="Burn Rate (USD/day)",
+        string="Burn Rate (day)",
         currency_field="burn_rate_currency",
         digits=(16, 4),
+        readonly=True,
         help="Rolling average daily cost (mirrored from the provider / computed from last_balance).",
     )
     burn_rate_currency = fields.Many2one(
@@ -344,12 +345,14 @@ class KeykeepSubscription(models.Model):
         help="Valuta för burn_rate_day.",
     )
     days_until_empty = fields.Float(
-        string="Days Until Budget Empty",
+        string="Days Until Empty",
         digits=(16, 1),
+        readonly=True,
         help="(budget_limit − current_usage) / burn_rate_day (mirrored).",
     )
     projected_empty_date = fields.Date(
-        string="Projected Empty Date",
+        string="Forecasted Date",
+        readonly=True,
         help="Today + days_until_empty (mirrored).",
     )
     budget_warning_threshold = fields.Float(

@@ -121,7 +121,8 @@
                         string="Add Credential" class="btn-secondary" icon="fa-user-plus"/>
                             
                     <field name="state" widget="statusbar"
-                            statusbar_visible="active,cancelled,expired"/>
+                            statusbar_visible="active,cancelled,expired"
+                            clickable="True"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
@@ -139,18 +140,18 @@
                                 <field name="invoice_count" class="o_stat_value" widget="statinfo"/>
                             </div>
                         </button>
-                        <button name="action_view_topups" type="object" invisible="contract_type not in ['top_up','subscription_plus_topup']"
-                                class="oe_stat_button" icon="fa-arrow-up">
-                            <div class="o_stat_info">
-                                <span class="o_stat_text">Top-ups</span>
-                                <field name="topup_count" class="o_stat_value" widget="statinfo"/>
-                            </div>
-                        </button>
                         <button name="action_view_forecast" type="object"
                                 class="oe_stat_button" icon="fa-line-chart">
                             <div class="o_stat_info">
                                 <span class="o_stat_text">Forecast</span>
                                 <field name="forecast_count" class="o_stat_value" widget="statinfo"/>
+                            </div>
+                        </button>
+                        <button name="action_view_topups" type="object" invisible="contract_type not in ['top_up','subscription_plus_topup']"
+                                class="oe_stat_button" icon="fa-arrow-up">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Top-ups</span>
+                                <field name="topup_count" class="o_stat_value" widget="statinfo"/>
                             </div>
                         </button>
                         <button name="action_add_topup" type="object"  invisible="contract_type not in ['top_up','subscription_plus_topup']"
@@ -232,9 +233,12 @@
                                     <field name="last_balance_checked_at" readonly="1"/>
                                 </group>
                                 <group string="Forecast">
-                                    <field name="burn_rate_day" widget="monetary"
-                                           options="{'currency_field': 'burn_rate_currency'}"/>
-                                    <field name="burn_rate_currency" groups="base.group_no_one"/>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <label for="burn_rate_day"/>
+                                        <field name="burn_rate_day"
+                                               widget="monetary" options="{'currency_field': 'burn_rate_currency'}"/>
+                                        <span>(<field name="burn_rate_currency"/>)</span>
+                                    </div>
                                     <field name="days_until_empty"/>
                                     <field name="projected_empty_date"/>
                                 </group>
