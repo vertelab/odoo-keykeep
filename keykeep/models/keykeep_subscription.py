@@ -75,13 +75,16 @@ class KeykeepSubscription(models.Model):
     @api.model
     def default_get(self, fields_list):
         """When created from a supplier (partner_id via context), default the
-        Service URL from the partner's website if not explicitly provided."""
+        Service URL from the partner's website if not explicitly provided.
+        Also set Start Date to today when creating a new subscription."""
         res = super().default_get(fields_list)
         partner_id = self.env.context.get("default_partner_id")
         if partner_id and not res.get("url"):
             partner = self.env["res.partner"].browse(partner_id)
             if partner.website:
                 res["url"] = partner.website
+        if not res.get("start_date"):
+            res["start_date"] = fields.Date.context_today(self)
         return res
 
     # === Financial Info ===
@@ -303,10 +306,9 @@ class KeykeepSubscription(models.Model):
     @api.depends("start_date", "renewal_frequency", "renewal_cycle")
     def _compute_next_renewal_date(self):
         """Compute next_renewal_date from start_date + frequency + cycle.
-        Only computed when next_renewal_date is not manually set.
-        """
+        Recomputes whenever frequency/cycle/start_date change."""
         for rec in self:
-            if rec.start_date and not rec.next_renewal_date:
+            if rec.start_date:
                 freq_map = {
                     "monthly": relativedelta(months=rec.renewal_cycle),
                     "quarterly": relativedelta(months=3 * rec.renewal_cycle),
@@ -316,6 +318,24 @@ class KeykeepSubscription(models.Model):
                 delta = freq_map.get(rec.renewal_frequency)
                 if delta:
                     rec.next_renewal_date = rec.start_date + delta
+
+    @api.onchange("renewal_frequency", "renewal_cycle", "start_date")
+    def _onchange_renewal_frequency(self):
+        """When renewal frequency/cycle/start changes, set next renewal from
+        the frequency (next_renewal_date is a stored compute — assign directly
+        so the form reflects it immediately)."""
+        for rec in self:
+            if not rec.start_date or not rec.renewal_frequency:
+                continue
+            freq_map = {
+                "monthly": relativedelta(months=rec.renewal_cycle or 1),
+                "quarterly": relativedelta(months=3 * (rec.renewal_cycle or 1)),
+                "yearly": relativedelta(years=rec.renewal_cycle or 1),
+                "custom": None,
+            }
+            delta = freq_map.get(rec.renewal_frequency)
+            if delta:
+                rec.next_renewal_date = rec.start_date + delta
 
     @api.depends("next_renewal_date")
     def _compute_days_until_renewal(self):

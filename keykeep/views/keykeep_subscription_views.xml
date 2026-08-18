@@ -224,16 +224,7 @@
                         
                                               
 
-                        <!-- Tab 3: Financial -->
-                        <page string="Financial" groups="keykeep.group_manager">
-                            <group>
-                                <group>
-                           
-                                </group>
-                            </group>
-                        </page>
-
-                        <!-- Tab 4: Notes -->
+                        <!-- Tab: Notes -->
                         <page string="Notes">
                             <field name="notes" nolabel="1"/>
                         </page>
