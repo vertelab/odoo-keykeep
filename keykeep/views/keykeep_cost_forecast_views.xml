@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Forecast List View -->
+    <record id="view_keykeep_cost_forecast_list" model="ir.ui.view">
+        <field name="name">keykeep.cost.forecast.list</field>
+        <field name="model">keykeep.cost.forecast</field>
+        <field name="arch" type="xml">
+            <list string="Cost Forecast">
+                <field name="forecast_date" string="Period"/>
+                <field name="subscription_id" string="Subscription"/>
+                <field name="provider_id" string="Provider" optional="show"/>
+                <field name="category_id" string="Category" optional="show"/>
+                <field name="forecast_amount" string="Forecast" sum="Total"/>
+                <field name="currency_id" string="Currency" optional="hide"/>
+                <field name="source" string="Source" widget="badge"
+                       decoration-info="source == 'computed'"
+                       decoration-muted="source == 'manual'"/>
+                <field name="company_id" optional="hide" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Forecast Form View -->
+    <record id="view_keykeep_cost_forecast_form" model="ir.ui.view">
+        <field name="name">keykeep.cost.forecast.form</field>
+        <field name="model">keykeep.cost.forecast</field>
+        <field name="arch" type="xml">
+            <form string="Cost Forecast">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="forecast_date"/>
+                            <field name="forecast_amount"/>
+                            <field name="currency_id"/>
+                            <field name="source"/>
+                        </group>
+                        <group>
+                            <field name="subscription_id"/>
+                            <field name="provider_id"/>
+                            <field name="category_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Forecast Pivot View (kategori + månad) -->
+    <record id="view_keykeep_cost_forecast_pivot" model="ir.ui.view">
+        <field name="name">keykeep.cost.forecast.pivot</field>
+        <field name="model">keykeep.cost.forecast</field>
+        <field name="arch" type="xml">
+            <pivot string="Forecast">
+                <field name="category_id" type="row"/>
+                <field name="forecast_date" type="col" interval="month"/>
+                <field name="forecast_amount" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Forecast Graph View -->
+    <record id="view_keykeep_cost_forecast_graph" model="ir.ui.view">
+        <field name="name">keykeep.cost.forecast.graph</field>
+        <field name="model">keykeep.cost.forecast</field>
+        <field name="arch" type="xml">
+            <graph string="Forecast">
+                <field name="forecast_date" type="row" interval="month"/>
+                <field name="category_id" type="col"/>
+                <field name="forecast_amount" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Forecast Search View -->
+    <record id="view_keykeep_cost_forecast_search" model="ir.ui.view">
+        <field name="name">keykeep.cost.forecast.search</field>
+        <field name="model">keykeep.cost.forecast</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="subscription_id"/>
+                <field name="provider_id"/>
+                <field name="category_id"/>
+                <filter name="computed" string="Computed"
+                        domain="[('source', '=', 'computed')]"/>
+                <filter name="manual" string="Manual"
+                        domain="[('source', '=', 'manual')]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_category" string="Category"
+                            domain="[]" context="{'group_by': 'category_id'}"/>
+                    <filter name="group_provider" string="Provider"
+                            domain="[]" context="{'group_by': 'provider_id'}"/>
+                    <filter name="group_month" string="Month"
+                            domain="[]" context="{'group_by': 'forecast_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Forecast Action (pivot, graph, list) -->
+    <record id="action_keykeep_cost_forecast" model="ir.actions.act_window">
+        <field name="name">Forecast</field>
+        <field name="res_model">keykeep.cost.forecast</field>
+        <field name="view_mode">pivot,graph,list,form</field>
+        <field name="search_view_id" ref="view_keykeep_cost_forecast_search"/>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+</odoo>

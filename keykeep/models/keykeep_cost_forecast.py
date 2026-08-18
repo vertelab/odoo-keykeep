@@ -28,6 +28,14 @@ class KeykeepCostForecast(models.Model):
         index=True,
         help="Provider the forecast row applies to (related from subscription partner).",
     )
+    category_id = fields.Many2one(
+        comodel_name="keykeep.category",
+        string="Category",
+        related="subscription_id.category_id",
+        store=True,
+        index=True,
+        help="Kategori från subscription — för pivot/analys.",
+    )
     forecast_date = fields.Date(string="Forecast Date", required=True)
     forecast_amount = fields.Monetary(
         currency_field="currency_id", string="Forecast Amount"

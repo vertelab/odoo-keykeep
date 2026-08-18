@@ -28,6 +28,13 @@
               sequence="20"
               action="action_keykeep_subscription"/>
 
+    <!-- Forecast — pivot, graph, list (under Keykeep root) -->
+    <menuitem id="menu_keykeep_forecast"
+              name="Forecast"
+              parent="menu_keykeep_root"
+              sequence="30"
+              action="action_keykeep_cost_forecast"/>
+
     <!-- Configuration — SIST i huvudmenyn (Odoo-standard) -->
     <menuitem id="menu_keykeep_config"
               name="Configuration"
