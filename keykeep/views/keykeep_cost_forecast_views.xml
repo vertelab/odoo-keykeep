@@ -106,4 +106,29 @@
         <field name="domain">[]</field>
         <field name="context">{}</field>
     </record>
+
+    <!-- Server Action: Generera prognos (kugghjul / context action) -->
+    <record id="action_generate_forecast_server" model="ir.actions.server">
+        <field name="name">Generera prognos</field>
+        <field name="model_id" ref="model_keykeep_cost_forecast"/>
+        <field name="binding_model_id" ref="model_keykeep_cost_forecast"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+records = env['keykeep.cost.forecast']
+result = records.generate_forecast(months=12)
+
+# Notis till användaren med sammanfattning
+action = {
+    'type': 'ir.actions.client',
+    'tag': 'display_notification',
+    'params': {
+        'title': 'Prognos genererad',
+        'message': f"Skapade {result['created']} rader, uppdaterade {result['updated']} (12 månader framåt).",
+        'type': 'success',
+        'sticky': False,
+    },
+}
+</field>
+    </record>
 </odoo>
