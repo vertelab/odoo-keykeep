@@ -1,7 +1,7 @@
 # Copyright 2026 Vertel AB
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class KeykeepTopupWizard(models.TransientModel):
@@ -57,6 +57,35 @@ class KeykeepTopupWizard(models.TransientModel):
     )
     receipt_ref = fields.Char(string="Receipt Reference")
     note = fields.Text(string="Note")
+
+    @api.model
+    def default_get(self, fields_list):
+        """Default the amount:
+        a) when burn_rate_day exists → cover one month (burn × 30)
+        b) otherwise → parity with previous top-ups (latest confirmed/reconciled
+           amount, or the average if several)."""
+        res = super().default_get(fields_list)
+        sub_id = self.env.context.get("default_subscription_id")
+        if not sub_id:
+            return res
+        sub = self.env["keykeep.subscription"].browse(sub_id)
+        if not sub:
+            return res
+
+        burn = sub.burn_rate_day or 0.0
+        if burn > 0:
+            res["amount"] = round(burn * 30, 2)
+            return res
+
+        prev = self.env["keykeep.topup"].search(
+            [("subscription_id", "=", sub.id),
+             ("state", "in", ["confirmed", "reconciled"])],
+            order="date desc",
+            limit=5,
+        )
+        if prev:
+            res["amount"] = round(sum(prev.mapped("amount")) / len(prev), 2)
+        return res
 
     def action_confirm(self):
         """Create a confirmed top-up record."""

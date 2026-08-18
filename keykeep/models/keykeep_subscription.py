@@ -48,6 +48,18 @@ class KeykeepSubscription(models.Model):
         string="Category",
         tracking=True,
     )
+    
+    billing_model = fields.Selection(
+        selection=[
+            ("prepaid", "Prepaid"),
+            ("postpaid", "Postpaid"),
+            ("unknown", "Unknown"),
+        ],
+        string="Billing Model",
+        default="unknown",
+        index=True,
+        help="prepaid = credits/top-up  postpaid = invoice i afterwards ",)
+
     state = fields.Selection(
         selection=[
             ("active", "Active"),
@@ -272,6 +284,21 @@ class KeykeepSubscription(models.Model):
                 rec.renewal_semaphore = "yellow"
                 continue
             rec.renewal_semaphore = "green"
+
+    
+
+    contract_type = fields.Selection(
+        selection=[
+            ("subscription", "Subscription"),
+            ("top_up", "Top-up"),
+            ("subscription_plus_topup", "Subscription + Top-up"),
+        ],
+        string="Contract Type",
+        default="subscription",
+        help="Renewal type",
+    )
+
+
 
     @api.depends("start_date", "renewal_frequency", "renewal_cycle")
     def _compute_next_renewal_date(self):
@@ -531,3 +558,30 @@ class KeykeepSubscription(models.Model):
         for rec in self:
             if rec.renewal_frequency == "custom" and rec.renewal_cycle <= 0:
                 raise ValidationError(_("Renewal cycle must be positive."))
+
+
+    # ── Add API key / Add Credential (samma som på provider-formuläret) ─
+
+    def action_add_api_key(self):
+        """Öppna wizarden för att registrera en provider API-nyckel i Keykeep."""
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'bifrost.provider.api.key.wizard',
+            'name': 'Add Provider API Key',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {'default_provider_id': self.partner_id.id},
+        }
+
+    def action_add_credential(self):
+        """Öppna wizarden för att registrera login-credentials / email-link."""
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'bifrost.provider.credential.wizard',
+            'name': 'Add Provider Credential',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {'default_provider_id': self.partner_id.id},
+        }

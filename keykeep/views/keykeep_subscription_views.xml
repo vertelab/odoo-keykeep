@@ -114,6 +114,12 @@
                             string="Fetch Logo" class="btn-secondary"
                             help="Auto-fetch logo from Clearbit using the service URL."
                             invisible="not url"/>
+                            
+                            <button name="action_add_api_key" type="object"
+                        string="Add API Key" class="btn-primary" icon="fa-plus"/>
+                <button name="action_add_credential" type="object"
+                        string="Add Credential" class="btn-secondary" icon="fa-user-plus"/>
+                            
                     <field name="state" widget="statusbar"
                             statusbar_visible="active,cancelled,expired"/>
                 </header>
@@ -133,7 +139,7 @@
                                 <field name="invoice_count" class="o_stat_value" widget="statinfo"/>
                             </div>
                         </button>
-                        <button name="action_view_topups" type="object"
+                        <button name="action_view_topups" type="object" invisible="contract_type not in ['top_up','subscription_plus_topup']"
                                 class="oe_stat_button" icon="fa-arrow-up">
                             <div class="o_stat_info">
                                 <span class="o_stat_text">Top-ups</span>
@@ -147,11 +153,11 @@
                                 <field name="forecast_count" class="o_stat_value" widget="statinfo"/>
                             </div>
                         </button>
-                        <button name="action_add_topup" type="object"
+                        <button name="action_add_topup" type="object"  invisible="contract_type not in ['top_up','subscription_plus_topup']"
                                 class="oe_stat_button" icon="fa-plus-circle"
                                 groups="keykeep.group_manager,keykeep.group_admin,keykeep.group_devops">
                             <div class="o_stat_info">
-                                <span class="o_stat_text">Record Top-up</span>
+                                <span class="o_stat_text">Top-up</span>
                             </div>
                         </button>
                     </div>
@@ -175,9 +181,14 @@
                             <field name="partner_id" string="Supplier"/>
                             <field name="category_id"/>
                             <field name="responsible_id"/>
-                            <field name="replacement_subscription_id"
-                                   domain="[('id', '!=', id)]"/>
+                            
                             <field name="url" string="Service URL" widget="url"/>
+                        </group>
+                        <group>
+                        <field name="contract_type"/>
+                        <field name="replacement_subscription_id"
+                                   domain="[('id', '!=', id)]"/>
+                       
                         </group>
                     </group>
 
@@ -191,23 +202,33 @@
                                     <field name="next_renewal_date"/>
                                     <field name="renewal_frequency"/>
                                     <field name="renewal_cycle" invisible="renewal_frequency == 'monthly'"/>
+                                    <field name="billing_model"/>
                                 </group>
-                                <group>
+                                <group invisible="contract_type not in ['subscription','subscription_plus_topup']">
                                     <field name="auto_renew"/>
                                     <field name="notify_days_before"/>
                                     <field name="cancellation_date"
                                            invisible="state != 'cancelled'"/>
+                                           
+                                           					 <field name="currency_id" />
+                                    <field name="cost_amount"  class="o_input_13ch" widget='monetary' options="{'currency_field': 'currency_id'}" /> 
+                                           
+                  
+                                    <field name="payment_method_id"/>
+                                           
                                 </group>
                             </group>
+                                                        
+                        
                         </page>
+                        
+                                              
 
                         <!-- Tab 3: Financial -->
                         <page string="Financial" groups="keykeep.group_manager">
                             <group>
                                 <group>
-                                    <field name="cost_amount"/>
-                                    <field name="currency_id"/>
-                                    <field name="payment_method_id"/>
+                           
                                 </group>
                             </group>
                         </page>
