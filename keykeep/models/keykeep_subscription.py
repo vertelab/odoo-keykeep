@@ -336,8 +336,7 @@ class KeykeepSubscription(models.Model):
         string="Burn Rate (day)",
         currency_field="balance_currency",
         digits=(16, 4),
-        readonly=True,
-        help="Rolling average daily cost (mirrored from the provider / computed from last_balance).",
+        help="Rolling average daily cost (manually editable; recomputes Remaining days and Forecasted Date).",
     )
     days_until_empty = fields.Float(
         string="Remaining days",
