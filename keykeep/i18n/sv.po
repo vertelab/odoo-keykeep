@@ -192,7 +192,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:keykeep.selection__keykeep_subscription__state__active
 #: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_search
 msgid "Active"
-msgstr ""
+msgstr "Aktiv"
 
 #. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__activity_ids
@@ -267,7 +267,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__auto_renew
 #: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_search
 msgid "Auto Renew"
-msgstr ""
+msgstr "Auto-förnyelse"
 
 #. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_reveal__reveal_timeout
@@ -385,13 +385,13 @@ msgstr "Avbryt"
 #. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__cancellation_date
 msgid "Cancellation Date"
-msgstr ""
+msgstr "Uppsägningsdatum"
 
 #. module: keykeep
 #: model:ir.model.fields.selection,name:keykeep.selection__keykeep_subscription__state__cancelled
 #: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_search
 msgid "Cancelled"
-msgstr ""
+msgstr "Avbokad"
 
 #. module: keykeep
 #. odoo-python
@@ -500,7 +500,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:keykeep.selection__keykeep_cost_forecast__source__computed
 #: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_cost_forecast_search
 msgid "Computed"
-msgstr ""
+msgstr "Beräknad"
 
 #. module: keykeep
 #: model:ir.model,name:keykeep.model_res_config_settings
@@ -536,7 +536,7 @@ msgstr "Kontakt"
 #. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__contract_type
 msgid "Contract Type"
-msgstr ""
+msgstr "Kontraktstyp"
 
 #. module: keykeep
 #: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_credential_access_log_search
@@ -566,7 +566,7 @@ msgstr ""
 #. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__cost_amount
 msgid "Cost"
-msgstr ""
+msgstr "Kostnad"
 
 #. module: keykeep
 #: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_cost_forecast_form
@@ -723,7 +723,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_topup_wizard__currency_id
 #: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_cost_forecast_list
 msgid "Currency"
-msgstr ""
+msgstr "Valuta"
 
 #. module: keykeep
 #: model:ir.model.fields,help:keykeep.field_keykeep_cost_forecast__currency_id
@@ -870,7 +870,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:keykeep.selection__keykeep_subscription__state__expired
 #: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_search
 msgid "Expired"
-msgstr ""
+msgstr "Utgången"
 
 #. module: keykeep
 #: model:ir.model.fields.selection,name:keykeep.selection__keykeep_subscription__kanban_state__warning
@@ -952,7 +952,7 @@ msgstr "Generera prognos"
 #. module: keykeep
 #: model:ir.model.fields.selection,name:keykeep.selection__keykeep_subscription__renewal_semaphore__green
 msgid "Green"
-msgstr ""
+msgstr "Grön"
 
 #. module: keykeep
 #: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_cost_forecast_search
@@ -1387,7 +1387,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:keykeep.selection__keykeep_topup_wizard__method__manual
 #: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_cost_forecast_search
 msgid "Manual"
-msgstr ""
+msgstr "Manuell"
 
 #. module: keykeep
 #: model:keykeep.category,name:keykeep.category_marketing
@@ -1485,7 +1485,7 @@ msgstr ""
 #. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__next_renewal_date
 msgid "Next Renewal"
-msgstr ""
+msgstr "Nästa förnyelse"
 
 #. module: keykeep
 #: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_kanban
@@ -1525,12 +1525,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_payment_method_form
 #: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
 msgid "Notes"
-msgstr ""
+msgstr "Anteckningar"
 
 #. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__notify_days_before
 msgid "Notify Days Before"
-msgstr ""
+msgstr "Antal dagar för förvarning"
 
 #. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__message_needaction_counter
@@ -1678,7 +1678,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_topup_wizard__payment_method_id
 #: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_payment_method_form
 msgid "Payment Method"
-msgstr ""
+msgstr "Betalningssätt"
 
 #. module: keykeep
 #: model:ir.actions.act_window,name:keykeep.action_keykeep_payment_method
@@ -1835,7 +1835,7 @@ msgstr "Registrera påfyllnad"
 #. module: keykeep
 #: model:ir.model.fields.selection,name:keykeep.selection__keykeep_subscription__renewal_semaphore__red
 msgid "Red"
-msgstr ""
+msgstr "Röd"
 
 #. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__days_until_empty
@@ -1855,13 +1855,13 @@ msgstr ""
 #. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__renewal_cycle
 msgid "Renewal Cycle"
-msgstr ""
+msgstr "Förnyelsecykel"
 
 #. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__renewal_frequency
 #: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_search
 msgid "Renewal Frequency"
-msgstr ""
+msgstr "Förnyelsefrekvens"
 
 #. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__renewal_semaphore
@@ -1887,7 +1887,7 @@ msgstr ""
 #. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__responsible_id
 msgid "Responsible"
-msgstr ""
+msgstr "Ansvarig"
 
 #. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__activity_user_id
@@ -1986,7 +1986,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_reveal__subscription
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__name
 msgid "Service Name"
-msgstr ""
+msgstr "Tjänstenamn"
 
 #. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__url
@@ -2032,7 +2032,7 @@ msgstr ""
 #. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__start_date
 msgid "Start Date"
-msgstr ""
+msgstr "Startdatum"
 
 #. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__state
@@ -2325,7 +2325,7 @@ msgstr ""
 #. module: keykeep
 #: model:ir.model.fields.selection,name:keykeep.selection__keykeep_subscription__renewal_semaphore__yellow
 msgid "Yellow"
-msgstr ""
+msgstr "Gul"
 
 #. module: keykeep
 #. odoo-python
