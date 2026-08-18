@@ -67,5 +67,16 @@
             <field name="interval_type">days</field>
             <field name="active" eval="True"/>
         </record>
+
+        <!-- Cron: Generate cost forecast (weekly, admin i Settings) -->
+        <record id="cron_generate_cost_forecast" model="ir.cron">
+            <field name="name">Keykeep: Generate Cost Forecast</field>
+            <field name="model_id" ref="model_keykeep_cost_forecast"/>
+            <field name="state">code</field>
+            <field name="code">model.generate_forecast(months=12)</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">weeks</field>
+            <field name="active" eval="True"/>
+        </record>
     </data>
 </odoo>

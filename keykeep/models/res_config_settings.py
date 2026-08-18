@@ -44,6 +44,7 @@ KEYKEEP_CRON_NAMES = [
     'Keykeep: Check Credential Expiry',
     'Keykeep: Check Credential Rotation Health',
     'Keykeep: Cleanup Old Access Logs',
+    'Keykeep: Generate Cost Forecast',
 ]
 
 
