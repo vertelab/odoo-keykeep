@@ -90,7 +90,6 @@ class KeykeepCredential(models.Model):
         inverse_name="credential_id",
         string="Version History",
     )
-    version_count = fields.Integer(compute="_compute_version_count", string="Versions")
     latest_version = fields.Integer(compute="_compute_version_info", string="Latest Version")
     rotation_age = fields.Integer(
         compute="_compute_rotation_age", string="Days Since Rotation"
@@ -231,11 +230,6 @@ class KeykeepCredential(models.Model):
         self.write({col: False})
 
     # ── Versioning (encrypted with the credential key) ─────────────
-
-    @api.depends("version_ids")
-    def _compute_version_count(self):
-        for rec in self:
-            rec.version_count = len(rec.version_ids)
 
     @api.depends("version_ids")
     def _compute_version_info(self):

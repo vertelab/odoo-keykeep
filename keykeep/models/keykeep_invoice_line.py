@@ -57,11 +57,6 @@ class KeykeepInvoiceLine(models.Model):
         string="Analytic Distribution",
         help="Analytic accounts with distribution percentages.",
     )
-    analytic_precision = fields.Integer(
-        string="Analytic Precision",
-        store=False,
-        default=lambda self: self.env['decimal.precision'].precision_get("Percentage Analytic"),
-    )
 
     @api.onchange('product_id')
     def _onchange_product_id(self):

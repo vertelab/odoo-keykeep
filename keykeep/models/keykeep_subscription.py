@@ -21,10 +21,6 @@ class KeykeepSubscription(models.Model):
     # === Basic Information ===
     name = fields.Char(required=True, string="Service Name", tracking=True)
     logo = fields.Binary(string="Logo", attachment=True)
-    logo_url = fields.Char(
-        string="Logo URL",
-        help="URL to auto-fetch the logo from (e.g. Clearbit).",
-    )
     company_id = fields.Many2one(
         comodel_name="res.company",
         string="Company",
@@ -181,12 +177,6 @@ class KeykeepSubscription(models.Model):
         string="Top-ups",
         compute="_compute_topup_count",
     )
-    topup_sum = fields.Monetary(
-        currency_field="currency_id",
-        string="Top-up Sum",
-        compute="_compute_topup_count",
-        help="Summa av confirmed/reconciled top-ups.",
-    )
     forecast_count = fields.Integer(
         string="Forecast",
         compute="_compute_forecast_count",
@@ -196,9 +186,6 @@ class KeykeepSubscription(models.Model):
     def _compute_topup_count(self):
         for rec in self:
             rec.topup_count = len(rec.topup_ids)
-            rec.topup_sum = sum(
-                t.amount for t in rec.topup_ids if t.state in ("confirmed", "reconciled")
-            )
 
     @api.depends("cost_forecast_ids")
     def _compute_forecast_count(self):
@@ -387,26 +374,6 @@ class KeykeepSubscription(models.Model):
         for rec in self:
             rec.invoice_count = len(rec.invoice_ids)
 
-    journal_entry_count = fields.Integer(
-        string="Journal Entries", compute="_compute_journal_entry_count"
-    )
-
-    @api.depends("journal_entry_ids")
-    def _compute_journal_entry_count(self):
-        for rec in self:
-            rec.journal_entry_count = len(rec.journal_entry_ids)
-
-    def action_view_journal_entries(self):
-        self.ensure_one()
-        return {
-            "type": "ir.actions.act_window",
-            "name": _("Journal Entries"),
-            "res_model": "account.move",
-            "view_mode": "list,form",
-            "domain": [("id", "in", self.journal_entry_ids.ids)],
-            "context": {"default_move_type": "entry"},
-        }
-
     # --- Actions ---
 
     def action_view_invoices(self):
@@ -446,7 +413,6 @@ class KeykeepSubscription(models.Model):
             req = urllib.request.Request(clearbit_url, headers={"User-Agent": "Odoo-Keykeep/1.0"})
             with urllib.request.urlopen(req, timeout=10) as response:
                 self.logo = response.read()
-                self.logo_url = clearbit_url
         except Exception as e:
             _logger.warning("Could not fetch logo from %s: %s", clearbit_url, e)
             raise ValidationError(

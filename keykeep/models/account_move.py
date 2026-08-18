@@ -6,12 +6,3 @@ from odoo import fields, models
 
 class AccountMove(models.Model):
     _inherit = "account.move"
-
-    keykeep_subscription_ids = fields.Many2many(
-        comodel_name="keykeep.subscription",
-        relation="keykeep_subscription_account_move_rel",
-        column1="move_id",
-        column2="subscription_id",
-        string="Keykeep Subscriptions",
-        copy=False,
-    )
