@@ -151,16 +151,16 @@ class KeykeepSubscription(models.Model):
         domain="[('move_type', '=', 'in_invoice'), ('partner_id', '=', partner_id)]",
         copy=False,
     )
-    invoice_count = fields.Integer(compute="_compute_invoice_count")
-    journal_entry_ids = fields.Many2many(
-        comodel_name="account.move",
-        relation="keykeep_subscription_account_move_entry_rel",
-        column1="subscription_id",
-        column2="move_id",
-        string="Journal Entries",
-        domain="[('move_type', '=', 'entry')]",
-        copy=False,
-    )
+    invoice_count = fields.Integer(compute="_compute_invoice_count", string='')
+    # ~ journal_entry_ids = fields.Many2many(
+        # ~ comodel_name="account.move",
+        # ~ relation="keykeep_subscription_account_move_entry_rel",
+        # ~ column1="subscription_id",
+        # ~ column2="move_id",
+        # ~ string="Journal Entries",
+        # ~ domain="[('move_type', '=', 'entry')]",
+        # ~ copy=False,
+    # ~ )
     cost_forecast_ids = fields.One2many(
         comodel_name="keykeep.cost.forecast",
         inverse_name="subscription_id",
@@ -335,7 +335,6 @@ class KeykeepSubscription(models.Model):
     burn_rate_day = fields.Monetary(
         string="Burn Rate (day)",
         currency_field="balance_currency",
-        digits=(16, 4),
         help="Rolling average daily cost (manually editable; recomputes Remaining days and Forecasted Date).",
     )
     days_until_empty = fields.Float(
@@ -394,7 +393,8 @@ class KeykeepSubscription(models.Model):
             # Ask the provider for its burn-rate forecast (snapshot-based)
             if hasattr(partner, "_compute_burn_forecast"):
                 partner._compute_burn_forecast()
-                rec.burn_rate_day = partner.burn_rate_day
+                if partner.burn_rate_day > 0:
+                    rec.burn_rate_day = partner.burn_rate_day
                 rec.days_until_empty = partner.days_until_empty
                 rec.projected_empty_date = partner.projected_empty_date
             elif rec.burn_rate_day and rec.last_balance:
