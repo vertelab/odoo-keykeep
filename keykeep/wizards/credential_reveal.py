@@ -24,6 +24,10 @@ class KeykeepCredentialReveal(models.TransientModel):
         related="credential_id.environment", readonly=True
     )
     username = fields.Char(related="credential_id.username", readonly=True)
+    # Plaintext values for display + copy (computed from decrypted value)
+    email = fields.Char(string="E-mail", compute="_compute_plaintext", readonly=True)
+    password = fields.Char(string="Password", compute="_compute_plaintext", readonly=True)
+    api_key = fields.Text(string="API Key / Token", compute="_compute_plaintext", readonly=True)
     subscription = fields.Char(
         related="credential_id.subscription_id.name", readonly=True
     )
@@ -79,6 +83,22 @@ class KeykeepCredentialReveal(models.TransientModel):
                 wiz.decrypted_value = f"Username: {uname}\nPassword: {pw}"
             else:
                 wiz.decrypted_value = ""
+
+    def _compute_plaintext(self):
+        """Split the decrypted value into separate plaintext fields for
+        display + copy buttons."""
+        for wiz in self:
+            cred = wiz.credential_id
+            wiz.email = cred.username or ""
+            wiz.password = ""
+            wiz.api_key = ""
+            if not cred:
+                continue
+            ct = cred.credential_type
+            if ct in ("api_key", "token", "other"):
+                wiz.api_key = cred._read_encrypted("key_value") or ""
+            elif ct == "login":
+                wiz.password = cred._read_encrypted("password") or ""
 
     def _compute_audit(self):
         for wiz in self:

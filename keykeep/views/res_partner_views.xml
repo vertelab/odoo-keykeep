@@ -130,6 +130,7 @@
         <field name="context">{'default_is_keykeep_partner': True}</field>
     </record>
 
-    <!-- Ta bort gamla SaaS-pagen (finns kvar i DB från tidigare deploy) -->
-    <delete model="ir.ui.view" id="view_partner_keykeep_form"/>
+    <!-- OBS: Gamla delete av view_partner_keykeep_form togs bort — xmliden
+         finns inte längre i DB, och delete på saknad xmlid kraschar
+         moduluppgraderingen (driftlärdom 2026-08-12). -->
 </odoo>

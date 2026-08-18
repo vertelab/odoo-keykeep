@@ -50,10 +50,39 @@
                 </group>
 
                 <!-- Decrypted Value -->
-                <group string="Value" invisible="not decrypted_value">
+                <group string="Value">
+                    <!-- Login: e-mail + password with copy buttons -->
+                    <group invisible="credential_type != 'login'">
+                        <field name="email" string="E-mail" readonly="1"/>
+                        <field name="password" string="Password" readonly="1" password="True"/>
+                        <div class="d-flex gap-2 mt-2">
+                            <button name="copy_email" type="button" class="btn btn-sm btn-outline-secondary"
+                                    data-keykeep-copy="email"
+                                    title="Copy e-mail">
+                                <i class="fa fa-copy"/> Copy E-mail
+                            </button>
+                            <button name="copy_password" type="button" class="btn btn-sm btn-outline-secondary"
+                                    data-keykeep-copy="password"
+                                    title="Copy password">
+                                <i class="fa fa-copy"/> Copy Password
+                            </button>
+                        </div>
+                    </group>
+                    <!-- API key / token with copy button -->
+                    <group invisible="credential_type not in ('api_key','token','other')">
+                        <field name="api_key" string="API Key / Token" readonly="1" widget="text"/>
+                        <div class="d-flex gap-2 mt-2">
+                            <button name="copy_api_key" type="button" class="btn btn-sm btn-outline-secondary"
+                                    data-keykeep-copy="api_key"
+                                    title="Copy API key">
+                                <i class="fa fa-copy"/> Copy Key
+                            </button>
+                        </div>
+                    </group>
+                </group>
+                <group string="Raw" invisible="not decrypted_value">
                     <field name="decrypted_value" nolabel="1" colspan="2"
-                           widget="text"
-                           invisible="not decrypted_value"/>
+                           widget="text" invisible="not decrypted_value"/>
                 </group>
 
                 <!-- Last Access Info -->
