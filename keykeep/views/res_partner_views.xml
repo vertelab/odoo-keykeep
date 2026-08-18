@@ -2,8 +2,8 @@
 <!-- Copyright 2026 Vertel AB - License AGPL-3.0 -->
 <odoo>
 
-    <!-- KeyKeep-kryssruta i standardformen — ankrar på basfältet company_type
-         (oberoende av bifrost/bifrost_keykeep). -->
+    <!-- KeyKeep checkbox in the standard form — anchored on the base field company_type
+         (independent of bifrost/bifrost_keykeep). -->
     <record id="view_partner_keykeep_checkbox" model="ir.ui.view">
         <field name="name">res.partner.keykeep.checkbox</field>
         <field name="model">res.partner</field>
@@ -19,9 +19,9 @@
     </record>
 
     <!-- ==================================================================
-         Suppliers — självförsörjande i keykeep (oberoende av
-         bifrost_keykeep-bryggan). Visar partners där is_keykeep_partner
-         är satt, med keykeep-egna fält enbart (base + keykeep).
+         Suppliers — self-sufficient in keykeep (independent of the
+         bifrost_keykeep bridge). Shows partners where is_keykeep_partner
+         is set, using only keykeep's own fields (base + keykeep).
          ================================================================== -->
 
     <!-- Suppliers list -->
@@ -38,7 +38,7 @@
         </field>
     </record>
 
-    <!-- Suppliers form (self-sufficient: base-partnerfält + keykeep-fält) -->
+    <!-- Suppliers form (self-sufficient: base partner fields + keykeep fields) -->
     <record id="view_keykeep_supplier_form" model="ir.ui.view">
         <field name="name">res.partner.keykeep.supplier.form</field>
         <field name="model">res.partner</field>
@@ -131,6 +131,6 @@
     </record>
 
     <!-- OBS: Gamla delete av view_partner_keykeep_form togs bort — xmliden
-         finns inte längre i DB, och delete på saknad xmlid kraschar
-         moduluppgraderingen (driftlärdom 2026-08-12). -->
+         no longer exists in the DB, and deleting a missing xmlid crashes
+         the module upgrade (drift lesson 2026-08-12). -->
 </odoo>

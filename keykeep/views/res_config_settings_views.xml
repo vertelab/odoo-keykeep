@@ -25,7 +25,7 @@
                                         <field name="cron_failure_count" readonly="1"/>
                                         <field name="cron_code" readonly="1"/>
                                         <button name="action_run_now" type="object"
-                                                string="Kör nu" icon="fa-play"/>
+                                                string="Run now" icon="fa-play"/>
                                     </group>
                                 </form>
                                 <list>

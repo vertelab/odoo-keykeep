@@ -167,7 +167,7 @@ class KeykeepSubscription(models.Model):
         string="Cost Forecasts",
     )
 
-    # ── Top-ups (händelsejournal) ────────────────────────────────────────
+    # ── Top-ups (event journal) ────────────────────────────────────────
     topup_ids = fields.One2many(
         comodel_name="keykeep.topup",
         inverse_name="subscription_id",
@@ -289,12 +289,13 @@ class KeykeepSubscription(models.Model):
     )
 
     # ══════════════════════════════════════════════════════════════════
-    # Balance & Forecast — ägs av keykeep (basmodul).
+    # Balance & Forecast — owned by keykeep (base module).
     #
-    # Fälten uppdateras normalt av bifrost_keykeep (balance-koll, cron,
-    # prognos-körningar), men keykeep äger definitionerna så att de finns
-    # även utan bifrost-bryggan. Onchange beräknar burn/days/projected när
-    # användaren ändrar last_balance eller burn_rate_day i formuläret.
+    # The fields are normally updated by bifrost_keykeep (balance check,
+    # cron, forecast runs), but keykeep owns the definitions so they exist
+    # even without the bifrost bridge. The onchange computes
+    # burn/days/projected when the user changes last_balance or
+    # burn_rate_day in the form.
     # ══════════════════════════════════════════════════════════════════
 
     last_forecast_recommendation = fields.Text(
@@ -310,16 +311,16 @@ class KeykeepSubscription(models.Model):
     last_balance = fields.Monetary(
         string="Balance",
         currency_field="balance_currency",
-        help="Senast kända kreditsaldo hos providern (USD eller provider-valuta).",
+        help="Last known credit balance of the provider (USD or provider currency).",
     )
     balance_currency = fields.Many2one(
         "res.currency",
         string="Balance Currency",
-        help="Valuta för last_balance (default USD).",
+        help="Currency of last_balance (defaults to USD).",
     )
     last_balance_checked_at = fields.Datetime(
         string="Date",
-        help="När saldot senast avlästes (API eller manuellt).",
+        help="When the balance was last read (API or manual).",
     )
     balance_source = fields.Selection(
         selection=[
@@ -330,7 +331,7 @@ class KeykeepSubscription(models.Model):
         ],
         string="Balance Source",
         default="none",
-        help="Hur providerns faktiska kreditsaldo avläses.",
+        help="How the provider's actual credit balance is read.",
     )
     burn_rate_day = fields.Monetary(
         string="Burn Rate (day)",
@@ -675,10 +676,10 @@ class KeykeepSubscription(models.Model):
                 raise ValidationError(_("Renewal cycle must be positive."))
 
 
-    # ── Add API key / Add Credential (samma som på provider-formuläret) ─
+    # ── Add API key / Add Credential (same as on the provider form) ─
 
     def action_add_api_key(self):
-        """Öppna wizarden för att registrera en provider API-nyckel i Keykeep."""
+        """Open the wizard to register a provider API key in Keykeep."""
         self.ensure_one()
         return {
             'type': 'ir.actions.act_window',
@@ -690,7 +691,7 @@ class KeykeepSubscription(models.Model):
         }
 
     def action_add_credential(self):
-        """Öppna wizarden för att registrera login-credentials / email-link."""
+        """Open the wizard to register login credentials / email-link."""
         self.ensure_one()
         return {
             'type': 'ir.actions.act_window',

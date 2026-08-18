@@ -37,9 +37,9 @@
         </record>
     </data>
 
-    <!-- Admins (base.group_system) är automatiskt Keykeep-administratörer →
-         ser Configuration + Settings utan manuellt gruppval (samma mönster
-         som ai_agent_core). -->
+    <!-- Admins (base.group_system) are automatically Keykeep administrators →
+         they see Configuration + Settings without manual group selection (same
+         pattern as ai_agent_core). -->
     <data noupdate="0">
         <record id="base.group_system" model="res.groups">
             <field name="implied_ids" eval="[(4, ref('group_admin'))]"/>

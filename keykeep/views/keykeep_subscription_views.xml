@@ -126,32 +126,43 @@
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button name="action_view_credentials" type="object"
-                                class="oe_stat_button" icon="fa-key">
+                        <button name="action_view_credentials" type="object" class="oe_stat_button" icon="fa-key">
                             <div class="o_stat_info">
+<!--
                                 <span class="o_stat_text">API Keys</span>
-                                <field name="credential_count" class="o_stat_value" widget="statinfo"/>
+-->
+                                <field name="credential_count" class="o_stat_value" widget="statinfo" />
                             </div>
                         </button>
+                        
+                        
+                      
+                        
                         <button name="action_view_invoices" type="object"
                                 class="oe_stat_button" icon="fa-file-text-o">
                             <div class="o_stat_info">
+<!--
                                 <span class="o_stat_text">Invoices</span>
-                                <field name="invoice_count" class="o_stat_value" widget="statinfo"/>
+-->
+                                <field name="invoice_count" class="o_stat_value" widget="statinfo"  />
                             </div>
                         </button>
                         <button name="action_view_forecast" type="object"
                                 class="oe_stat_button" icon="fa-line-chart">
                             <div class="o_stat_info">
+<!--
                                 <span class="o_stat_text">Forecast</span>
-                                <field name="forecast_count" class="o_stat_value" widget="statinfo"/>
+-->
+                                <field name="forecast_count" class="o_stat_value" widget="statinfo" />
                             </div>
                         </button>
                         <button name="action_view_topups" type="object" invisible="contract_type not in ['top_up','subscription_plus_topup']"
                                 class="oe_stat_button" icon="fa-arrow-up">
                             <div class="o_stat_info">
+<!--
                                 <span class="o_stat_text">Top-ups</span>
-                                <field name="topup_count" class="o_stat_value" widget="statinfo"/>
+-->
+                                <field name="topup_count" class="o_stat_value" widget="statinfo" no-label="1"/>
                             </div>
                         </button>
                         <button name="action_add_topup" type="object"  invisible="contract_type not in ['top_up','subscription_plus_topup']"
@@ -176,7 +187,7 @@
                                 invisible="active"/>
                     </div>
 
-                    <!-- Supplier-översikt (mellan name och notebook) -->
+                    <!-- Supplier overview (between name and notebook) -->
                     <group>
                         <group>
                             <field name="partner_id" string="Supplier"/>
@@ -220,29 +231,24 @@
                                 </group>
                             </group>
 
-                            <!-- Balance and Forecast — ägs av keykeep -->
-                            <group string="Balance and Forecast"
-                                   invisible="contract_type not in ['top_up','subscription_plus_topup']">
-                                <group string="Balance">
+                            <!-- Balance and Forecast — owned by keykeep -->
+                            <group>
+                                <group string="Balance" invisible="contract_type not in ['top_up','subscription_plus_topup']">
                                     <div class="d-flex align-items-center gap-2">
                                         <label for="last_balance"/>
                                         <field name="last_balance"
-                                               widget="monetary" options="{'currency_field': 'balance_currency'}"/>
-                                        <span>(<field name="balance_currency"/>)</span>
+                                               widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                        
                                     </div>
                                     <field name="last_balance_checked_at" readonly="1"/>
                                 </group>
-                                <group string="Forecast">
-                                    <div class="d-flex align-items-center gap-2">
-                                        <label for="burn_rate_day"/>
-                                        <field name="burn_rate_day"
-                                               widget="monetary" options="{'currency_field': 'balance_currency'}"/>
-                                        <span>(<field name="balance_currency"/>)</span>
-                                    </div>
+                                <group string="Forecast" invisible="contract_type not in ['top_up','subscription_plus_topup']">
+                                       <field name="burn_rate_day"
+                                               widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                     <field name="days_until_empty"/>
                                     <field name="projected_empty_date"/>
                                 </group>
-                            </group>
+                        </group>
                         </page>
                         
                                               

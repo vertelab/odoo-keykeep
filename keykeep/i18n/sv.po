@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 18.0-20260816\n"
+"Project-Id-Version: Odoo Server 18.0-20260701\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-16 14:45+0000\n"
-"PO-Revision-Date: 2026-08-16 14:45+0000\n"
+"POT-Creation-Date: 2026-08-18 15:14+0000\n"
+"PO-Revision-Date: 2026-08-18 15:14+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -28,6 +28,11 @@ msgid "%(sub)s — %(period)s"
 msgstr ""
 
 #. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_subscription__days_until_empty
+msgid "(budget_limit − current_usage) / burn_rate_day (mirrored)."
+msgstr ""
+
+#. module: keykeep
 #: model_terms:ir.ui.view,arch_db:keykeep.view_credential_reveal_form
 msgid ""
 "<br/>\n"
@@ -35,32 +40,47 @@ msgid ""
 msgstr ""
 
 #. module: keykeep
-#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
+#: model_terms:ir.ui.view,arch_db:keykeep.view_credential_reveal_form
+msgid "<i class=\"fa fa-copy\"/> Copy E-mail"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_credential_reveal_form
+msgid "<i class=\"fa fa-copy\"/> Copy Key"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_credential_reveal_form
+msgid "<i class=\"fa fa-copy\"/> Copy Password"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_supplier_form
+msgid "<span class=\"o_stat_text\">+ Top Up</span>"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_supplier_form
 msgid "<span class=\"o_stat_text\">API Keys</span>"
 msgstr ""
 
 #. module: keykeep
-#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
-msgid "<span class=\"o_stat_text\">Forecast</span>"
-msgstr ""
-
-#. module: keykeep
-#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_supplier_form
 msgid "<span class=\"o_stat_text\">Invoices</span>"
 msgstr ""
 
 #. module: keykeep
-#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
-msgid "<span class=\"o_stat_text\">Journal Entries</span>"
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_supplier_form
+msgid "<span class=\"o_stat_text\">Subscriptions</span>"
 msgstr ""
 
 #. module: keykeep
 #: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
-msgid "<span class=\"o_stat_text\">Record Top-up</span>"
+msgid "<span class=\"o_stat_text\">Top-up</span>"
 msgstr ""
 
 #. module: keykeep
-#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_supplier_form
 msgid "<span class=\"o_stat_text\">Top-ups</span>"
 msgstr ""
 
@@ -92,13 +112,6 @@ msgid ""
 msgstr ""
 
 #. module: keykeep
-#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
-msgid ""
-"<strong>🔄 Rotation Health:</strong>\n"
-"                                <span>Credentials not rotated in over 90 days are flagged as stale. Review below.</span>"
-msgstr ""
-
-#. module: keykeep
 #: model:ir.model.constraint,message:keykeep.constraint_keykeep_credential_name_subscription_env_uniq
 msgid ""
 "A credential with this name already exists for this subscription and "
@@ -127,6 +140,28 @@ msgstr ""
 #: model:ir.model.fields.selection,name:keykeep.selection__keykeep_credential__credential_type__api_key
 msgid "API Key"
 msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_reveal__api_key
+#: model_terms:ir.ui.view,arch_db:keykeep.view_credential_reveal_form
+msgid "API Key / Token"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_res_partner__credential_count
+#: model:ir.model.fields,field_description:keykeep.field_res_users__credential_count
+msgid "API Keys"
+msgstr "API-nycklar"
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__abnormal_spike_multiplier
+msgid "Abnormal Spike Multiplier"
+msgstr "Onormal toppmultiplikator"
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__abnormal_window
+msgid "Abnormal Window (days)"
+msgstr "Onormalt fönster (dagar)"
 
 #. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_credential__access_log_ids
@@ -180,15 +215,31 @@ msgid "Activity Type Icon"
 msgstr ""
 
 #. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
+msgid "Add API Key"
+msgstr "Lägg till API-nyckel"
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
+msgid "Add Credential"
+msgstr "Lägg till inloggningsuppgift"
+
+#. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_cron_line__cron_active
 msgid "Aktiv"
 msgstr ""
 
 #. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_create_journal_entry__amount
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_invoice_stub__amount
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_topup__amount
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_topup_wizard__amount
 msgid "Amount"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
+msgid "Archived"
 msgstr ""
 
 #. module: keykeep
@@ -224,8 +275,18 @@ msgid "Auto-Close (seconds)"
 msgstr ""
 
 #. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__auto_exclude_on_critical
+msgid "Auto-exclude on Critical"
+msgstr "Auto-exkludera vid kritisk"
+
+#. module: keykeep
 #: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
 msgid "Auto-fetch logo from Clearbit using the service URL."
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_subscription__auto_exclude_on_critical
+msgid "Automatically exclude the provider when the tripwire trips."
 msgstr ""
 
 #. module: keykeep
@@ -239,6 +300,22 @@ msgid "Background Jobs"
 msgstr ""
 
 #. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__last_balance
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
+msgid "Balance"
+msgstr "Saldo"
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__balance_currency
+msgid "Balance Currency"
+msgstr "Saldo-valuta"
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__balance_source
+msgid "Balance Source"
+msgstr "Saldo-källa"
+
+#. module: keykeep
 #: model:ir.model.fields.selection,name:keykeep.selection__keykeep_payment_method__method_type__bank_transfer
 msgid "Bank Transfer"
 msgstr ""
@@ -249,20 +326,30 @@ msgid "Banking & Finance"
 msgstr ""
 
 #. module: keykeep
-#: model:ir.model.fields,help:keykeep.field_keykeep_topup__state
-msgid "Bara confirmed/reconciled räknas in i prognoserna."
-msgstr ""
-
-#. module: keykeep
 #: model:ir.model.fields.selection,name:keykeep.selection__keykeep_topup__source__bifrost_budget
 #: model:ir.model.fields.selection,name:keykeep.selection__keykeep_topup_wizard__source__bifrost_budget
 msgid "Bifrost Budget"
 msgstr ""
 
 #. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__billing_model
+msgid "Billing Model"
+msgstr "Faktureringsmodell"
+
+#. module: keykeep
 #: model:ir.model.fields.selection,name:keykeep.selection__keykeep_credential_access_log__fields_accessed__both
 msgid "Both"
 msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__budget_limit
+msgid "Budget Limit (USD)"
+msgstr "Budgetgräns (USD)"
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__burn_rate_day
+msgid "Burn Rate (day)"
+msgstr "Förbrukning (dag)"
 
 #. module: keykeep
 #: model_terms:ir.ui.view,arch_db:keykeep.view_credential_reveal_form
@@ -293,7 +380,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:keykeep.view_create_journal_entry_wizard_form
 #: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_topup_wizard_form
 msgid "Cancel"
-msgstr ""
+msgstr "Avbryt"
 
 #. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__cancellation_date
@@ -341,18 +428,26 @@ msgstr ""
 #: model:ir.actions.act_window,name:keykeep.action_keykeep_category
 #: model:ir.ui.menu,name:keykeep.menu_keykeep_category
 msgid "Categories"
-msgstr ""
+msgstr "Kategorier"
 
 #. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_cost_forecast__category_id
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__category_id
 #: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_category_form
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_cost_forecast_list
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_cost_forecast_search
 #: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_search
 msgid "Category"
-msgstr ""
+msgstr "Kategori"
 
 #. module: keykeep
 #: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_category_form
 msgid "Category Name"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_cost_forecast__category_id
+msgid "Category from the subscription — for pivot/analysis."
 msgstr ""
 
 #. module: keykeep
@@ -383,7 +478,7 @@ msgstr ""
 #. module: keykeep
 #: model_terms:ir.ui.view,arch_db:keykeep.view_credential_reveal_form
 msgid "Close"
-msgstr ""
+msgstr "Stäng"
 
 #. module: keykeep
 #: model:keykeep.category,name:keykeep.category_communication
@@ -403,6 +498,7 @@ msgstr ""
 
 #. module: keykeep
 #: model:ir.model.fields.selection,name:keykeep.selection__keykeep_cost_forecast__source__computed
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_cost_forecast_search
 msgid "Computed"
 msgstr ""
 
@@ -414,7 +510,7 @@ msgstr "Inställningar"
 #. module: keykeep
 #: model:ir.ui.menu,name:keykeep.menu_keykeep_config
 msgid "Configuration"
-msgstr ""
+msgstr "Konfiguration"
 
 #. module: keykeep
 #: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_topup_form
@@ -438,6 +534,11 @@ msgid "Contact"
 msgstr "Kontakt"
 
 #. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__contract_type
+msgid "Contract Type"
+msgstr ""
+
+#. module: keykeep
 #: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_credential_access_log_search
 msgid "Copies"
 msgstr ""
@@ -448,8 +549,29 @@ msgid "Copy"
 msgstr ""
 
 #. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_credential_reveal_form
+msgid "Copy API key"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_credential_reveal_form
+msgid "Copy e-mail"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_credential_reveal_form
+msgid "Copy password"
+msgstr ""
+
+#. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__cost_amount
 msgid "Cost"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_cost_forecast_form
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_cost_forecast_list
+msgid "Cost Forecast"
 msgstr ""
 
 #. module: keykeep
@@ -461,6 +583,11 @@ msgstr ""
 #. odoo-python
 #: code:addons/keykeep/models/keykeep_subscription.py:0
 msgid "Could not fetch logo from %s. Try uploading manually."
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_topup__credential_id
+msgid "Counterparty account/key (optional)."
 msgstr ""
 
 #. module: keykeep
@@ -488,6 +615,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_reveal__create_uid
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_version__create_uid
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_cron_line__create_uid
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_invoice_stub__create_uid
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_payment_method__create_uid
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__create_uid
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_topup__create_uid
@@ -504,6 +632,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_reveal__create_date
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_version__create_date
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_cron_line__create_date
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_invoice_stub__create_date
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_payment_method__create_date
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__create_date
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_topup__create_date
@@ -562,9 +691,13 @@ msgstr ""
 
 #. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__credential_ids
-#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
 msgid "Credentials & API Keys"
 msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__budget_critical_threshold
+msgid "Critical Threshold (%)"
+msgstr "Kritisk tröskel (%)"
 
 #. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_cron_line__cron_id
@@ -584,10 +717,22 @@ msgstr ""
 #. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_cost_forecast__currency_id
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_create_journal_entry__currency_id
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_invoice_stub__currency_id
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__currency_id
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_topup__currency_id
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_topup_wizard__currency_id
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_cost_forecast_list
 msgid "Currency"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_cost_forecast__currency_id
+msgid "Currency of forecast_amount (subscription or invoice currency)."
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_subscription__balance_currency
+msgid "Currency of last_balance (defaults to USD)."
 msgstr ""
 
 #. module: keykeep
@@ -602,10 +747,11 @@ msgstr ""
 
 #. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_create_journal_entry__date
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__last_balance_checked_at
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_topup__date
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_topup_wizard__date
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 #. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_credential__rotation_age
@@ -631,6 +777,11 @@ msgstr ""
 #. odoo-python
 #: code:addons/keykeep/models/keykeep_credential.py:0
 msgid "Decryption failed for a credential value (wrong key?)"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_subscription__balance_source__deepseek_balance
+msgid "DeepSeek /user/balance"
 msgstr ""
 
 #. module: keykeep
@@ -674,6 +825,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_reveal__display_name
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_version__display_name
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_cron_line__display_name
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_invoice_stub__display_name
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_payment_method__display_name
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__display_name
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_topup__display_name
@@ -682,8 +834,15 @@ msgid "Display Name"
 msgstr ""
 
 #. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_invoice_stub__state__draft
 #: model:ir.model.fields.selection,name:keykeep.selection__keykeep_topup__state__draft
 msgid "Draft"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_reveal__email
+#: model_terms:ir.ui.view,arch_db:keykeep.view_credential_reveal_form
+msgid "E-mail"
 msgstr ""
 
 #. module: keykeep
@@ -740,8 +899,8 @@ msgid "Fields Accessed"
 msgstr ""
 
 #. module: keykeep
-#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
-msgid "Financial"
+#: model:ir.model.fields,help:keykeep.field_keykeep_subscription__budget_critical_threshold
+msgid "Flag critical when remaining balance drops below this % of the budget."
 msgstr ""
 
 #. module: keykeep
@@ -760,9 +919,15 @@ msgid "Font awesome icon e.g. fa-tasks"
 msgstr ""
 
 #. module: keykeep
+#: model:ir.actions.act_window,name:keykeep.action_keykeep_cost_forecast
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__forecast_count
+#: model:ir.ui.menu,name:keykeep.menu_keykeep_forecast
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_cost_forecast_graph
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_cost_forecast_list
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_cost_forecast_pivot
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
 msgid "Forecast"
-msgstr ""
+msgstr "Prognos"
 
 #. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_cost_forecast__forecast_amount
@@ -775,11 +940,22 @@ msgid "Forecast Date"
 msgstr ""
 
 #. module: keykeep
-#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
-msgid "General"
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__projected_empty_date
+msgid "Forecasted Date"
+msgstr "Prognosdatum"
+
+#. module: keykeep
+#: model:ir.actions.server,name:keykeep.action_generate_forecast_server
+msgid "Generate Forecast"
+msgstr "Generera prognos"
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_subscription__renewal_semaphore__green
+msgid "Green"
 msgstr ""
 
 #. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_cost_forecast_search
 #: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_credential_access_log_search
 #: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_search
 #: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_topup_search
@@ -787,8 +963,18 @@ msgid "Group By"
 msgstr ""
 
 #. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_subscription__tripwire_enabled
+msgid "Hard tripwire that auto-excludes a provider on critical thresholds."
+msgstr ""
+
+#. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__has_message
 msgid "Has Message"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_subscription__balance_source
+msgid "How the provider's actual credit balance is read."
 msgstr ""
 
 #. module: keykeep
@@ -800,6 +986,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_reveal__id
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_version__id
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_cron_line__id
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_invoice_stub__id
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_payment_method__id
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__id
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_topup__id
@@ -854,6 +1041,16 @@ msgid "Insurance"
 msgstr ""
 
 #. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_supplier_form
+msgid "Internal Notes"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_supplier_form
+msgid "Internal notes..."
+msgstr ""
+
+#. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_cron_line__cron_interval_number
 msgid "Intervall"
 msgstr ""
@@ -861,6 +1058,7 @@ msgstr ""
 #. module: keykeep
 #. odoo-python
 #: code:addons/keykeep/models/keykeep_invoice_stub.py:0
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_invoice_stub__account_move_id
 #: model:ir.model.fields.selection,name:keykeep.selection__keykeep_payment_method__method_type__invoice
 msgid "Invoice"
 msgstr ""
@@ -872,21 +1070,24 @@ msgstr ""
 
 #. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_topup__invoice_stub_id
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_invoice_stub_form
 msgid "Invoice Stub"
 msgstr ""
 
 #. module: keykeep
-#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__message_is_follower
-msgid "Is Follower"
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_invoice_stub__state__invoiced
+msgid "Invoiced"
 msgstr ""
 
 #. module: keykeep
-#. odoo-python
-#: code:addons/keykeep/models/keykeep_subscription.py:0
-#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__journal_entry_count
-#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__journal_entry_ids
-#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
-msgid "Journal Entries"
+#: model:ir.model.fields,field_description:keykeep.field_res_partner__invoice_count
+#: model:ir.model.fields,field_description:keykeep.field_res_users__invoice_count
+msgid "Invoices"
+msgstr "Fakturor"
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__message_is_follower
+msgid "Is Follower"
 msgstr ""
 
 #. module: keykeep
@@ -927,11 +1128,19 @@ msgid "Key Value (ciphertext)"
 msgstr ""
 
 #. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_res_partner__is_keykeep_partner
+#: model:ir.model.fields,field_description:keykeep.field_res_users__is_keykeep_partner
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_supplier_list
+#: model_terms:ir.ui.view,arch_db:keykeep.view_partner_keykeep_checkbox
+msgid "KeyKeep"
+msgstr ""
+
+#. module: keykeep
 #: model:ir.module.category,name:keykeep.module_category_keykeep
 #: model:ir.ui.menu,name:keykeep.menu_keykeep_root
 #: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_settings
 msgid "Keykeep"
-msgstr ""
+msgstr "Keykeep"
 
 #. module: keykeep
 #: model:res.groups,name:keykeep.group_admin
@@ -969,6 +1178,11 @@ msgid "Keykeep DevOps"
 msgstr ""
 
 #. module: keykeep
+#: model:ir.model,name:keykeep.model_keykeep_invoice_stub
+msgid "Keykeep Invoice Stub"
+msgstr ""
+
+#. module: keykeep
 #: model:res.groups,name:keykeep.group_manager
 msgid "Keykeep Manager"
 msgstr ""
@@ -986,12 +1200,6 @@ msgstr ""
 #. module: keykeep
 #: model:ir.model,name:keykeep.model_keykeep_subscription
 msgid "Keykeep Subscription"
-msgstr ""
-
-#. module: keykeep
-#: model:ir.model.fields,field_description:keykeep.field_account_bank_statement_line__keykeep_subscription_ids
-#: model:ir.model.fields,field_description:keykeep.field_account_move__keykeep_subscription_ids
-msgid "Keykeep Subscriptions"
 msgstr ""
 
 #. module: keykeep
@@ -1025,6 +1233,11 @@ msgid "Keykeep: Cleanup Old Access Logs"
 msgstr ""
 
 #. module: keykeep
+#: model:ir.actions.server,name:keykeep.cron_generate_cost_forecast_ir_actions_server
+msgid "Keykeep: Generate Cost Forecast"
+msgstr ""
+
+#. module: keykeep
 #: model:ir.actions.server,name:keykeep.cron_purge_credential_versions_ir_actions_server
 msgid "Keykeep: Purge Old Credential Versions"
 msgstr ""
@@ -1037,16 +1250,6 @@ msgstr ""
 #. module: keykeep
 #: model:ir.actions.server,name:keykeep.cron_update_renewal_dates_ir_actions_server
 msgid "Keykeep: Update Renewal Dates"
-msgstr ""
-
-#. module: keykeep
-#: model:ir.model.fields,help:keykeep.field_keykeep_topup__receipt_ref
-msgid "Kvitto/order-ref från providern."
-msgstr ""
-
-#. module: keykeep
-#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_settings
-msgid "Kör nu"
 msgstr ""
 
 #. module: keykeep
@@ -1076,6 +1279,11 @@ msgid "Last Accessed By"
 msgstr ""
 
 #. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__last_forecast_recommendation
+msgid "Last Forecast Recommendation"
+msgstr ""
+
+#. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_category__write_uid
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_cost_forecast__write_uid
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_create_journal_entry__write_uid
@@ -1084,6 +1292,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_reveal__write_uid
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_version__write_uid
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_cron_line__write_uid
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_invoice_stub__write_uid
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_payment_method__write_uid
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__write_uid
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_topup__write_uid
@@ -1100,6 +1309,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_reveal__write_date
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_version__write_date
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_cron_line__write_date
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_invoice_stub__write_date
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_payment_method__write_date
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__write_date
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_topup__write_date
@@ -1113,15 +1323,29 @@ msgid "Last four digits of the card number (PCI-DSS safe)."
 msgstr ""
 
 #. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_subscription__last_balance
+msgid "Last known credit balance of the provider (USD or provider currency)."
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_cron_line__cron_lastcall
+msgid "Last run"
+msgstr "Senaste körning"
+
+#. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_credential__latest_version
 msgid "Latest Version"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_subscription__last_forecast_recommendation
+msgid "Latest recommendation generated from the consumption forecast."
 msgstr ""
 
 #. module: keykeep
 #. odoo-python
 #: code:addons/keykeep/models/keykeep_subscription.py:0
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__invoice_ids
-#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
 msgid "Linked Invoices"
 msgstr ""
 
@@ -1142,14 +1366,13 @@ msgstr ""
 
 #. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__logo
-#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
 #: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_kanban
 msgid "Logo"
 msgstr ""
 
 #. module: keykeep
-#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__logo_url
-msgid "Logo URL"
+#: model:ir.model.fields,help:keykeep.field_keykeep_subscription__abnormal_window
+msgid "Look-back window for abnormal consumption detection."
 msgstr ""
 
 #. module: keykeep
@@ -1159,8 +1382,10 @@ msgstr ""
 
 #. module: keykeep
 #: model:ir.model.fields.selection,name:keykeep.selection__keykeep_cost_forecast__source__manual
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_subscription__balance_source__manual
 #: model:ir.model.fields.selection,name:keykeep.selection__keykeep_topup__method__manual
 #: model:ir.model.fields.selection,name:keykeep.selection__keykeep_topup_wizard__method__manual
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_cost_forecast_search
 msgid "Manual"
 msgstr ""
 
@@ -1202,23 +1427,28 @@ msgid "Minuter"
 msgstr ""
 
 #. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_cost_forecast_search
+msgid "Month"
+msgstr ""
+
+#. module: keykeep
 #: model:ir.model.fields.selection,name:keykeep.selection__keykeep_subscription__renewal_frequency__monthly
 msgid "Monthly"
 msgstr ""
 
 #. module: keykeep
-#: model:ir.model.fields,help:keykeep.field_keykeep_topup__credential_id
-msgid "Motstående konto/nyckel (valfritt)."
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_cron_line__cron_interval_type__months
+msgid "Months"
+msgstr "Månader"
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_subscription__abnormal_spike_multiplier
+msgid "Multiplier over rolling average flagged as abnormal consumption."
 msgstr ""
 
 #. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__my_activity_date_deadline
 msgid "My Activity Deadline"
-msgstr ""
-
-#. module: keykeep
-#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_cron_line__cron_interval_type__months
-msgid "Månader"
 msgstr ""
 
 #. module: keykeep
@@ -1272,6 +1502,11 @@ msgstr ""
 #. odoo-python
 #: code:addons/keykeep/models/keykeep_invoice_stub.py:0
 msgid "No purchase journal found. Please create one."
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_subscription__balance_source__none
+msgid "None"
 msgstr ""
 
 #. module: keykeep
@@ -1353,6 +1588,11 @@ msgid "Only Keykeep admins can rotate credential keys."
 msgstr ""
 
 #. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_topup__state
+msgid "Only confirmed/reconciled top-ups count towards the forecasts."
+msgstr ""
+
+#. module: keykeep
 #: model:ir.model.constraint,message:keykeep.constraint_keykeep_cost_forecast_sub_forecast_month_uniq
 msgid "Only one forecast entry per subscription per month."
 msgstr ""
@@ -1361,6 +1601,11 @@ msgstr ""
 #. odoo-python
 #: code:addons/keykeep/models/keykeep_credential_version.py:0
 msgid "Only users with reveal permission can view historical version values."
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_subscription__balance_source__openrouter_credits
+msgid "OpenRouter /api/v1/credits"
 msgstr ""
 
 #. module: keykeep
@@ -1389,8 +1634,16 @@ msgid "Parent Path"
 msgstr ""
 
 #. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_res_partner__is_keykeep_partner
+#: model:ir.model.fields,help:keykeep.field_res_users__is_keykeep_partner
+msgid "Partner managed in KeyKeep (supplier with subscriptions/credentials)."
+msgstr ""
+
+#. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_credential__password
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_reveal__password
 #: model:ir.model.fields.selection,name:keykeep.selection__keykeep_credential_access_log__fields_accessed__password
+#: model_terms:ir.ui.view,arch_db:keykeep.view_credential_reveal_form
 msgid "Password"
 msgstr ""
 
@@ -1407,11 +1660,6 @@ msgstr ""
 #. module: keykeep
 #: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_credential_form
 msgid "Password (encrypted)"
-msgstr ""
-
-#. module: keykeep
-#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
-msgid "Paste API key or token value..."
 msgstr ""
 
 #. module: keykeep
@@ -1436,11 +1684,32 @@ msgstr ""
 #: model:ir.actions.act_window,name:keykeep.action_keykeep_payment_method
 #: model:ir.ui.menu,name:keykeep.menu_keykeep_payment_method
 msgid "Payment Methods"
-msgstr ""
+msgstr "Betalningssätt"
 
 #. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_cron_line__cron_interval_type
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_cost_forecast_list
 msgid "Period"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_invoice_stub__period_date_end
+msgid "Period End"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_invoice_stub__date
+msgid "Period Start"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_subscription__billing_model__postpaid
+msgid "Postpaid"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_subscription__billing_model__prepaid
+msgid "Prepaid"
 msgstr ""
 
 #. module: keykeep
@@ -1464,9 +1733,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_cost_forecast__provider_id
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_topup__provider_id
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_topup_wizard__provider_id
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_cost_forecast_list
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_cost_forecast_search
 #: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_topup_search
 msgid "Provider"
-msgstr ""
+msgstr "Leverantör"
 
 #. module: keykeep
 #: model:ir.model.fields,help:keykeep.field_keykeep_topup__provider_id
@@ -1485,6 +1756,11 @@ msgstr ""
 #: model:ir.model.fields.selection,name:keykeep.selection__keykeep_topup__source__provider_portal
 #: model:ir.model.fields.selection,name:keykeep.selection__keykeep_topup_wizard__source__provider_portal
 msgid "Provider Portal"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_subscription__budget_limit
+msgid "Provider budget ceiling in USD (bifrost governance max_limit)."
 msgstr ""
 
 #. module: keykeep
@@ -1509,9 +1785,24 @@ msgid "Quarterly"
 msgstr ""
 
 #. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__rating_ids
+msgid "Ratings"
+msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_credential_reveal_form
+msgid "Raw"
+msgstr ""
+
+#. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_topup__receipt_ref
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_topup_wizard__receipt_ref
 msgid "Receipt Reference"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_topup__receipt_ref
+msgid "Receipt/order reference from the provider."
 msgstr ""
 
 #. module: keykeep
@@ -1539,7 +1830,17 @@ msgstr ""
 #: model:ir.model,name:keykeep.model_keykeep_topup_wizard
 #: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_topup_wizard_form
 msgid "Record Top-up"
+msgstr "Registrera påfyllnad"
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_subscription__renewal_semaphore__red
+msgid "Red"
 msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__days_until_empty
+msgid "Remaining days"
+msgstr "Återstående dagar"
 
 #. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_credential__renewal_reminder
@@ -1563,9 +1864,19 @@ msgid "Renewal Frequency"
 msgstr ""
 
 #. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__renewal_semaphore
+msgid "Renewal Semaphore"
+msgstr ""
+
+#. module: keykeep
 #. odoo-python
 #: code:addons/keykeep/models/keykeep_subscription.py:0
 msgid "Renewal cycle must be positive."
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_subscription__contract_type
+msgid "Renewal type"
 msgstr ""
 
 #. module: keykeep
@@ -1586,6 +1897,7 @@ msgstr ""
 #. module: keykeep
 #: model:ir.model.fields.selection,name:keykeep.selection__keykeep_credential_access_log__action__reveal
 #: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_credential_form
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_credential_tree
 msgid "Reveal"
 msgstr ""
 
@@ -1606,6 +1918,11 @@ msgid "Reveal Value"
 msgstr ""
 
 #. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_credential_tree
+msgid "Reveal e-mail/password or API key with copy buttons"
+msgstr ""
+
+#. module: keykeep
 #: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_credential_form
 msgid "Reveal the decrypted password/key"
 msgstr ""
@@ -1622,6 +1939,13 @@ msgid "Reveals"
 msgstr ""
 
 #. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_subscription__burn_rate_day
+msgid ""
+"Rolling average daily cost (manually editable; recomputes Remaining days and"
+" Forecasted Date)."
+msgstr ""
+
+#. module: keykeep
 #: model:ir.model.fields.selection,name:keykeep.selection__keykeep_credential_access_log__action__rotate
 msgid "Rotate"
 msgstr ""
@@ -1632,6 +1956,11 @@ msgid "Rotations"
 msgstr ""
 
 #. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_settings
+msgid "Run now"
+msgstr "Kör nu"
+
+#. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__message_has_sms_error
 msgid "SMS Delivery error"
 msgstr ""
@@ -1640,18 +1969,12 @@ msgstr ""
 #: model:ir.actions.act_window,name:keykeep.action_keykeep_subscription
 #: model:ir.model.fields,field_description:keykeep.field_res_partner__subscription_ids
 #: model:ir.model.fields,field_description:keykeep.field_res_users__subscription_ids
-#: model_terms:ir.ui.view,arch_db:keykeep.view_partner_keykeep_form
 msgid "SaaS Subscriptions"
 msgstr ""
 
 #. module: keykeep
 #: model:keykeep.category,name:keykeep.category_security
 msgid "Security"
-msgstr ""
-
-#. module: keykeep
-#: model:ir.model.fields,field_description:keykeep.field_keykeep_cron_line__cron_lastcall
-msgid "Senaste körning"
 msgstr ""
 
 #. module: keykeep
@@ -1667,8 +1990,9 @@ msgstr ""
 
 #. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__url
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
 msgid "Service URL"
-msgstr ""
+msgstr "Tjänste-URL"
 
 #. module: keykeep
 #: model:ir.model.fields,help:keykeep.field_keykeep_subscription__replacement_subscription_id
@@ -1685,12 +2009,18 @@ msgstr ""
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_cron_line__settings_id
 #: model:ir.ui.menu,name:keykeep.menu_keykeep_settings
 msgid "Settings"
+msgstr "Inställningar"
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_invoice_stub__state__skipped
+msgid "Skipped"
 msgstr ""
 
 #. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_cost_forecast__source
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_topup__source
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_topup_wizard__source
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_cost_forecast_list
 msgid "Source"
 msgstr ""
 
@@ -1711,6 +2041,7 @@ msgid "State"
 msgstr ""
 
 #. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_invoice_stub__state
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__kanban_state
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_topup__state
 #: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_topup_search
@@ -1731,11 +2062,19 @@ msgstr ""
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_create_journal_entry__subscription_id
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_credential__subscription_id
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_credential_access_log__subscription_id
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_invoice_stub__subscription_id
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_topup__subscription_id
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_topup_wizard__subscription_id
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_subscription__contract_type__subscription
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_cost_forecast_list
 #: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_credential_access_log_search
 #: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
 msgid "Subscription"
+msgstr "Prenumeration"
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_subscription__contract_type__subscription_plus_topup
+msgid "Subscription + Top-up"
 msgstr ""
 
 #. module: keykeep
@@ -1748,14 +2087,38 @@ msgstr ""
 #. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_category__subscription_ids
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_payment_method__subscription_ids
-#: model:ir.ui.menu,name:keykeep.menu_keykeep_subscription
+#: model:ir.ui.menu,name:keykeep.menu_keykeep_subscriptions
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_supplier_list
 msgid "Subscriptions"
+msgstr "Prenumerationer"
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_create_journal_entry__partner_id
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__partner_id
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_search
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_supplier_form
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_supplier_list
+msgid "Supplier"
 msgstr ""
 
 #. module: keykeep
-#: model:ir.model.fields,help:keykeep.field_keykeep_subscription__topup_sum
-msgid "Summa av confirmed/reconciled top-ups."
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_supplier_form
+msgid "Supplier Identity"
 msgstr ""
+
+#. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_supplier_form
+msgid "Supplier name…"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.actions.act_window,name:keykeep.action_keykeep_suppliers
+#: model:ir.ui.menu,name:keykeep.menu_keykeep_supplier_list
+#: model:ir.ui.menu,name:keykeep.menu_keykeep_suppliers
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_supplier_list
+msgid "Suppliers"
+msgstr "Leverantörer"
 
 #. module: keykeep
 #: model:ir.model.fields.selection,name:keykeep.selection__keykeep_credential_access_log__action__system_read
@@ -1800,33 +2163,43 @@ msgid "Today"
 msgstr ""
 
 #. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_subscription__projected_empty_date
+msgid "Today + days_until_empty (mirrored)."
+msgstr ""
+
+#. module: keykeep
 #: model:ir.model.fields.selection,name:keykeep.selection__keykeep_credential__credential_type__token
 msgid "Token"
 msgstr ""
 
 #. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_subscription__contract_type__top_up
 #: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_topup_form
 msgid "Top-up"
-msgstr ""
-
-#. module: keykeep
-#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__topup_sum
-msgid "Top-up Sum"
-msgstr ""
+msgstr "Påfyllnad"
 
 #. module: keykeep
 #: model:ir.actions.act_window,name:keykeep.action_keykeep_topup
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__topup_count
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__topup_ids
+#: model:ir.model.fields,field_description:keykeep.field_res_partner__topup_count
+#: model:ir.model.fields,field_description:keykeep.field_res_users__topup_count
 #: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_topup_list
 #: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_topup_search
 msgid "Top-ups"
-msgstr ""
+msgstr "Påfyllningar"
 
 #. module: keykeep
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_cost_forecast_list
+#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_invoice_stub_list
 #: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_tree
 msgid "Total"
 msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__tripwire_enabled
+msgid "Tripwire Enabled"
+msgstr "Tripwire aktiverad"
 
 #. module: keykeep
 #: model:ir.model.fields,help:keykeep.field_keykeep_subscription__activity_exception_decoration
@@ -1834,14 +2207,8 @@ msgid "Type of the exception activity on record."
 msgstr ""
 
 #. module: keykeep
-#: model:ir.model.fields,help:keykeep.field_keykeep_subscription__logo_url
-msgid "URL to auto-fetch the logo from (e.g. Clearbit)."
-msgstr ""
-
-#. module: keykeep
-#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_form
-msgid ""
-"URL to fetch logo from. Clearbit: https://logo.clearbit.com/example.com"
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_subscription__billing_model__unknown
+msgid "Unknown"
 msgstr ""
 
 #. module: keykeep
@@ -1883,9 +2250,7 @@ msgid "Veckor"
 msgstr ""
 
 #. module: keykeep
-#: model:ir.model.fields,field_description:keykeep.field_keykeep_create_journal_entry__partner_id
-#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__partner_id
-#: model_terms:ir.ui.view,arch_db:keykeep.view_keykeep_subscription_search
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_invoice_stub__partner_id
 msgid "Vendor"
 msgstr ""
 
@@ -1901,7 +2266,6 @@ msgid "Version History"
 msgstr ""
 
 #. module: keykeep
-#: model:ir.model.fields,field_description:keykeep.field_keykeep_credential__version_count
 #: model:ir.model.fields.selection,name:keykeep.selection__keykeep_credential_access_log__fields_accessed__versions
 msgid "Versions"
 msgstr ""
@@ -1917,6 +2281,16 @@ msgid "View the decrypted value from this historical version"
 msgstr ""
 
 #. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_subscription__budget_warning_threshold
+msgid "Warn when remaining balance drops below this % of the budget."
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__budget_warning_threshold
+msgid "Warning Threshold (%)"
+msgstr "Varningströskel (%)"
+
+#. module: keykeep
 #: model:ir.model.fields,field_description:keykeep.field_keykeep_subscription__website_message_ids
 msgid "Website Messages"
 msgstr ""
@@ -1924,6 +2298,11 @@ msgstr ""
 #. module: keykeep
 #: model:ir.model.fields,help:keykeep.field_keykeep_subscription__website_message_ids
 msgid "Website communication history"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_subscription__last_balance_checked_at
+msgid "When the balance was last read (API or manual)."
 msgstr ""
 
 #. module: keykeep
@@ -1941,6 +2320,11 @@ msgstr ""
 #. module: keykeep
 #: model:ir.model.fields.selection,name:keykeep.selection__keykeep_subscription__renewal_frequency__yearly
 msgid "Yearly"
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields.selection,name:keykeep.selection__keykeep_subscription__renewal_semaphore__yellow
+msgid "Yellow"
 msgstr ""
 
 #. module: keykeep
@@ -1965,6 +2349,12 @@ msgid "e.g. Slack, GitHub Enterprise"
 msgstr ""
 
 #. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_subscription__renewal_semaphore
+msgid ""
+"green = ok; yellow = within notify window; red = overdue/expired/inactive."
+msgstr ""
+
+#. module: keykeep
 #. odoo-python
 #: code:addons/keykeep/models/keykeep_credential.py:0
 msgid ""
@@ -1981,14 +2371,19 @@ msgstr ""
 #. module: keykeep
 #: model:ir.model.fields,help:keykeep.field_keykeep_topup__method
 msgid ""
-"manual = gjord av operatören; auto = auto-top-up-konfig; api = provider-API-"
-"exekvering."
+"manual = entered by an operator; auto = automatic top-up configuration; api "
+"= provider API execution."
 msgstr ""
 
 #. module: keykeep
 #: model:ir.model.fields,help:keykeep.field_keykeep_cost_forecast__source
 msgid ""
-"manual = operatörssatt (bevaras); computed = genererad av prognos-cronen."
+"manual = operator-set (kept); computed = generated by the forecast cron."
+msgstr ""
+
+#. module: keykeep
+#: model:ir.model.fields,help:keykeep.field_keykeep_subscription__billing_model
+msgid "prepaid = credits/top-up  postpaid = invoice i afterwards "
 msgstr ""
 
 #. module: keykeep

@@ -8,7 +8,7 @@ class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 
     # ──────────────────────────────────────────────────────────────────
-    # Background Jobs — cron-administration (samma mönster som ai_agent_core)
+    # Background Jobs — cron administration (same pattern as ai_agent_core)
     # ──────────────────────────────────────────────────────────────────
 
     keykeep_cron_line_ids = fields.One2many(
@@ -65,17 +65,17 @@ class KeykeepCronLine(models.TransientModel):
         ('hours', 'Timmar'),
         ('days', 'Dagar'),
         ('weeks', 'Veckor'),
-        ('months', 'Månader'),
+        ('months', 'Months'),
     ], string='Period', default='days')
     cron_lastcall = fields.Datetime(related='cron_id.lastcall',
-                                    string='Senaste körning', readonly=True)
+                                    string='Last run', readonly=True)
     cron_failure_count = fields.Integer(related='cron_id.failure_count',
                                         string='Fel', readonly=True)
     cron_code = fields.Text(related='cron_id.code', string='Metod',
                             readonly=True)
 
     def action_run_now(self):
-        """Kör cron direkt."""
+        """Run the cron immediately."""
         self.ensure_one()
         if not self.cron_id:
             return False
@@ -93,7 +93,7 @@ class KeykeepCronLine(models.TransientModel):
             'tag': 'display_notification',
             'params': {
                 'title': 'Cron triggad',
-                'message': f'{self.cron_name} körs nu.',
+                'message': f'{self.cron_name} is running now.',
                 'type': 'success',
             },
         }

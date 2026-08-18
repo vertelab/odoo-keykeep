@@ -52,7 +52,7 @@ class KeykeepTopup(models.Model):
         string="Method",
         default="manual",
         required=True,
-        help="manual = gjord av operatören; auto = auto-top-up-konfig; api = provider-API-exekvering.",
+        help="manual = entered by an operator; auto = automatic top-up configuration; api = provider API execution.",
     )
     source = fields.Selection(
         selection=[
@@ -68,7 +68,7 @@ class KeykeepTopup(models.Model):
         comodel_name="keykeep.credential",
         string="Credential",
         ondelete="set null",
-        help="Motstående konto/nyckel (valfritt).",
+        help="Counterparty account/key (optional).",
     )
     payment_method_id = fields.Many2one(
         comodel_name="keykeep.payment.method",
@@ -77,7 +77,7 @@ class KeykeepTopup(models.Model):
     )
     receipt_ref = fields.Char(
         string="Receipt Reference",
-        help="Kvitto/order-ref från providern.",
+        help="Receipt/order reference from the provider.",
     )
     invoice_stub_id = fields.Many2one(
         comodel_name="keykeep.invoice.stub",
@@ -94,7 +94,7 @@ class KeykeepTopup(models.Model):
         string="Status",
         default="draft",
         required=True,
-        help="Bara confirmed/reconciled räknas in i prognoserna.",
+        help="Only confirmed/reconciled top-ups count towards the forecasts.",
     )
     note = fields.Text(string="Note")
 

@@ -46,7 +46,7 @@
         </field>
     </record>
 
-    <!-- Forecast Pivot View (kategori + månad) -->
+    <!-- Forecast Pivot View (category + month) -->
     <record id="view_keykeep_cost_forecast_pivot" model="ir.ui.view">
         <field name="name">keykeep.cost.forecast.pivot</field>
         <field name="model">keykeep.cost.forecast</field>
@@ -109,7 +109,7 @@
 
     <!-- Server Action: Generera prognos (kugghjul / context action) -->
     <record id="action_generate_forecast_server" model="ir.actions.server">
-        <field name="name">Generera prognos</field>
+        <field name="name">Generate Forecast</field>
         <field name="model_id" ref="model_keykeep_cost_forecast"/>
         <field name="binding_model_id" ref="model_keykeep_cost_forecast"/>
         <field name="binding_view_types">list</field>
@@ -118,13 +118,13 @@
 records = env['keykeep.cost.forecast']
 result = records.generate_forecast(months=12)
 
-# Notis till användaren med sammanfattning
+# User notification with summary
 action = {
     'type': 'ir.actions.client',
     'tag': 'display_notification',
     'params': {
-        'title': 'Prognos genererad',
-        'message': f"Skapade {result['created']} rader, uppdaterade {result['updated']} (12 månader framåt).",
+        'title': 'Forecast generated',
+        'message': f"Created {result['created']} rows, updated {result['updated']} (12 months ahead).",
         'type': 'success',
         'sticky': False,
     },

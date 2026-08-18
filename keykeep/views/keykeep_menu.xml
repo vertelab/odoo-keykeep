@@ -7,10 +7,10 @@
               web_icon="keykeep,static/description/icon.png"
               sequence="70"/>
 
-    <!-- Suppliers — FÖRST i huvudmenyn. Självförsörjande i keykeep:
-         Suppliers-aktionen använder keykeep-partnerfältet is_keykeep_partner
-         (inget beroende av bifrost_keykeep-bryggan). Subscriptions ligger här
-         som barn. -->
+    <!-- Suppliers — FIRST in the main menu. Self-sufficient in keykeep:
+         the Suppliers action uses the keykeep partner field is_keykeep_partner
+         (no dependency on the bifrost_keykeep bridge). Subscriptions live here
+         as children. -->
     <menuitem id="menu_keykeep_suppliers"
               name="Suppliers"
               parent="menu_keykeep_root"
@@ -42,7 +42,7 @@
               sequence="90"
               groups="keykeep.group_manager"/>
 
-    <!-- Settings — FÖRST i Configuration -->
+    <!-- Settings — FIRST in Configuration -->
     <menuitem id="menu_keykeep_settings"
               name="Settings"
               parent="menu_keykeep_config"
