@@ -46,6 +46,7 @@ patch(FormController.prototype, {
 document.addEventListener("click", async (ev) => {
     const copyBtn = ev.target.closest("[data-keykeep-copy]");
     if (!copyBtn) return;
+    ev.preventDefault();
 
     const value = copyBtn.dataset.keykeepCopy;
     if (!value) return;

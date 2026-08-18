@@ -165,25 +165,23 @@
                                    decoration-warning="renewal_semaphore == 'yellow'"
                                    decoration-danger="renewal_semaphore == 'red'"/>
                         </div>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
+                                invisible="active"/>
                     </div>
+
+                    <!-- Supplier-översikt (mellan name och notebook) -->
+                    <group>
+                        <group>
+                            <field name="partner_id" string="Supplier"/>
+                            <field name="category_id"/>
+                            <field name="responsible_id"/>
+                            <field name="replacement_subscription_id"
+                                   domain="[('id', '!=', id)]"/>
+                            <field name="url" string="Service URL" widget="url"/>
+                        </group>
+                    </group>
+
                     <notebook>
-                        <!-- Tab 1: General (supplier kommer via context; fältet dolt) -->
-                        <page string="General">
-                            <group>
-                                <group>
-                                    <field name="partner_id" invisible="1"/>
-                                    <field name="category_id"/>
-                                    <field name="responsible_id"/>
-                                    <field name="url" widget="url"/>
-                                </group>
-                                <group>
-                                    <field name="company_id" groups="base.group_multi_company"/>
-                                    <field name="active"/>
-                                    <field name="replacement_subscription_id"
-                                           domain="[('id', '!=', id)]"/>
-                                </group>
-                            </group>
-                        </page>
 
                         <!-- Tab 2: Renewal (semaforsgrund) -->
                         <page string="Renewal" name="renewal">
