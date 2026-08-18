@@ -308,7 +308,7 @@ class KeykeepSubscription(models.Model):
         help="Provider budget ceiling in USD (bifrost governance max_limit).",
     )
     last_balance = fields.Monetary(
-        string="Last Balance",
+        string="Balance",
         currency_field="balance_currency",
         help="Senast kända kreditsaldo hos providern (USD eller provider-valuta).",
     )
@@ -318,7 +318,7 @@ class KeykeepSubscription(models.Model):
         help="Valuta för last_balance (default USD).",
     )
     last_balance_checked_at = fields.Datetime(
-        string="Last Balance Checked",
+        string="Date",
         help="När saldot senast avlästes (API eller manuellt).",
     )
     balance_source = fields.Selection(
@@ -334,18 +334,13 @@ class KeykeepSubscription(models.Model):
     )
     burn_rate_day = fields.Monetary(
         string="Burn Rate (day)",
-        currency_field="burn_rate_currency",
+        currency_field="balance_currency",
         digits=(16, 4),
         readonly=True,
         help="Rolling average daily cost (mirrored from the provider / computed from last_balance).",
     )
-    burn_rate_currency = fields.Many2one(
-        comodel_name="res.currency",
-        string="Burn Rate Currency",
-        help="Valuta för burn_rate_day.",
-    )
     days_until_empty = fields.Float(
-        string="Days Until Empty",
+        string="Remaining days",
         digits=(16, 1),
         readonly=True,
         help="(budget_limit − current_usage) / burn_rate_day (mirrored).",
@@ -401,7 +396,6 @@ class KeykeepSubscription(models.Model):
             if hasattr(partner, "_compute_burn_forecast"):
                 partner._compute_burn_forecast()
                 rec.burn_rate_day = partner.burn_rate_day
-                rec.burn_rate_currency = partner.balance_currency or rec.currency_id
                 rec.days_until_empty = partner.days_until_empty
                 rec.projected_empty_date = partner.projected_empty_date
             elif rec.burn_rate_day and rec.last_balance:

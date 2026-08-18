@@ -236,8 +236,8 @@
                                     <div class="d-flex align-items-center gap-2">
                                         <label for="burn_rate_day"/>
                                         <field name="burn_rate_day"
-                                               widget="monetary" options="{'currency_field': 'burn_rate_currency'}"/>
-                                        <span>(<field name="burn_rate_currency"/>)</span>
+                                               widget="monetary" options="{'currency_field': 'balance_currency'}"/>
+                                        <span>(<field name="balance_currency"/>)</span>
                                     </div>
                                     <field name="days_until_empty"/>
                                     <field name="projected_empty_date"/>
