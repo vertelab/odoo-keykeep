@@ -124,10 +124,37 @@
     <record id="action_keykeep_suppliers" model="ir.actions.act_window">
         <field name="name">Suppliers</field>
         <field name="res_model">res.partner</field>
-        <field name="view_mode">kanban,list,form</field>
+        <field name="view_mode">kanban,list,pivot,graph,form</field>
         <field name="view_id" ref="view_keykeep_supplier_form"/>
         <field name="domain">[('is_keykeep_partner', '=', True)]</field>
         <field name="context">{'default_is_keykeep_partner': True}</field>
+    </record>
+
+    <!-- Suppliers pivot — billing model x monthly forecast -->
+    <record id="view_keykeep_supplier_pivot" model="ir.ui.view">
+        <field name="name">res.partner.keykeep.supplier.pivot</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="billing_model" type="row"/>
+                <field name="is_keykeep_partner" type="col"/>
+                <field name="monthly_forecast_amount" type="measure"/>
+                <field name="subscription_count" type="measure"/>
+                <field name="credential_count" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Suppliers graph — monthly forecast per billing model -->
+    <record id="view_keykeep_supplier_graph" model="ir.ui.view">
+        <field name="name">res.partner.keykeep.supplier.graph</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <graph>
+                <field name="billing_model" type="row"/>
+                <field name="monthly_forecast_amount" type="measure"/>
+            </graph>
+        </field>
     </record>
 
     <!-- ===== Keykeep Suppliers Kanban (samma mönster som subscription-kanbanen) ===== -->
@@ -139,6 +166,7 @@
                     quick_create="false">
                 <field name="name"/>
                 <field name="image_1920"/>
+                <field name="user_id"/>
                 <field name="website"/>
                 <field name="billing_model"/>
                 <field name="is_keykeep_partner"/>
@@ -182,6 +210,9 @@
                                        decoration-success="partner_semaphore == 'green'"
                                        decoration-warning="partner_semaphore == 'yellow'"
                                        decoration-danger="partner_semaphore == 'red'"/>
+                                <field name="user_id" widget="many2one_avatar"
+                                       class="o_kanban_avatar"
+                                       options="{'display_name': True}"/>
                             </div>
                             <div class="keykeep-card-body mt-1">
                                 <div class="d-flex justify-content-between align-items-center">
