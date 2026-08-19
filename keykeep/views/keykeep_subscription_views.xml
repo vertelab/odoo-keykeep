@@ -418,4 +418,32 @@
         <field name="binding_model_id" ref="model_keykeep_subscription"/>
         <field name="binding_view_types">form</field>
     </record>
+
+    <!-- ===== Server Action: Recompute Monthly Forecast ===== -->
+    <!-- Kugghjul / context action: recompute stored monthly_forecast_amount
+         after currency or forecast changes (e.g. company currency switched). -->
+    <record id="action_recompute_monthly_forecast" model="ir.actions.server">
+        <field name="name">Recompute Monthly Forecast</field>
+        <field name="model_id" ref="model_keykeep_subscription"/>
+        <field name="binding_model_id" ref="model_keykeep_subscription"/>
+        <field name="binding_view_types">list,kanban</field>
+        <field name="state">code</field>
+        <field name="code">
+records = env['keykeep.subscription'].search([])
+records._compute_monthly_forecast_amount()
+records.flush_recordset()
+
+# User notification with summary
+action = {
+    'type': 'ir.actions.client',
+    'tag': 'display_notification',
+    'params': {
+        'title': 'Monthly forecast recomputed',
+        'message': f"Recomputed monthly_forecast_amount for {len(records)} subscriptions.",
+        'type': 'success',
+        'sticky': False,
+    },
+}
+</field>
+    </record>
 </odoo>
