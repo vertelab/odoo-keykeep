@@ -17,6 +17,7 @@
                 <field name="active"/>
                 <field name="renewal_semaphore"/>
                 <field name="renewal_frequency"/>
+                <field name="responsible_id"/>
                 <field name="monthly_forecast_amount"/>
                 <field name="company_currency_id"/>
                 <field name="next_renewal_date"/>
@@ -55,6 +56,9 @@
                                        decoration-success="renewal_semaphore == 'green'"
                                        decoration-warning="renewal_semaphore == 'yellow'"
                                        decoration-danger="renewal_semaphore == 'red'"/>
+                                <field name="responsible_id" widget="many2one_avatar"
+                                       class="o_kanban_avatar"
+                                       options="{'display_name': True}"/>
                             </div>
                             <div class="keykeep-card-body mt-1">
                                 <div class="d-flex justify-content-between align-items-center">
