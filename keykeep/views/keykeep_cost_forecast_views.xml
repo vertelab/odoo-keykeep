@@ -10,8 +10,12 @@
                 <field name="subscription_id" string="Subscription"/>
                 <field name="provider_id" string="Provider" optional="show"/>
                 <field name="category_id" string="Category" optional="show"/>
-                <field name="forecast_amount" string="Forecast" sum="Total"/>
+                <field name="forecast_amount_company" string="Forecast (Company Currency)"
+                       widget="monetary" options="{'currency_field': 'company_currency_id'}"
+                       sum="Total"/>
+                <field name="forecast_amount" string="Forecast (Original)" sum="Total"/>
                 <field name="currency_id" string="Currency" optional="hide"/>
+                <field name="company_currency_id" string="Company Currency" optional="hide"/>
                 <field name="source" string="Source" widget="badge"
                        decoration-info="source == 'computed'"
                        decoration-muted="source == 'manual'"/>
@@ -32,6 +36,8 @@
                             <field name="forecast_date"/>
                             <field name="forecast_amount"/>
                             <field name="currency_id"/>
+                            <field name="forecast_amount_company"/>
+                            <field name="company_currency_id"/>
                             <field name="source"/>
                         </group>
                         <group>
@@ -54,6 +60,7 @@
             <pivot string="Forecast">
                 <field name="category_id" type="row"/>
                 <field name="forecast_date" type="col" interval="month"/>
+                <field name="forecast_amount_company" type="measure"/>
                 <field name="forecast_amount" type="measure"/>
             </pivot>
         </field>
@@ -67,6 +74,7 @@
             <graph string="Forecast">
                 <field name="forecast_date" type="row" interval="month"/>
                 <field name="category_id" type="col"/>
+                <field name="forecast_amount_company" type="measure"/>
                 <field name="forecast_amount" type="measure"/>
             </graph>
         </field>
@@ -101,7 +109,7 @@
     <record id="action_keykeep_cost_forecast" model="ir.actions.act_window">
         <field name="name">Forecast</field>
         <field name="res_model">keykeep.cost.forecast</field>
-        <field name="view_mode">pivot,graph,list,form</field>
+        <field name="view_mode">list,pivot,graph,form</field>
         <field name="search_view_id" ref="view_keykeep_cost_forecast_search"/>
         <field name="domain">[]</field>
         <field name="context">{}</field>

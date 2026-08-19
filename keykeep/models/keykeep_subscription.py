@@ -572,26 +572,21 @@ class KeykeepSubscription(models.Model):
         }
 
     def action_fetch_logo(self):
-        """Auto-fetch logo from Clearbit Logo API based on URL domain."""
+        """Auto-fetch logo via web_fetch_logo (logo.dev -> icon.horse ->
+        Google favicon -> HTML scraping) based on URL domain."""
         self.ensure_one()
         if not self.url:
             raise ValidationError(_("Set a URL first to auto-fetch the logo."))
-        import urllib.parse
-
-        parsed = urllib.parse.urlparse(self.url)
-        domain = parsed.netloc or self.url
-        clearbit_url = f"https://logo.clearbit.com/{domain}"
         try:
-            import urllib.request
-
-            req = urllib.request.Request(clearbit_url, headers={"User-Agent": "Odoo-Keykeep/1.0"})
-            with urllib.request.urlopen(req, timeout=10) as response:
-                self.logo = response.read()
-        except Exception as e:
-            _logger.warning("Could not fetch logo from %s: %s", clearbit_url, e)
+            from odoo.addons.web_fetch_logo.models.logo_fetcher import fetch_logo_b64
+        except ImportError:
             raise ValidationError(
-                _("Could not fetch logo from %s. Try uploading manually.") % clearbit_url
-            )
+                _("The web_fetch_logo module is not installed."))
+        logo_b64 = fetch_logo_b64(self.url)
+        if not logo_b64:
+            raise ValidationError(
+                _("Could not fetch logo from %s. Try uploading manually.") % self.url)
+        self.write({"logo": logo_b64})
 
     # --- Cron: Update renewal dates ---
 

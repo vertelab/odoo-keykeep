@@ -2,6 +2,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models
+from odoo.exceptions import ValidationError
+from odoo.tools.translate import _
 
 
 class ResPartner(models.Model):
@@ -32,6 +34,13 @@ class ResPartner(models.Model):
     is_keykeep_partner = fields.Boolean(
         string="KeyKeep",
         help="Partner managed in KeyKeep (supplier with subscriptions/credentials).",
+    )
+
+    keykeep_category_id = fields.Many2one(
+        comodel_name="keykeep.category",
+        string="Category",
+        ondelete="set null",
+        help="Keykeep category used for kanban grouping and card color.",
     )
 
     # === Smart-button aggregates (across all the partner's subscriptions) ===
@@ -76,6 +85,38 @@ class ResPartner(models.Model):
             else:
                 partner.partner_semaphore = max(
                     colours, key=lambda c: order.get(c, 0))
+
+    # Earliest next renewal across the partner's active subscriptions — same
+    # pattern as the subscription kanban "Next:" row, aggregated to the
+    # supplier level.
+    next_renewal_date = fields.Date(
+        string="Next Renewal",
+        compute="_compute_next_renewal",
+        help="Earliest next renewal date among the partner's active subscriptions.",
+    )
+    days_until_renewal = fields.Integer(
+        string="Days Until Renewal",
+        compute="_compute_next_renewal",
+    )
+
+    @api.depends(
+        "subscription_ids",
+        "subscription_ids.active",
+        "subscription_ids.state",
+        "subscription_ids.next_renewal_date",
+    )
+    def _compute_next_renewal(self):
+        today = fields.Date.today()
+        for partner in self:
+            dates = partner.subscription_ids.filtered(
+                lambda s: s.active and s.state == "active" and s.next_renewal_date
+            ).mapped("next_renewal_date")
+            partner.next_renewal_date = min(dates) if dates else False
+            partner.days_until_renewal = (
+                (partner.next_renewal_date - today).days
+                if partner.next_renewal_date
+                else 0
+            )
 
     @api.depends(
         "subscription_ids",
@@ -130,6 +171,68 @@ class ResPartner(models.Model):
             "view_mode": "list,form",
             "domain": [("id", "in", topups.ids)],
             "context": {"default_subscription_id": self.subscription_ids[:1].id},
+        }
+
+    def action_view_forecast(self):
+        """Open the cost forecast rows across the partner's subscriptions."""
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_window",
+            "name": "Cost Forecast",
+            "res_model": "keykeep.cost.forecast",
+            "view_mode": "list,form",
+            "domain": [("subscription_id", "in", self.subscription_ids.ids)],
+        }
+
+    def action_fetch_logo(self):
+        """Fetch the company logo from the website via web_fetch_logo."""
+        self.ensure_one()
+        domain = self.website or self.name
+        if not domain:
+            raise ValidationError(_("Set a website first to auto-fetch the logo."))
+        try:
+            from odoo.addons.web_fetch_logo.models.logo_fetcher import fetch_logo_b64
+        except ImportError:
+            raise ValidationError(
+                _("The web_fetch_logo module is not installed."))
+        logo_b64 = fetch_logo_b64(domain)
+        if not logo_b64:
+            raise ValidationError(
+                _("Could not fetch a logo for %s.") % domain)
+        self.write({"image_1920": logo_b64})
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": "Logo Fetched",
+                "message": _("Logo fetched for %s.") % self.name,
+                "type": "success",
+                "sticky": False,
+            },
+        }
+
+    def action_add_api_key(self):
+        """Open the wizard to register a provider API key in Keykeep."""
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": "bifrost.provider.api.key.wizard",
+            "name": "Add Provider API Key",
+            "view_mode": "form",
+            "target": "new",
+            "context": {"default_provider_id": self.id},
+        }
+
+    def action_add_credential(self):
+        """Open the wizard to register login credentials / email-link."""
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": "bifrost.provider.credential.wizard",
+            "name": "Add Provider Credential",
+            "view_mode": "form",
+            "target": "new",
+            "context": {"default_provider_id": self.id},
         }
 
     def action_add_topup(self):

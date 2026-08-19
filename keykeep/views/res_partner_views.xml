@@ -44,12 +44,22 @@
         <field name="model">res.partner</field>
         <field name="arch" type="xml">
             <form string="Supplier">
+                <header>
+                    <button name="action_fetch_logo" type="object"
+                            string="Fetch Logo" class="btn-secondary"
+                            help="Auto-fetch logo via web_fetch_logo (logo.dev -> icon.horse -> Google -> scrape)."
+                            invisible="not website"/>
+                    <button name="action_add_api_key" type="object"
+                            string="Add API Key" class="btn-primary" icon="fa-plus"/>
+                    <button name="action_add_credential" type="object"
+                            string="Add Login" class="btn-secondary" icon="fa-user-plus"/>
+                </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button name="action_view_subscriptions" type="object"
                                 class="oe_stat_button" icon="fa-list-alt">
                             <div class="o_stat_info">
-                                <field name="subscription_count"/>
+                                <field name="subscription_count" widget="statinfo"/>
                                 <span class="o_stat_text">Subscriptions</span>
                             </div>
                         </button>
@@ -67,18 +77,11 @@
                                 <field name="invoice_count" class="o_stat_value" widget="statinfo"/>
                             </div>
                         </button>
-                        <button name="action_view_topups" type="object"
-                                class="oe_stat_button" icon="fa-arrow-up">
+                        <button name="action_view_forecast" type="object"
+                                class="oe_stat_button" icon="fa-line-chart">
                             <div class="o_stat_info">
-                                <span class="o_stat_text">Top-ups</span>
-                                <field name="topup_count" class="o_stat_value" widget="statinfo"/>
-                            </div>
-                        </button>
-                        <button name="action_add_topup" type="object"
-                                class="oe_stat_button" icon="fa-plus-circle"
-                                groups="keykeep.group_manager,keykeep.group_admin,keykeep.group_devops">
-                            <div class="o_stat_info">
-                                <span class="o_stat_text">+ Top Up</span>
+                                <span class="o_stat_text">Forecast</span>
+                                <field name="forecast_count" class="o_stat_value" widget="statinfo"/>
                             </div>
                         </button>
                     </div>
@@ -88,22 +91,26 @@
                             <field name="image_1920" widget="image" class="oe_avatar"/>
                         </div>
                         <div class="flex-grow-1">
-                            <div class="oe_title">
-                                <h1><field name="name" placeholder="Supplier name…"/></h1>
+                            <div class="oe_title d-flex align-items-start gap-2">
+                                <h1 class="flex-grow-1"><field name="name" placeholder="Supplier name…"/></h1>
+                                <field name="partner_semaphore" widget="badge"
+                                       decoration-success="partner_semaphore == 'green'"
+                                       decoration-warning="partner_semaphore == 'yellow'"
+                                       decoration-danger="partner_semaphore == 'red'"/>
                             </div>
                             <group string="Supplier Identity">
                                 <group>
                                     <field name="website" widget="url"/>
+                                    <field name="user_id" string="Responsible"/>
+                                    <field name="keykeep_category_id"/>
                                 </group>
                             </group>
                         </div>
                     </div>
                     <group>
                         <group>
-                            <field name="is_company"/>
                             <field name="email"/>
                             <field name="phone"/>
-                            <field name="is_keykeep_partner"/>
                         </group>
                         <group>
                             <field name="vat"/>
@@ -120,14 +127,50 @@
         </field>
     </record>
 
-    <!-- Suppliers action -->
+    <!-- Remove auto-created view rows from the old action definition so the
+         explicit view_ids below can bind kanban/list/pivot/graph/form in order.
+         Without this, the unique constraint (act_window_id, view_mode) blocks
+         creating the explicit rows (drift lesson 2026-08-19). -->
+    <delete model="ir.actions.act_window.view"
+            search="[('act_window_id', '=', ref('action_keykeep_suppliers'))]"/>
+
+    <!-- Suppliers action — explicit view order: kanban, list, pivot, graph, form.
+         Explicit view_ids binding is REQUIRED so the keykeep supplier kanban is
+         used (otherwise res.partner's base kanban is shown) and the switcher
+         order is kanban → list → pivot → graph. -->
     <record id="action_keykeep_suppliers" model="ir.actions.act_window">
         <field name="name">Suppliers</field>
         <field name="res_model">res.partner</field>
         <field name="view_mode">kanban,list,pivot,graph,form</field>
-        <field name="view_id" ref="view_keykeep_supplier_form"/>
         <field name="domain">[('is_keykeep_partner', '=', True)]</field>
         <field name="context">{'default_is_keykeep_partner': True}</field>
+        <field name="view_ids">
+            <record id="action_keykeep_suppliers_view_kanban" model="ir.actions.act_window.view">
+                <field name="sequence" eval="1"/>
+                <field name="view_mode">kanban</field>
+                <field name="view_id" ref="view_keykeep_supplier_kanban"/>
+            </record>
+            <record id="action_keykeep_suppliers_view_list" model="ir.actions.act_window.view">
+                <field name="sequence" eval="2"/>
+                <field name="view_mode">list</field>
+                <field name="view_id" ref="view_keykeep_supplier_list"/>
+            </record>
+            <record id="action_keykeep_suppliers_view_pivot" model="ir.actions.act_window.view">
+                <field name="sequence" eval="3"/>
+                <field name="view_mode">pivot</field>
+                <field name="view_id" ref="view_keykeep_supplier_pivot"/>
+            </record>
+            <record id="action_keykeep_suppliers_view_graph" model="ir.actions.act_window.view">
+                <field name="sequence" eval="4"/>
+                <field name="view_mode">graph</field>
+                <field name="view_id" ref="view_keykeep_supplier_graph"/>
+            </record>
+            <record id="action_keykeep_suppliers_view_form" model="ir.actions.act_window.view">
+                <field name="sequence" eval="5"/>
+                <field name="view_mode">form</field>
+                <field name="view_id" ref="view_keykeep_supplier_form"/>
+            </record>
+        </field>
     </record>
 
     <!-- Suppliers pivot — billing model x monthly forecast -->
@@ -162,21 +205,24 @@
         <field name="name">res.partner.keykeep.supplier.kanban</field>
         <field name="model">res.partner</field>
         <field name="arch" type="xml">
-            <kanban default_group_by="billing_model" class="o_kanban_small_column"
-                    quick_create="false">
+            <kanban default_group_by="keykeep_category_id" class="o_kanban_small_column"
+                    color_field="keykeep_category_id" quick_create="false">
                 <field name="name"/>
                 <field name="image_1920"/>
                 <field name="user_id"/>
                 <field name="website"/>
                 <field name="billing_model"/>
                 <field name="is_keykeep_partner"/>
+                <field name="keykeep_category_id"/>
                 <field name="partner_semaphore"/>
+                <field name="next_renewal_date"/>
+                <field name="days_until_renewal"/>
                 <field name="monthly_forecast_amount"/>
                 <field name="company_currency_id"/>
                 <field name="subscription_count"/>
                 <field name="credential_count"/>
                 <field name="invoice_count"/>
-                <field name="topup_count"/>
+                <field name="forecast_count"/>
                 <templates>
                     <t t-name="card">
                         <div class="oe_kanban_card oe_kanban_global_click keykeep-card">
@@ -191,7 +237,7 @@
                                     <t t-else="">
                                         <div class="d-flex align-items-center justify-content-center bg-100 bg-gradient"
                                              style="width: 48px; height: 48px; border-radius: 8px;">
-                                            <i class="fa fa-building-o fa-2x text-secondary opacity-50"/>
+                                            <i class="fa fa-building-o fa-2x text-secondary opacity-50" title="Logo"/>
                                         </div>
                                     </t>
                                 </div>
@@ -225,20 +271,51 @@
                                         <field name="billing_model"/>
                                     </span>
                                 </div>
-                                <div class="text-muted small mt-1">
-                                    <t t-esc="record.subscription_count.value"/> subscription(s)
+                                <div class="d-flex justify-content-between align-items-center mt-1">
+                                    <span class="text-muted small">Next:</span>
+                                    <span t-attf-class="keykeep-days #{record.partner_semaphore.raw_value}">
+                                        <t t-if="record.next_renewal_date.raw_value">
+                                            <t t-if="record.days_until_renewal.value &lt; 0">
+                                                <span class="text-danger">⚠ <field name="next_renewal_date"/> Overdue</span>
+                                            </t>
+                                            <t t-elif="record.days_until_renewal.value == 0">
+                                                <span class="text-warning">⏰ <field name="next_renewal_date"/> Today</span>
+                                            </t>
+                                            <t t-else="">
+                                                <span class="text-info"><field name="next_renewal_date"/> (<t t-esc="record.days_until_renewal.value"/> dagar)</span>
+                                            </t>
+                                        </t>
+                                        <t t-else="">
+                                            <span class="text-muted">—</span>
+                                        </t>
+                                    </span>
                                 </div>
                             </div>
-                            <div class="keykeep-card-footer d-flex align-items-center gap-3 mt-2 pt-1 text-muted small">
-                                <span t-if="record.credential_count.raw_value &gt; 0" title="API Keys">
-                                    <i class="fa fa-key"/> <t t-esc="record.credential_count.value"/>
-                                </span>
-                                <span t-if="record.invoice_count.raw_value &gt; 0" title="Invoices">
-                                    <i class="fa fa-file-text-o"/> <t t-esc="record.invoice_count.value"/>
-                                </span>
-                                <span t-if="record.topup_count.raw_value &gt; 0" title="Top-ups">
-                                    <i class="fa fa-arrow-up"/> <t t-esc="record.topup_count.value"/>
-                                </span>
+                            <div class="keykeep-card-footer d-flex justify-content-between align-items-center mt-2 pt-1">
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="badge text-bg-light" t-if="record.keykeep_category_id.raw_value">
+                                        <a type="action" name="keykeep.action_keykeep_category">
+                                            <field name="keykeep_category_id"/>
+                                        </a>
+                                    </span>
+                                </div>
+                                <div class="d-flex align-items-center gap-2 text-muted small">
+                                    <a type="object" name="action_view_subscriptions" title="Subscriptions">
+                                        <i class="fa fa-list-alt"/> <t t-esc="record.subscription_count.value"/>
+                                    </a>
+                                    <a type="object" name="action_view_credentials"
+                                       t-if="record.credential_count.raw_value &gt; 0" title="API Keys">
+                                        <i class="fa fa-key"/> <t t-esc="record.credential_count.value"/>
+                                    </a>
+                                    <a type="object" name="action_view_invoices"
+                                       t-if="record.invoice_count.raw_value &gt; 0" title="Invoices">
+                                        <i class="fa fa-file-text-o"/> <t t-esc="record.invoice_count.value"/>
+                                    </a>
+                                    <a type="object" name="action_view_forecast"
+                                       t-if="record.forecast_count.raw_value &gt; 0" title="Forecast">
+                                        <i class="fa fa-line-chart"/> <t t-esc="record.forecast_count.value"/>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </t>
