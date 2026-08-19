@@ -8,6 +8,7 @@
         <field name="arch" type="xml">
             <list>
                 <field name="name"/>
+                <field name="color" widget="color_picker" optional="show"/>
                 <field name="parent_id" optional="hide"/>
             </list>
         </field>
@@ -25,6 +26,7 @@
                     </div>
                     <group>
                         <group>
+                            <field name="color" widget="color_picker"/>
                             <field name="parent_id"/>
                             <field name="expense_account_id"/>
                         </group>

@@ -6,74 +6,119 @@
         <field name="name">keykeep.subscription.kanban</field>
         <field name="model">keykeep.subscription</field>
         <field name="arch" type="xml">
-            <kanban default_group_by="category_id" class="o_kanban_small_column" on_create="quick_create">
+            <kanban default_group_by="category_id" class="o_kanban_small_column"
+                    color_field="category_id" quick_create="false">
                 <field name="name"/>
                 <field name="logo"/>
+                <field name="partner_id"/>
+                <field name="category_id"/>
+                <field name="contract_type"/>
+                <field name="state"/>
+                <field name="active"/>
+                <field name="renewal_semaphore"/>
+                <field name="renewal_frequency"/>
                 <field name="cost_amount"/>
                 <field name="currency_id"/>
+                <field name="monthly_forecast_amount"/>
                 <field name="next_renewal_date"/>
-                <field name="kanban_state"/>
                 <field name="days_until_renewal"/>
-                <field name="state"/>
-                <field name="category_id"/>
-                <field name="partner_id"/>
                 <field name="credential_count"/>
+                <field name="invoice_count"/>
+                <field name="forecast_count"/>
+                <field name="topup_count"/>
                 <templates>
                     <t t-name="card">
-                        <div t-attf-class="oe_kanban_card oe_kanban_global_click keykeep-card"
-                             t-att-data-urgency="record.kanban_state.raw_value">
-                            <div class="keykeep-card-header">
-                                <div class="keykeep-logo">
-                                    <field name="logo" widget="image" class="keykeep-logo-img"
-                                           options="{'img_class': 'object-fit-cover'}"
-                                           alt="Logo"
-                                           t-attf-style="width: 48px; height: 48px; border-radius: 8px;"/>
+                        <div class="oe_kanban_card oe_kanban_global_click keykeep-card">
+                            <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
+                                    invisible="active"/>
+                            <div class="keykeep-card-header d-flex align-items-start gap-2">
+                                <div class="keykeep-logo flex-shrink-0">
+                                    <t t-if="record.logo.raw_value">
+                                        <field name="logo" widget="image" class="keykeep-logo-img"
+                                               options="{'img_class': 'object-fit-cover'}"
+                                               alt="Logo"
+                                               t-attf-style="width: 48px; height: 48px; border-radius: 8px;"/>
+                                    </t>
+                                    <t t-else="">
+                                        <div class="d-flex align-items-center justify-content-center bg-100 bg-gradient"
+                                             style="width: 48px; height: 48px; border-radius: 8px;">
+                                            <i class="fa fa-cubes fa-2x text-secondary opacity-50"/>
+                                        </div>
+                                    </t>
                                 </div>
-                                <div class="keykeep-title">
-                                    <strong><field name="name"/></strong>
-                                    <div class="text-muted small">
+                                <div class="keykeep-title flex-grow-1 min-w-0">
+                                    <strong class="d-block text-truncate"><field name="name"/></strong>
+                                    <div class="text-muted small text-truncate">
                                         <field name="partner_id"/>
                                     </div>
                                 </div>
+                                <field name="renewal_semaphore" widget="badge"
+                                       decoration-success="renewal_semaphore == 'green'"
+                                       decoration-warning="renewal_semaphore == 'yellow'"
+                                       decoration-danger="renewal_semaphore == 'red'"/>
                             </div>
-                            <div class="keykeep-card-body">
-                                <div class="keykeep-amount">
-                                    <t t-esc="record.cost_amount.raw_value and record.cost_amount.value or '—'"/>
-                                    <t t-esc="record.currency_id.raw_value and record.currency_id.value"/>
+                            <div class="keykeep-card-body mt-1">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="keykeep-amount">
+                                        <field name="cost_amount" widget="monetary"
+                                               options="{'currency_field': 'currency_id'}"/>
+                                        <span class="text-muted">/mån</span>
+                                    </span>
+                                    <span class="badge text-bg-light">
+                                        <field name="renewal_frequency"/>
+                                    </span>
                                 </div>
-                                <div t-attf-class="keykeep-days #{record.kanban_state.raw_value}">
-                                    <t t-if="record.state.raw_value == 'active' and record.days_until_renewal.raw_value != null">
-                                        <t t-if="record.days_until_renewal.value &lt; 0">
-                                            <span class="text-danger">⚠ Overdue</span>
+                                <div class="d-flex justify-content-between align-items-center mt-1">
+                                    <span class="text-muted small">Next:</span>
+                                    <span t-attf-class="keykeep-days #{record.renewal_semaphore.raw_value}">
+                                        <t t-if="record.state.raw_value == 'active' and record.days_until_renewal.raw_value != null">
+                                            <t t-if="record.days_until_renewal.value &lt; 0">
+                                                <span class="text-danger">⚠ <field name="next_renewal_date"/> Overdue</span>
+                                            </t>
+                                            <t t-elif="record.days_until_renewal.value == 0">
+                                                <span class="text-warning">⏰ <field name="next_renewal_date"/> Today</span>
+                                            </t>
+                                            <t t-else="">
+                                                <span class="text-info"><field name="next_renewal_date"/> (<t t-esc="record.days_until_renewal.value"/> dagar)</span>
+                                            </t>
                                         </t>
-                                        <t t-elif="record.days_until_renewal.value == 0">
-                                            <span class="text-warning">⏰ Today</span>
+                                        <t t-if="record.state.raw_value == 'cancelled'">
+                                            <span class="text-muted">Cancelled</span>
                                         </t>
-                                        <t t-else="">
-                                            <span class="text-info" t-esc="record.days_until_renewal.value + ' days'"/>
+                                        <t t-if="record.state.raw_value == 'expired'">
+                                            <span class="text-danger">Expired</span>
                                         </t>
-                                    </t>
-                                    <t t-if="record.state.raw_value == 'cancelled'">
-                                        <span class="text-muted">Cancelled</span>
-                                    </t>
-                                    <t t-if="record.state.raw_value == 'expired'">
-                                        <span class="text-danger">Expired</span>
-                                    </t>
+                                    </span>
                                 </div>
-                                <div class="keykeep-next">
-                                    <small>Next: <field name="next_renewal_date"/></small>
+                                <div class="d-flex justify-content-between align-items-center mt-1">
+                                    <span class="text-muted small">Prognos/mån:</span>
+                                    <span class="fw-semibold">
+                                        <field name="monthly_forecast_amount" widget="monetary"
+                                               options="{'currency_field': 'company_currency_id'}"/>
+                                    </span>
                                 </div>
                             </div>
-                            <div class="keykeep-card-footer">
-                                <span class="badge rounded-pill" t-attf-class="badge rounded-pill #{record.kanban_state.raw_value}">
-                                    <t t-if="record.kanban_state.raw_value == 'ok'" t-out="'Active'"/>
-                                    <t t-if="record.kanban_state.raw_value == 'warning'" t-out="'Expiring'"/>
-                                    <t t-if="record.kanban_state.raw_value == 'critical'" t-out="'Overdue'"/>
-                                    <t t-if="record.kanban_state.raw_value == 'inactive'" t-out="'Inactive'"/>
-                                </span>
-                                <span class="badge rounded-pill bg-secondary" t-if="record.credential_count.raw_value &gt; 0">
-                                    <t t-esc="record.credential_count.value"/> keys
-                                </span>
+                            <div class="keykeep-card-footer d-flex justify-content-between align-items-center mt-2 pt-1">
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="badge text-bg-secondary"><field name="contract_type"/></span>
+                                    <span class="badge text-bg-light" t-if="record.category_id.raw_value">
+                                        <field name="category_id"/>
+                                    </span>
+                                </div>
+                                <div class="d-flex align-items-center gap-2 text-muted small">
+                                    <span t-if="record.credential_count.raw_value &gt; 0" title="API Keys">
+                                        <i class="fa fa-key"/> <t t-esc="record.credential_count.value"/>
+                                    </span>
+                                    <span t-if="record.invoice_count.raw_value &gt; 0" title="Invoices">
+                                        <i class="fa fa-file-text-o"/> <t t-esc="record.invoice_count.value"/>
+                                    </span>
+                                    <span t-if="record.forecast_count.raw_value &gt; 0" title="Forecast">
+                                        <i class="fa fa-line-chart"/> <t t-esc="record.forecast_count.value"/>
+                                    </span>
+                                    <span t-if="record.topup_count.raw_value &gt; 0 and (record.contract_type.raw_value == 'top_up' or record.contract_type.raw_value == 'subscription_plus_topup')" title="Top-ups">
+                                        <i class="fa fa-arrow-up"/> <t t-esc="record.topup_count.value"/>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </t>
@@ -318,22 +363,40 @@
                 <filter name="cancelled" string="Cancelled" domain="[('state', '=', 'cancelled')]"/>
                 <filter name="expired" string="Expired" domain="[('state', '=', 'expired')]"/>
                 <separator/>
-                <filter name="expiring_soon" string="Expiring Soon"
-                        domain="[('kanban_state', '=', 'warning')]"/>
-                <filter name="overdue" string="Overdue"
-                        domain="[('kanban_state', '=', 'critical')]"/>
+                <filter name="renewal_ok" string="Semaphore: OK"
+                        domain="[('renewal_semaphore', '=', 'green')]"/>
+                <filter name="renewal_warning" string="Semaphore: Warning"
+                        domain="[('renewal_semaphore', '=', 'yellow')]"/>
+                <filter name="renewal_critical" string="Semaphore: Critical"
+                        domain="[('renewal_semaphore', '=', 'red')]"/>
+                <separator/>
+                <filter name="contract_subscription" string="Subscription"
+                        domain="[('contract_type', '=', 'subscription')]"/>
+                <filter name="contract_topup" string="Top-up"
+                        domain="[('contract_type', '=', 'top_up')]"/>
+                <filter name="contract_plus" string="Subscription + Top-up"
+                        domain="[('contract_type', '=', 'subscription_plus_topup')]"/>
+                <separator/>
                 <filter name="auto_renew" string="Auto Renew"
                         domain="[('auto_renew', '=', True)]"/>
+                <filter name="low_balance" string="Low Balance"
+                        domain="[('last_balance', '!=', False), ('budget_limit', '>', 0), ('last_balance', '&lt;=', 'budget_limit * 0.2')]"/>
+                <filter name="empty_soon" string="Empty Soon"
+                        domain="[('days_until_empty', '&lt;=', 10), ('days_until_empty', '&gt;', 0)]"/>
                 <separator/>
                 <group expand="0" string="Group By">
                     <filter name="group_category" string="Category"
                             domain="[]" context="{'group_by': 'category_id'}"/>
+                    <filter name="group_contract" string="Contract Type"
+                            domain="[]" context="{'group_by': 'contract_type'}"/>
                     <filter name="group_partner" string="Supplier"
                             domain="[]" context="{'group_by': 'partner_id'}"/>
                     <filter name="group_state" string="State"
                             domain="[]" context="{'group_by': 'state'}"/>
                     <filter name="group_renewal" string="Renewal Frequency"
                             domain="[]" context="{'group_by': 'renewal_frequency'}"/>
+                    <filter name="group_responsible" string="Responsible"
+                            domain="[]" context="{'group_by': 'responsible_id'}"/>
                 </group>
             </search>
         </field>

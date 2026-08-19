@@ -12,6 +12,10 @@ class KeykeepCategory(models.Model):
     _parent_name = "parent_id"
 
     name = fields.Char(required=True, translate=True)
+    color = fields.Integer(
+        string="Color",
+        help="Color used for the subscription kanban cards in this category.",
+    )
     parent_id = fields.Many2one(
         comodel_name="keykeep.category",
         string="Parent Category",
