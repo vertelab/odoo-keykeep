@@ -42,21 +42,59 @@ class ResPartner(models.Model):
         string="Invoices", compute="_compute_aggregates")
     topup_count = fields.Integer(
         string="Top-ups", compute="_compute_aggregates")
+    forecast_count = fields.Integer(
+        string="Forecast", compute="_compute_aggregates")
+    monthly_forecast_amount = fields.Monetary(
+        string="Monthly Forecast",
+        currency_field="company_currency_id",
+        compute="_compute_aggregates",
+        help="Sum of the subscriptions' monthly forecast in the company currency.",
+    )
+    company_currency_id = fields.Many2one(
+        comodel_name="res.currency",
+        string="Company Currency",
+        related="company_id.currency_id",
+    )
+    partner_semaphore = fields.Selection(
+        selection=[
+            ("green", "Green"),
+            ("yellow", "Yellow"),
+            ("red", "Red"),
+        ],
+        string="Keykeep Semaphore",
+        compute="_compute_partner_semaphore",
+        help="Worst renewal_semaphore across the partner's subscriptions.",
+    )
+
+    @api.depends("subscription_ids", "subscription_ids.renewal_semaphore")
+    def _compute_partner_semaphore(self):
+        order = {"green": 0, "yellow": 1, "red": 2}
+        for partner in self:
+            colours = partner.subscription_ids.mapped("renewal_semaphore")
+            if not colours:
+                partner.partner_semaphore = False
+            else:
+                partner.partner_semaphore = max(
+                    colours, key=lambda c: order.get(c, 0))
 
     @api.depends(
         "subscription_ids",
         "subscription_ids.credential_ids",
         "subscription_ids.invoice_ids",
         "subscription_ids.topup_ids",
+        "subscription_ids.cost_forecast_ids",
+        "subscription_ids.monthly_forecast_amount",
+        "company_id",
     )
     def _compute_aggregates(self):
         for partner in self:
-            partner.credential_count = len(
-                partner.subscription_ids.mapped("credential_ids"))
-            partner.invoice_count = len(
-                partner.subscription_ids.mapped("invoice_ids"))
-            partner.topup_count = len(
-                partner.subscription_ids.mapped("topup_ids"))
+            subs = partner.subscription_ids
+            partner.credential_count = len(subs.mapped("credential_ids"))
+            partner.invoice_count = len(subs.mapped("invoice_ids"))
+            partner.topup_count = len(subs.mapped("topup_ids"))
+            partner.forecast_count = sum(subs.mapped("forecast_count"))
+            partner.monthly_forecast_amount = sum(
+                subs.mapped("monthly_forecast_amount"))
 
     def action_view_credentials(self):
         self.ensure_one()
