@@ -52,13 +52,13 @@
                                         <field name="partner_id"/>
                                     </div>
                                 </div>
+                                <field name="responsible_id" widget="many2one_avatar"
+                                       class="o_kanban_avatar"
+                                       options="{'display_name': True}"/>
                                 <field name="renewal_semaphore" widget="badge"
                                        decoration-success="renewal_semaphore == 'green'"
                                        decoration-warning="renewal_semaphore == 'yellow'"
                                        decoration-danger="renewal_semaphore == 'red'"/>
-                                <field name="responsible_id" widget="many2one_avatar"
-                                       class="o_kanban_avatar"
-                                       options="{'display_name': True}"/>
                             </div>
                             <div class="keykeep-card-body mt-1">
                                 <div class="d-flex justify-content-between align-items-center">
