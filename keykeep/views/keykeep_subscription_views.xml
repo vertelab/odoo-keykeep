@@ -329,6 +329,7 @@
             <pivot>
                 <field name="category_id" type="row"/>
                 <field name="partner_id" type="col"/>
+                <field name="monthly_forecast_amount" type="measure"/>
                 <field name="cost_amount" type="measure"/>
                 <field name="currency_id" type="col"/>
                 <field name="state" type="col"/>

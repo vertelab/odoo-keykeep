@@ -185,8 +185,9 @@ class KeykeepSubscription(models.Model):
         string="Monthly Forecast",
         currency_field="company_currency_id",
         compute="_compute_monthly_forecast_amount",
-        help="Next month forecast in the company currency (cost + average top-up,"
-             "or the next forecast row converted to the company currency).",
+        store=True,
+        help="Monthly cost in the company currency: next forecast row when "
+             "available, otherwise cost_amount converted to the company currency.",
     )
     company_currency_id = fields.Many2one(
         comodel_name="res.currency",
@@ -196,14 +197,13 @@ class KeykeepSubscription(models.Model):
 
     @api.depends("cost_forecast_ids", "cost_forecast_ids.forecast_date",
                  "cost_forecast_ids.forecast_amount", "cost_amount",
-                 "currency_id", "company_id", "topup_ids.amount",
-                 "topup_ids.state")
+                 "currency_id", "company_id")
     def _compute_monthly_forecast_amount(self):
-        """Next-month forecast in the company currency.
+        """Monthly cost in the company currency (stored, usable in pivot).
 
-        Uses the next forecast row (forecast_date >= today) converted to the
-        company currency; falls back to cost_amount + average top-up for one
-        month converted to the company currency.
+        Primary: next forecast row (forecast_date >= today) converted to the
+        company currency. Fallback: cost_amount converted to the company
+        currency.
         """
         today = fields.Date.today()
         for rec in self:
@@ -221,17 +221,10 @@ class KeykeepSubscription(models.Model):
                     amount, company_cur, rec.company_id, today)
                 rec.monthly_forecast_amount = amount
                 continue
-            # Fallback: cost_amount + average top-up (last 12 months)
+            # Fallback: cost_amount converted to the company currency
             base = rec.cost_amount or 0.0
-            base = rec.currency_id._convert(
+            rec.monthly_forecast_amount = rec.currency_id._convert(
                 base, company_cur, rec.company_id, today)
-            topups = rec.topup_ids.filtered(
-                lambda t: t.state in ("confirmed", "reconciled")
-            )
-            avg_topup = (sum(topups.mapped("amount")) / 12.0) if topups else 0.0
-            avg_topup = rec.currency_id._convert(
-                avg_topup, company_cur, rec.company_id, today)
-            rec.monthly_forecast_amount = base + avg_topup
 
     @api.depends("topup_ids", "topup_ids.state", "topup_ids.amount")
     def _compute_topup_count(self):
