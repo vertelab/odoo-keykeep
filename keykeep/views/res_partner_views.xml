@@ -3,16 +3,18 @@
 <odoo>
 
     <!-- KeyKeep checkbox in the standard form — anchored on the base field company_type
-         (independent of bifrost/bifrost_keykeep). -->
+         (independent of bifrost/bifrost_keykeep). Visible only for keykeep groups and
+         placed inline on the same row as company_type (radio). -->
     <record id="view_partner_keykeep_checkbox" model="ir.ui.view">
         <field name="name">res.partner.keykeep.checkbox</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
             <field name="company_type" position="after">
-                <div class="o_row">
+                <div class="d-inline-flex align-items-center"
+                     groups="keykeep.group_user,keykeep.group_manager,keykeep.group_devops,keykeep.group_admin">
                     <field name="is_keykeep_partner"/>
-                    <label for="is_keykeep_partner" string="KeyKeep"/>
+                    <label for="is_keykeep_partner" string="KeyKeep" class="mb-0 ms-1"/>
                 </div>
             </field>
         </field>
