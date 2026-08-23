@@ -128,7 +128,7 @@
         <field name="name">Suppliers</field>
         <field name="res_model">res.partner</field>
         <field name="view_mode">kanban,list,pivot,graph,form</field>
-        <field name="view_id" ref="view_keykeep_supplier_form"/>
+        <field name="view_id" eval="False"/>
         <field name="domain">[('is_keykeep_partner', '=', True)]</field>
         <field name="context">{'default_is_keykeep_partner': True}</field>
     </record>
