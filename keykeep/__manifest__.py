@@ -45,4 +45,5 @@
             "keykeep/static/src/scss/keykeep.scss",
         ],
     },
+    'tests': ['tests/'],
 }

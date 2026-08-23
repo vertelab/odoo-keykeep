@@ -29,3 +29,6 @@ access_keykeep_topup_wizard_admin,keykeep.topup.wizard.admin,model_keykeep_topup
 access_keykeep_invoice_stub_user,keykeep.invoice.stub user,model_keykeep_invoice_stub,keykeep.group_user,1,0,0,0
 access_keykeep_invoice_stub_manager,keykeep.invoice.stub manager,model_keykeep_invoice_stub,keykeep.group_manager,1,1,1,1
 access_keykeep_invoice_stub_admin,keykeep.invoice.stub admin,model_keykeep_invoice_stub,keykeep.group_admin,1,1,1,1
+access_keykeep_credential_user,keykeep.credential.user,model_keykeep_credential,keykeep.group_user,1,0,0,0
+access_keykeep_credential_version_user,keykeep.credential.version.user,model_keykeep_credential_version,keykeep.group_user,1,0,0,0
+access_keykeep_credential_reveal_user,keykeep.credential.reveal.user,model_keykeep_credential_reveal,keykeep.group_user,1,0,0,0
