@@ -252,4 +252,17 @@
     <!-- OBS: Gamla delete av view_partner_keykeep_form togs bort — xmliden
          no longer exists in the DB, and deleting a missing xmlid crashes
          the module upgrade (drift lesson 2026-08-12). -->
+
+    <!-- Filter på Kontakter-sökvyn (res.partner): Keykeep-partners -->
+    <record id="view_partner_keykeep_search" model="ir.ui.view">
+        <field name="name">res.partner.keykeep.search</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <filter name="type_company" position="after">
+                <filter string="Keykeep" name="keykeep_partner"
+                        domain="[('is_keykeep_partner', '=', True)]"/>
+            </filter>
+        </field>
+    </record>
 </odoo>
