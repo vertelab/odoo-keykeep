@@ -131,6 +131,13 @@
         <field name="view_id" eval="False"/>
         <field name="domain">[('is_keykeep_partner', '=', True)]</field>
         <field name="context">{'default_is_keykeep_partner': True}</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'sequence': 10, 'view_mode': 'kanban', 'view_id': ref('view_keykeep_supplier_kanban')}),
+            (0, 0, {'sequence': 20, 'view_mode': 'list', 'view_id': ref('view_keykeep_supplier_list')}),
+            (0, 0, {'sequence': 30, 'view_mode': 'pivot', 'view_id': ref('view_keykeep_supplier_pivot')}),
+            (0, 0, {'sequence': 40, 'view_mode': 'graph', 'view_id': ref('view_keykeep_supplier_graph')}),
+            (0, 0, {'sequence': 50, 'view_mode': 'form', 'view_id': ref('view_keykeep_supplier_form')}),
+        ]"/>
     </record>
 
     <!-- Suppliers pivot — billing model x monthly forecast -->
