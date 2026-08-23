@@ -5,7 +5,8 @@
     <menuitem id="menu_keykeep_root"
               name="Keykeep"
               web_icon="keykeep,static/description/icon.png"
-              sequence="70"/>
+              sequence="70"
+              groups="keykeep.group_user"/>
 
     <!-- Suppliers — FIRST in the main menu. Self-sufficient in keykeep:
          the Suppliers action uses the keykeep partner field is_keykeep_partner
