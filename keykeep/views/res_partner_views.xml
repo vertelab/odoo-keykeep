@@ -12,7 +12,8 @@
         <field name="arch" type="xml">
             <field name="company_type" position="after">
                 <div class="d-inline-flex align-items-center"
-                     groups="keykeep.group_user,keykeep.group_manager,keykeep.group_devops,keykeep.group_admin">
+                     groups="keykeep.group_user,keykeep.group_manager,keykeep.group_devops,keykeep.group_admin"
+                     invisible="company_type != 'company'">
                     <field name="is_keykeep_partner"/>
                     <label for="is_keykeep_partner" string="KeyKeep" class="mb-0 ms-1"/>
                 </div>
