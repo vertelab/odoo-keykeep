@@ -123,23 +123,6 @@
         </field>
     </record>
 
-    <!-- Suppliers action -->
-    <record id="action_keykeep_suppliers" model="ir.actions.act_window">
-        <field name="name">Suppliers</field>
-        <field name="res_model">res.partner</field>
-        <field name="view_mode">kanban,list,pivot,graph,form</field>
-        <field name="view_id" eval="False"/>
-        <field name="domain">[('is_keykeep_partner', '=', True)]</field>
-        <field name="context">{'default_is_keykeep_partner': True}</field>
-        <field name="view_ids" eval="[(5, 0, 0),
-            (0, 0, {'sequence': 10, 'view_mode': 'kanban', 'view_id': ref('view_keykeep_supplier_kanban')}),
-            (0, 0, {'sequence': 20, 'view_mode': 'list', 'view_id': ref('view_keykeep_supplier_list')}),
-            (0, 0, {'sequence': 30, 'view_mode': 'pivot', 'view_id': ref('view_keykeep_supplier_pivot')}),
-            (0, 0, {'sequence': 40, 'view_mode': 'graph', 'view_id': ref('view_keykeep_supplier_graph')}),
-            (0, 0, {'sequence': 50, 'view_mode': 'form', 'view_id': ref('view_keykeep_supplier_form')}),
-        ]"/>
-    </record>
-
     <!-- Suppliers pivot — billing model x monthly forecast -->
     <record id="view_keykeep_supplier_pivot" model="ir.ui.view">
         <field name="name">res.partner.keykeep.supplier.pivot</field>
@@ -255,6 +238,23 @@
                 </templates>
             </kanban>
         </field>
+    </record>
+
+    <!-- Suppliers action (efter vyerna — undviker framåtreferens) -->
+    <record id="action_keykeep_suppliers" model="ir.actions.act_window">
+        <field name="name">Suppliers</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,list,pivot,graph,form</field>
+        <field name="view_id" eval="False"/>
+        <field name="domain">[('is_keykeep_partner', '=', True)]</field>
+        <field name="context">{'default_is_keykeep_partner': True}</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'sequence': 10, 'view_mode': 'kanban', 'view_id': ref('view_keykeep_supplier_kanban')}),
+            (0, 0, {'sequence': 20, 'view_mode': 'list', 'view_id': ref('view_keykeep_supplier_list')}),
+            (0, 0, {'sequence': 30, 'view_mode': 'pivot', 'view_id': ref('view_keykeep_supplier_pivot')}),
+            (0, 0, {'sequence': 40, 'view_mode': 'graph', 'view_id': ref('view_keykeep_supplier_graph')}),
+            (0, 0, {'sequence': 50, 'view_mode': 'form', 'view_id': ref('view_keykeep_supplier_form')}),
+        ]"/>
     </record>
 
     <!-- OBS: Gamla delete av view_partner_keykeep_form togs bort — xmliden
