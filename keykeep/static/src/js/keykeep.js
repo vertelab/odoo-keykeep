@@ -42,17 +42,56 @@ patch(FormController.prototype, {
     },
 });
 
-// Copy to clipboard handler
+// Copy to clipboard — prefers the async Clipboard API (secure context),
+// falls back to a hidden textarea + execCommand (HTTP / intranet hosts).
+async function keykeepCopyToClipboard(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+        return;
+    }
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    try {
+        document.execCommand("copy");
+    } finally {
+        document.body.removeChild(ta);
+    }
+}
+
+// Copy to clipboard handler.
+// data-keykeep-copy names the form field whose VALUE should be copied
+// (e.g. "api_key", "password", "email"). An explicit
+// data-keykeep-copy-value attribute wins when present.
 document.addEventListener("click", async (ev) => {
     const copyBtn = ev.target.closest("[data-keykeep-copy]");
     if (!copyBtn) return;
     ev.preventDefault();
 
-    const value = copyBtn.dataset.keykeepCopy;
-    if (!value) return;
+    const fieldName = copyBtn.dataset.keykeepCopy;
+    if (!fieldName) return;
+
+    let value = copyBtn.dataset.keykeepCopyValue;
+    if (value === undefined) {
+        // Resolve the actual value from the form field with that name.
+        const root =
+            copyBtn.closest(".o_form_renderer, .modal-content, .o_dialog") ||
+            document;
+        const fieldEls = root.querySelectorAll(`[name="${fieldName}"]`);
+        const fieldEl = fieldEls[fieldEls.length - 1];
+        value = fieldEl ? fieldEl.value ?? "" : "";
+    }
+    if (!value) {
+        console.warn("Keykeep: nothing to copy for", fieldName);
+        return;
+    }
 
     try {
-        await navigator.clipboard.writeText(value);
+        await keykeepCopyToClipboard(value);
         const originalText = copyBtn.textContent;
         copyBtn.textContent = "Copied!";
         copyBtn.classList.add("btn-success");
