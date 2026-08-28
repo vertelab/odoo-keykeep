@@ -3,7 +3,7 @@
 <!-- Adds the fullscreen/expand icon (fa-expand, same as calendar.event's
      FormViewDialog) to act_window form dialogs opened via target="new"
      (ActionDialog). Clicking it re-opens the record as a main-area form
-     action — see ActionDialog.onExpand in keykeep.js. -->
+     action — see ActionDialog.onKeykeepExpand in keykeep.js. -->
 <templates xml:space="preserve">
 
     <t t-name="keykeep.ActionDialog.header" t-inherit="web.ActionDialog.header" t-inherit-mode="extension">
