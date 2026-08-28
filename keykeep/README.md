@@ -62,3 +62,27 @@ Skriptet är **idempotent** — körs bara för credentials som saknar `secret_k
 - Manager/devops: ser bara credentials inom eget företag (subscription.company_id)
 - Admin: global åtkomst
 - Versioner + access-log följer credentialns scope via stored `company_id`
+
+## Reveal-flöde (18.0.1.51.0) — fullskärm + chatter
+
+`action_reveal_password` öppnar nu credential-formuläret med den dedikerade
+reveal-vyn (`view_keykeep_credential_reveal_form`) i stället för den gamla
+transient-wizardn. Design:
+
+- **Fullskärm**: `target="new"`-dialoger (ActionDialog) har fått expand-ikonen
+  (`fa-expand`, samma som calendar.event) via `keykeep.ActionDialog.header` +
+  `ActionDialog.onExpand` i `keykeep.js`. Klick → record öppnas som
+  huvudområdes-form (behåller reveal-vyn via context `keykeep_reveal_view_id`).
+- **Chatter**: `keykeep.credential` ärver `mail.thread`. `_log_access` speglar
+  reveal/copy/rotate/system_read/purge-händelser till credential-chattern
+  (varaktig användarlogg). Odoo döljer chatter i dialoger — den syns när
+  formuläret är expanderat till fullskärm.
+- **Plaintext-fält**: `reveal_email`/`reveal_password`/`reveal_key` är
+  icke-lagrade computed-fält som bara dekrypterar när context-flaggan
+  `keykeep_reveal` är satt OCH användaren har devops/admin. Kräver
+  `@api.depends_context("keykeep_reveal", "uid")` — utan den poolar en
+  context-lös read cachen och reveal-vyn visar tomma värden.
+- **Kopiering**: server-baserade knappar (`action_copy_email`/`_password`/`_key`)
+  loggar kopieringen i access-log + chatter och returnerar värdet till
+  client-action `keykeep_copy_value` (JS kopierar + notifierar). OBS: Odoo 18
+  stödjer INTE `args` på `type="object"`-knappar — tre explicita metoder.
