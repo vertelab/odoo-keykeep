@@ -4,7 +4,9 @@
 
 import { registry } from "@web/core/registry";
 import { patch } from "@web/core/utils/patch";
+import { useService } from "@web/core/utils/hooks";
 import { FormController } from "@web/views/form/form_controller";
+import { ActionDialog } from "@web/webclient/actions/action_dialog";
 
 // Auto-close timer for reveal dialog
 patch(FormController.prototype, {
@@ -40,6 +42,50 @@ patch(FormController.prototype, {
         }
         super.onWillDestroy();
     },
+});
+
+// Fullscreen / expand support for target="new" dialogs (ActionDialog).
+// Odoo's own FormViewDialog (calendar events, m2o edits) shows the expand
+// icon; ActionDialog does not wire onExpand, so wizards/reveal dialogs
+// lack it. We add the same icon for act_window form dialogs and re-open the
+// record as a main-area form action (keeping a reveal-specific view when
+// the action carries keykeep_reveal_view_id in its context).
+patch(ActionDialog.prototype, {
+    setup() {
+        super.setup();
+        this.actionService = useService("action");
+    },
+
+    async onExpand() {
+        const { resModel, resId, context } = this.props.actionProps || {};
+        if (!resModel || this.props.actionType !== "ir.actions.act_window") {
+            return;
+        }
+        const viewId = context?.keykeep_reveal_view_id || false;
+        await this.actionService.doAction({
+            type: "ir.actions.act_window",
+            res_model: resModel,
+            res_id: resId,
+            views: [[viewId, "form"]],
+            context: { ...(context || {}) },
+        });
+        this.props.close();
+    },
+});
+
+// Server-side copy (action_copy_field): copies the value returned by the
+// server into the clipboard and shows a notification. The server logs the
+// copy in the audit log + credential chatter before returning the value.
+registry.category("actions").add("keykeep_copy_value", async (env, action) => {
+    try {
+        await keykeepCopyToClipboard(action.params.value);
+        env.services.notification.add("Copied to clipboard", { type: "success" });
+    } catch (err) {
+        console.warn("Keykeep: Clipboard copy failed", err);
+        env.services.notification.add("Copy failed — check clipboard permissions", {
+            type: "danger",
+        });
+    }
 });
 
 // Copy to clipboard — prefers the async Clipboard API (secure context),
@@ -78,12 +124,28 @@ document.addEventListener("click", async (ev) => {
     let value = copyBtn.dataset.keykeepCopyValue;
     if (value === undefined) {
         // Resolve the actual value from the form field with that name.
+        // Odoo 18 renders every field inside a <div name="..."> wrapper:
+        // editable fields contain an <input>/<textarea>/<select> whose
+        // .value holds the data, while readonly fields render a <span>
+        // whose textContent holds the formatted value. Reading .value on
+        // the wrapper itself always yields undefined.
         const root =
             copyBtn.closest(".o_form_renderer, .modal-content, .o_dialog") ||
             document;
         const fieldEls = root.querySelectorAll(`[name="${fieldName}"]`);
         const fieldEl = fieldEls[fieldEls.length - 1];
-        value = fieldEl ? fieldEl.value ?? "" : "";
+        if (fieldEl) {
+            const inputEl = fieldEl.matches("input, textarea, select")
+                ? fieldEl
+                : fieldEl.querySelector("input, textarea, select");
+            if (inputEl) {
+                value = inputEl.value ?? "";
+            } else {
+                value = fieldEl.textContent?.trim() ?? "";
+            }
+        } else {
+            value = "";
+        }
     }
     if (!value) {
         console.warn("Keykeep: nothing to copy for", fieldName);

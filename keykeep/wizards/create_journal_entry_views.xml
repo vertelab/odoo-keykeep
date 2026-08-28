@@ -54,7 +54,11 @@
                     <!-- Login: e-mail + password with copy buttons -->
                     <group invisible="credential_type != 'login'">
                         <field name="email" string="E-mail" readonly="1"/>
-                        <field name="password" string="Password" readonly="1" password="True"/>
+                        <!-- No password="True": the reveal dialog exists to show the
+                             plaintext secret (the Raw group below already does) and
+                             readonly password fields mask the value in the DOM, which
+                             would make the copy buttons copy asterisks. -->
+                        <field name="password" string="Password" readonly="1"/>
                         <div class="d-flex gap-2 mt-2">
                             <a href="javascript:void(0)" class="btn btn-sm btn-outline-secondary" role="button"
                                data-keykeep-copy="email" title="Copy e-mail">

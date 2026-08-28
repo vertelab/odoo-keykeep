@@ -30,6 +30,7 @@ except ImportError:
 
 class KeykeepCredential(models.Model):
     _name = "keykeep.credential"
+    _inherit = ["mail.thread"]
     _description = "Keykeep Credential"
     _order = "credential_type, name"
 
@@ -80,6 +81,15 @@ class KeykeepCredential(models.Model):
         string="Purpose",
         help="Description of what this key is used for.",
     )
+
+    # ── Reveal-only plaintext (never stored, never decrypted on read) ──
+    # These fields are computed ONLY when the form is opened with the
+    # `keykeep_reveal` context flag (set by action_reveal_password) AND the
+    # user has reveal rights. Outside that context they are always False, so
+    # the ciphertext columns remain the only stored representation.
+    reveal_email = fields.Char(string="E-mail", compute="_compute_reveal")
+    reveal_password = fields.Char(string="Password", compute="_compute_reveal")
+    reveal_key = fields.Text(string="API Key / Token", compute="_compute_reveal")
     expiry_date = fields.Date(string="Expiry Date")
     renewal_reminder = fields.Boolean(default=True, string="Remind Before Expiry")
     notes = fields.Text(string="Notes")
@@ -292,7 +302,7 @@ class KeykeepCredential(models.Model):
                 ip_address = self.env.request.httprequest.remote_addr
         except Exception:  # noqa: BLE001
             pass
-        return self.env["keykeep.credential.access.log"].create(
+        log = self.env["keykeep.credential.access.log"].create(
             {
                 "credential_id": self.id,
                 "user_id": self.env.uid,
@@ -302,6 +312,35 @@ class KeykeepCredential(models.Model):
                 "accessed_at": fields.Datetime.now(),
             }
         )
+        # Mirror the event into the credential chatter (durable usage log).
+        # Best effort — never block the underlying action on messaging.
+        try:
+            self.message_post(
+                body=self._access_log_body(action, fields_accessed, ip_address),
+                subtype_xmlid="mail.mt_note",
+            )
+        except Exception:  # noqa: BLE001
+            _logger.warning(
+                "Keykeep: could not post access-log message on credential %s", self.id,
+                exc_info=True,
+            )
+        return log
+
+    def _access_log_body(self, action, fields_accessed, ip_address):
+        """Human-readable chatter message for an access-log event."""
+        user = self.env.user.name
+        where = f" from {ip_address}" if ip_address else ""
+        icons = {
+            "reveal": "🔓 Revealed",
+            "reveal_version": "🕓 Historical value revealed",
+            "copy": "📋 Copied",
+            "rotate": "🔑 Credential rotated",
+            "system_read": "⚙️ Read by system",
+            "purge": "🧹 Version purge",
+        }
+        label = icons.get(action, action.replace("_", " ").title())
+        fields_txt = f" — fields: {fields_accessed}" if fields_accessed else ""
+        return f"<b>{label}</b> by {user}{where}{fields_txt}"
 
     # ── Lifecycle ──────────────────────────────────────────────────
 
@@ -371,6 +410,29 @@ class KeykeepCredential(models.Model):
 
     # ── UI Actions ─────────────────────────────────────────────────
 
+    def _compute_reveal(self):
+        """Compute the reveal-only plaintext fields.
+
+        Only decrypts when the form was opened through
+        action_reveal_password (context flag `keykeep_reveal`) by a user
+        with reveal rights. Any other read keeps the fields empty.
+        """
+        can_reveal = self.env.user.has_group(
+            "keykeep.group_devops"
+        ) or self.env.user.has_group("keykeep.group_admin")
+        reveal = bool(self.env.context.get("keykeep_reveal")) and can_reveal
+        for cred in self:
+            cred.reveal_email = False
+            cred.reveal_password = False
+            cred.reveal_key = False
+            if not reveal:
+                continue
+            cred.reveal_email = cred.username or ""
+            if cred.credential_type in ("api_key", "token", "other"):
+                cred.reveal_key = cred._read_encrypted("key_value") or ""
+            elif cred.credential_type == "login":
+                cred.reveal_password = cred._read_encrypted("password") or ""
+
     def action_reveal_password(self):
         self.ensure_one()
         if not self.env.user.has_group("keykeep.group_devops") and not self.env.user.has_group(
@@ -381,13 +443,45 @@ class KeykeepCredential(models.Model):
         kv = self._read_encrypted("key_value")
         fields_acc = "both" if (pw and kv) else ("password" if pw else "key_value")
         self._log_access("reveal", fields_accessed=fields_acc)
+        view = self.env.ref("keykeep.view_keykeep_credential_reveal_form")
         return {
             "type": "ir.actions.act_window",
-            "res_model": "keykeep.credential.reveal",
+            "res_model": "keykeep.credential",
+            "res_id": self.id,
             "name": _("Reveal: %s — %s") % (self.subscription_id.name, self.name),
-            "view_mode": "form",
+            "views": [(view.id, "form")],
             "target": "new",
-            "context": {"default_credential_id": self.id},
+            "context": {
+                "keykeep_reveal": True,
+                "keykeep_reveal_view_id": view.id,
+            },
+        }
+
+    def action_copy_field(self, field_name):
+        """Copy a single revealed field. Logs the copy in the audit log and
+        the credential chatter, then returns a client action whose JS copies
+        the server-provided value to the clipboard.
+
+        field_name: 'email' | 'password' | 'key_value'
+        """
+        self.ensure_one()
+        if not self.env.user.has_group("keykeep.group_devops") and not self.env.user.has_group(
+            "keykeep.group_admin"
+        ):
+            raise UserError(_("Only Keykeep admins and DevOps can copy credentials."))
+        if field_name == "email":
+            value = self.username or ""
+        elif field_name == "password":
+            value = self._read_encrypted("password") or ""
+        elif field_name == "key_value":
+            value = self._read_encrypted("key_value") or ""
+        else:
+            raise UserError(_("Unknown credential field: %s") % field_name)
+        self._log_access("copy", fields_accessed=field_name)
+        return {
+            "type": "ir.actions.client",
+            "tag": "keykeep_copy_value",
+            "params": {"value": value},
         }
 
     def action_copy_credential(self):
