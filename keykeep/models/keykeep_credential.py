@@ -410,12 +410,18 @@ class KeykeepCredential(models.Model):
 
     # ── UI Actions ─────────────────────────────────────────────────
 
+    @api.depends_context("keykeep_reveal", "uid")
     def _compute_reveal(self):
         """Compute the reveal-only plaintext fields.
 
         Only decrypts when the form was opened through
         action_reveal_password (context flag `keykeep_reveal`) by a user
         with reveal rights. Any other read keeps the fields empty.
+
+        depends_context is REQUIRED: computed non-stored fields are cached
+        per transaction regardless of context — without it a context-less
+        read earlier in the same transaction would poison the cache and the
+        reveal form would show empty values.
         """
         can_reveal = self.env.user.has_group(
             "keykeep.group_devops"
