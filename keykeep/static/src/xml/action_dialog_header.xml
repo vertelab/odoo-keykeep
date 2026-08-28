@@ -10,7 +10,7 @@
         <xpath expr="//button[hasclass('btn-close')]" position="before">
             <button t-if="props.actionType === 'ir.actions.act_window' and props.actionProps?.type === 'form'"
                     type="button" class="fa fa-expand btn o_expand_button"
-                    aria-label="Expand" tabindex="-1" t-on-click="onExpand"/>
+                    aria-label="Expand" tabindex="-1" t-on-click="onKeykeepExpand"/>
         </xpath>
     </t>
 

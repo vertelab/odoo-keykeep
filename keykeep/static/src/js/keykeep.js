@@ -50,13 +50,16 @@ patch(FormController.prototype, {
 // lack it. We add the same icon for act_window form dialogs and re-open the
 // record as a main-area form action (keeping a reveal-specific view when
 // the action carries keykeep_reveal_view_id in its context).
+// NOTE: the method is deliberately NOT named `onExpand` — the base
+// web.Dialog.header renders an expand button whenever `onExpand` is truthy,
+// so naming it onExpand would render a second (unconditional) icon.
 patch(ActionDialog.prototype, {
     setup() {
         super.setup();
         this.actionService = useService("action");
     },
 
-    async onExpand() {
+    async onKeykeepExpand() {
         const { resModel, resId, context } = this.props.actionProps || {};
         if (!resModel || this.props.actionType !== "ir.actions.act_window") {
             return;
