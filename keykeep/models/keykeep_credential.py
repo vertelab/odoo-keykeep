@@ -463,27 +463,45 @@ class KeykeepCredential(models.Model):
             },
         }
 
-    def action_copy_field(self, field_name):
-        """Copy a single revealed field. Logs the copy in the audit log and
-        the credential chatter, then returns a client action whose JS copies
-        the server-provided value to the clipboard.
-
-        field_name: 'email' | 'password' | 'key_value'
-        """
+    def action_copy_email(self):
+        """Copy the revealed e-mail (username). Logged as a copy event."""
         self.ensure_one()
         if not self.env.user.has_group("keykeep.group_devops") and not self.env.user.has_group(
             "keykeep.group_admin"
         ):
             raise UserError(_("Only Keykeep admins and DevOps can copy credentials."))
-        if field_name == "email":
-            value = self.username or ""
-        elif field_name == "password":
-            value = self._read_encrypted("password") or ""
-        elif field_name == "key_value":
-            value = self._read_encrypted("key_value") or ""
-        else:
-            raise UserError(_("Unknown credential field: %s") % field_name)
-        self._log_access("copy", fields_accessed=field_name)
+        value = self.username or ""
+        self._log_access("copy", fields_accessed="username")
+        return {
+            "type": "ir.actions.client",
+            "tag": "keykeep_copy_value",
+            "params": {"value": value},
+        }
+
+    def action_copy_password(self):
+        """Copy the revealed password. Logged as a copy event."""
+        self.ensure_one()
+        if not self.env.user.has_group("keykeep.group_devops") and not self.env.user.has_group(
+            "keykeep.group_admin"
+        ):
+            raise UserError(_("Only Keykeep admins and DevOps can copy credentials."))
+        value = self._read_encrypted("password") or ""
+        self._log_access("copy", fields_accessed="password")
+        return {
+            "type": "ir.actions.client",
+            "tag": "keykeep_copy_value",
+            "params": {"value": value},
+        }
+
+    def action_copy_key(self):
+        """Copy the revealed API key / token. Logged as a copy event."""
+        self.ensure_one()
+        if not self.env.user.has_group("keykeep.group_devops") and not self.env.user.has_group(
+            "keykeep.group_admin"
+        ):
+            raise UserError(_("Only Keykeep admins and DevOps can copy credentials."))
+        value = self._read_encrypted("key_value") or ""
+        self._log_access("copy", fields_accessed="key_value")
         return {
             "type": "ir.actions.client",
             "tag": "keykeep_copy_value",
