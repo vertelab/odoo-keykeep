@@ -340,7 +340,7 @@ class KeykeepCredential(models.Model):
         }
         label = icons.get(action, action.replace("_", " ").title())
         fields_txt = f" — fields: {fields_accessed}" if fields_accessed else ""
-        return f"<b>{label}</b> by {user}{where}{fields_txt}"
+        return f"{label} by {user}{where}{fields_txt}"
 
     # ── Lifecycle ──────────────────────────────────────────────────
 
