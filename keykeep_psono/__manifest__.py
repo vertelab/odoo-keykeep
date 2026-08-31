@@ -4,7 +4,7 @@
 {
     "name": "Keykeep Psono — Personal Password Vault",
     "summary": "Zero-knowledge personal password vault, psono-protocol compatible",
-    "version": "18.0.1.0.0",
+    "version": "18.0.1.0.1",
     "development_status": "Beta",
     "category": "Productivity",
     "website": "https://github.com/vertelab/odoo-keykeep",

@@ -86,9 +86,12 @@ auditable server-side). Imports are audited in `keykeep.psono.access.log`
 
 ## Personal Vault tab (My Profile)
 
-The `res.users` form has a "Personal Vault" page: registration/verification
+The `res.users` forms have a "Personal Vault" page: registration/verification
 status, "Open Vault" (→ psono-web), and deep links to import/export
-(`#/other/import`, `#/other/export`).
+(`#/other/import`, `#/other/export`). The page is inherited on BOTH the
+Settings → Users form (`base.view_users_form`) and the avatar "My Profile"
+preferences form (`base.view_users_form_simple_modif`) — the latter is what
+regular users see, so without it the tab appears only for admins in Settings.
 
 ## Monitoring (Zabbix)
 
