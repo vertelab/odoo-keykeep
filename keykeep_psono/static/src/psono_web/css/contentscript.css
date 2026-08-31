@@ -1,0 +1,158 @@
+.psono-drop,
+.psono-drop:after,
+.psono-drop:before,
+.psono-drop *,
+.psono-drop *:after,
+.psono-drop *:before {
+  all: initial !important;
+  box-sizing: border-box !important;
+}
+
+.psono-drop {
+  top: 0 !important;
+  left: 0 !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  padding-top: 12px !important;
+  position: absolute !important;
+  display: block !important;
+  z-index: 2147483647 !important;
+}
+
+.psono-drop .psono-drop-content {
+  position: relative !important;
+  background: #FFF !important;
+  padding: 2px !important;
+  -webkit-transform: translateZ(0) !important;
+  -moz-transform: translateZ(0) !important;
+  -ms-transform: translateZ(0) !important;
+  -o-transform: translateZ(0) !important;
+  transform: translateZ(0) !important;
+  display: block !important;
+}
+
+.psono-drop .psono-drop-content a {
+  color: #b1b6c1 !important;
+}
+
+.psono-drop .psono-drop-content .psono-drop-content-inner {
+  position: relative !important;
+  background-color: #151f2b !important;
+  border: 1px solid #cdd2df !important;
+  border-radius: 2px !important;
+  padding: 6px !important;
+  display: block !important;
+}
+
+.psono-drop .psono-drop-content .psono-drop-content-inner * {
+  font-family: 'Open Sans', sans-serif !important;
+  font-size: 13px !important;
+  color: #b1b6c1 !important;
+}
+
+.psono-drop .psono-drop-content .psono-drop-content-inner:after,
+.psono-drop .psono-drop-content .psono-drop-content-inner:before {
+  bottom: 100% !important;
+  left: 20% !important;
+  border: solid transparent !important;
+  content: " " !important;
+  height: 0 !important;
+  width: 0 !important;
+  position: absolute !important;
+  pointer-events: none !important;
+}
+
+.psono-drop .psono-drop-content .psono-drop-content-inner:after {
+  border-color: #151f2b !important;
+  border-color: rgba(21, 31, 43, 0) !important;
+  border-bottom-color: #151f2b !important;
+  border-width: 10px !important;
+  margin-left: -10px !important;
+}
+
+.psono-drop .psono-drop-content .psono-drop-content-inner:before {
+  border-color: #bababa !important;
+  border-color: rgba(186, 186, 186, 0) !important;
+  border-bottom-color: #fff !important;
+  border-width: 13px !important;
+  border-radius: 2px !important;
+  margin-left: -13px !important;
+}
+
+.psono-drop .navigations {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.psono-drop .navigations li {
+  list-style-type: none !important;
+  margin-top: 1px !important;
+  border-radius: 4px !important;
+  display: block !important;
+}
+
+.psono-drop .navigations li div {
+  text-decoration: none !important;
+  display: inline-block !important;
+  padding: 10px !important;
+  width: 100% !important;
+}
+
+.psono-drop .navigations li input {
+  padding: 10px !important;
+  width: 100% !important;
+}
+
+.psono-drop .navigations li:hover {
+  background-color: #fff !important;
+  color: #151f2b !important;
+}
+
+.psono-drop .navigations li:hover div {
+  color: #151f2b !important;
+}
+
+.psono-drop .navigations li.active {
+  background-color: #2dbb93 !important;
+}
+
+.psono-drop .navigations li.active div {
+  color: #fff !important;
+}
+
+@-webkit-keyframes psono-autofill-animation {
+  0% {
+    -webkit-transform: scale(1, 1);
+  }
+
+  40% {
+    -webkit-transform: scale(1.1, 1.1);
+  }
+
+  100% {
+    -webkit-transform: scale(1, 1);
+  }
+}
+
+@-moz-keyframes psono-autofill-animation {
+  0% {
+    transform: scale(1, 1);
+  }
+
+  40% {
+    transform: scale(1.1, 1.1);
+  }
+
+  100% {
+    transform: scale(1, 1);
+  }
+}
+
+.psono-autofill-style {
+  animation: psono-autofill-animation 100ms ease-in-out 0ms 1;
+  -webkit-animation: psono-autofill-animation 100ms ease-in-out 0ms 1;
+}
+
+#PsonoDownloadBanner {
+  display: none;
+}

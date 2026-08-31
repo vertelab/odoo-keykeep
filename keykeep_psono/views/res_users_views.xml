@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Vertel AB - License AGPL-3.0 -->
+<odoo>
+    <data>
+        <record id="view_users_form_inherit_psono" model="ir.ui.view">
+            <field name="name">res.users.form.inherit.psono</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                <page name="account_security" position="after">
+                    <page name="personal_vault" string="Personal Vault">
+                        <group>
+                            <group string="Vault Status">
+                                <field name="psono_registered" string="Vault Registered"/>
+                                <field name="psono_verified" string="Email Verified"/>
+                            </group>
+                            <group string="Actions">
+                                <button name="action_open_personal_vault" type="object"
+                                        string="Open Vault" class="btn-primary"/>
+                                <button name="action_open_vault_import" type="object"
+                                        string="Import Passwords" class="btn-secondary"/>
+                                <button name="action_open_vault_export" type="object"
+                                        string="Export Passwords" class="btn-secondary"/>
+                            </group>
+                        </group>
+                        <div>
+                            <p>
+                                Your personal vault is end-to-end encrypted. Passwords can be
+                                imported from Firefox, Vaultwarden/Bitwarden, KeePass and more,
+                                and exported to JSON, CSV or KeePass — all inside your browser.
+                            </p>
+                        </div>
+                    </page>
+                </page>
+            </field>
+        </record>
+    </data>
+</odoo>

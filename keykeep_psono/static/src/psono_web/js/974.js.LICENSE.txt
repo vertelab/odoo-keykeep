@@ -1,0 +1,285 @@
+/*! ../crypto/crypto-engine */
+
+/*! ../crypto/hashed-block-transform */
+
+/*! ../crypto/hmac-block-transform */
+
+/*! ../crypto/key-encryptor-aes */
+
+/*! ../crypto/key-encryptor-kdf */
+
+/*! ../crypto/protect-salt-generator */
+
+/*! ../crypto/protected-value */
+
+/*! ../defs/consts */
+
+/*! ../defs/xml-names */
+
+/*! ../errors/kdbx-error */
+
+/*! ../format/kdbx-binaries */
+
+/*! ../format/kdbx-uuid */
+
+/*! ../utils/binary-stream */
+
+/*! ../utils/byte-utils */
+
+/*! ../utils/int64 */
+
+/*! ../utils/var-dictionary */
+
+/*! ../utils/xml-utils */
+
+/*! ./../crypto/crypto-engine */
+
+/*! ./../defs/xml-names */
+
+/*! ./../utils/xml-utils */
+
+/*! ./byte-utils */
+
+/*! ./chacha20 */
+
+/*! ./crypto-engine */
+
+/*! ./crypto/chacha20 */
+
+/*! ./crypto/crypto-engine */
+
+/*! ./crypto/hashed-block-transform */
+
+/*! ./crypto/hmac-block-transform */
+
+/*! ./crypto/key-encryptor-aes */
+
+/*! ./crypto/key-encryptor-kdf */
+
+/*! ./crypto/protect-salt-generator */
+
+/*! ./crypto/protected-value */
+
+/*! ./crypto/salsa20 */
+
+/*! ./defs/consts */
+
+/*! ./defs/xml-names */
+
+/*! ./errors/kdbx-error */
+
+/*! ./format/kdbx */
+
+/*! ./format/kdbx-binaries */
+
+/*! ./format/kdbx-context */
+
+/*! ./format/kdbx-credentials */
+
+/*! ./format/kdbx-custom-data */
+
+/*! ./format/kdbx-deleted-object */
+
+/*! ./format/kdbx-entry */
+
+/*! ./format/kdbx-format */
+
+/*! ./format/kdbx-group */
+
+/*! ./format/kdbx-header */
+
+/*! ./format/kdbx-meta */
+
+/*! ./format/kdbx-times */
+
+/*! ./format/kdbx-uuid */
+
+/*! ./int64 */
+
+/*! ./kdbx-binaries */
+
+/*! ./kdbx-context */
+
+/*! ./kdbx-credentials */
+
+/*! ./kdbx-custom-data */
+
+/*! ./kdbx-deleted-object */
+
+/*! ./kdbx-entry */
+
+/*! ./kdbx-format */
+
+/*! ./kdbx-group */
+
+/*! ./kdbx-header */
+
+/*! ./kdbx-meta */
+
+/*! ./kdbx-times */
+
+/*! ./kdbx-uuid */
+
+/*! ./key-encryptor-aes */
+
+/*! ./node-worker.cjs */
+
+/*! ./salsa20 */
+
+/*! ./utils/binary-stream */
+
+/*! ./utils/byte-utils */
+
+/*! ./utils/int64 */
+
+/*! ./utils/var-dictionary */
+
+/*! ./utils/xml-utils */
+
+/*! @xmldom/xmldom */
+
+/*! crypto */
+
+/*! fflate */
+
+/*! kdbxweb v2.1.1, (c) 2021 Antelle, opensource.org/licenses/MIT */
+
+/*!******************!*\
+  !*** ./index.ts ***!
+  \******************/
+
+/*!************************!*\
+  !*** ./defs/consts.ts ***!
+  \************************/
+
+/*!************************!*\
+  !*** ./format/kdbx.ts ***!
+  \************************/
+
+/*!************************!*\
+  !*** ./utils/int64.ts ***!
+  \************************/
+
+/*!*************************!*\
+  !*** external "crypto" ***!
+  \*************************/
+
+/*!***************************!*\
+  !*** ./crypto/salsa20.ts ***!
+  \***************************/
+
+/*!***************************!*\
+  !*** ./defs/xml-names.ts ***!
+  \***************************/
+
+/*!****************************!*\
+  !*** ./crypto/chacha20.ts ***!
+  \****************************/
+
+/*!****************************!*\
+  !*** ./utils/xml-utils.ts ***!
+  \****************************/
+
+/*!*****************************!*\
+  !*** ./format/kdbx-meta.ts ***!
+  \*****************************/
+
+/*!*****************************!*\
+  !*** ./format/kdbx-uuid.ts ***!
+  \*****************************/
+
+/*!*****************************!*\
+  !*** ./utils/byte-utils.ts ***!
+  \*****************************/
+
+/*!******************************!*\
+  !*** ./errors/kdbx-error.ts ***!
+  \******************************/
+
+/*!******************************!*\
+  !*** ./format/kdbx-entry.ts ***!
+  \******************************/
+
+/*!******************************!*\
+  !*** ./format/kdbx-group.ts ***!
+  \******************************/
+
+/*!******************************!*\
+  !*** ./format/kdbx-times.ts ***!
+  \******************************/
+
+/*!*******************************!*\
+  !*** ./format/kdbx-format.ts ***!
+  \*******************************/
+
+/*!*******************************!*\
+  !*** ./format/kdbx-header.ts ***!
+  \*******************************/
+
+/*!********************************!*\
+  !*** ./format/kdbx-context.ts ***!
+  \********************************/
+
+/*!********************************!*\
+  !*** ./utils/binary-stream.ts ***!
+  \********************************/
+
+/*!*********************************!*\
+  !*** ./crypto/crypto-engine.ts ***!
+  \*********************************/
+
+/*!*********************************!*\
+  !*** ./format/kdbx-binaries.ts ***!
+  \*********************************/
+
+/*!*********************************!*\
+  !*** ./utils/var-dictionary.ts ***!
+  \*********************************/
+
+/*!*********************************!*\
+  !*** external "@xmldom/xmldom" ***!
+  \*********************************/
+
+/*!***********************************!*\
+  !*** ./crypto/protected-value.ts ***!
+  \***********************************/
+
+/*!************************************!*\
+  !*** ./format/kdbx-credentials.ts ***!
+  \************************************/
+
+/*!************************************!*\
+  !*** ./format/kdbx-custom-data.ts ***!
+  \************************************/
+
+/*!*************************************!*\
+  !*** ./crypto/key-encryptor-aes.ts ***!
+  \*************************************/
+
+/*!*************************************!*\
+  !*** ./crypto/key-encryptor-kdf.ts ***!
+  \*************************************/
+
+/*!***************************************!*\
+  !*** ./format/kdbx-deleted-object.ts ***!
+  \***************************************/
+
+/*!****************************************!*\
+  !*** ./crypto/hmac-block-transform.ts ***!
+  \****************************************/
+
+/*!******************************************!*\
+  !*** ./crypto/hashed-block-transform.ts ***!
+  \******************************************/
+
+/*!******************************************!*\
+  !*** ./crypto/protect-salt-generator.ts ***!
+  \******************************************/
+
+/*!********************************************!*\
+  !*** ../node_modules/fflate/lib/index.cjs ***!
+  \********************************************/
+
+/*!*********************************************!*\
+  !*** ../node_modules/fflate/lib/worker.cjs ***!
+  \*********************************************/

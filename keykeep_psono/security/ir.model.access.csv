@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_keykeep_psono_user_system,keykeep.psono.user.system,model_keykeep_psono_user,base.group_system,1,1,1,1
+access_keykeep_psono_token_system,keykeep.psono.token.system,model_keykeep_psono_token,base.group_system,1,1,1,1
+access_keykeep_psono_datastore_system,keykeep.psono.datastore.system,model_keykeep_psono_datastore,base.group_system,1,1,1,1
+access_keykeep_psono_secret_system,keykeep.psono.secret.system,model_keykeep_psono_secret,base.group_system,1,1,1,1
+access_keykeep_psono_secret_history_system,keykeep.psono.secret.history.system,model_keykeep_psono_secret_history,base.group_system,1,1,1,1
+access_keykeep_psono_access_log_system,keykeep.psono.access.log.system,model_keykeep_psono_access_log,base.group_system,1,1,1,1
