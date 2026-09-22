@@ -7,7 +7,7 @@
     "version": "18.0.1.52.0",
     "development_status": "Beta",
     "category": "Productivity",
-    "website": "https://github.com/vertelab/odoo-keykeep",
+    "website": "https://vertel.se/apps/odoo-keykeep/keykeep",
     "author": "Vertel AB",
     "license": "AGPL-3",
     "application": True,

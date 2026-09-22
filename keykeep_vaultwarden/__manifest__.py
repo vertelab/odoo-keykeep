@@ -8,6 +8,7 @@
     "development_status": "Alpha",
     "category": "Productivity",
     "author": "Vertel Sverige AB",
+    "website": "https://vertel.se/apps/odoo-keykeep/keykeep_vaultwarden",
     "license": "AGPL-3",
     "installable": True,
     "auto_install": False,

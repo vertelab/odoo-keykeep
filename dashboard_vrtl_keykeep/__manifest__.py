@@ -7,7 +7,7 @@
     "category": "Reporting",
     "summary": "Pre-built Keykeep dashboards for dashboard_vrtl",
     "author": "Vertel Sverige AB",
-    "website": "https://vertel.se",
+    "website": "https://vertel.se/apps/odoo-keykeep/dashboard_vrtl_keykeep",
     "license": "AGPL-3",
     "depends": ["dashboard_vrtl", "keykeep"],
     "data": ["data/dashboard_data.xml"],
