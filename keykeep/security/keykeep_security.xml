@@ -35,6 +35,24 @@
             <field name="implied_ids" eval="[(4, ref('group_manager')), (4, ref('group_devops'))]"/>
             <field name="comment">Can view and manage encrypted credentials. Has full access.</field>
         </record>
+        <record id="rule_credential_user_company" model="ir.rule">
+            <field name="name">Credential: own company (user, team right)</field>
+            <field name="model_id" ref="model_keykeep_credential"/>
+            <field name="groups" eval="[(4, ref('group_user'))]"/>
+            <field name="domain_force">[('subscription_id.company_id', '=', user.company_id.id)]</field>
+        </record>
+        <record id="rule_credential_version_user_company" model="ir.rule">
+            <field name="name">Credential version: own company (user, team right)</field>
+            <field name="model_id" ref="model_keykeep_credential_version"/>
+            <field name="groups" eval="[(4, ref('group_user'))]"/>
+            <field name="domain_force">[('credential_id.subscription_id.company_id', '=', user.company_id.id)]</field>
+        </record>
+        <record id="rule_credential_reveal_user_company" model="ir.rule">
+            <field name="name">Credential reveal: own company (user, team right)</field>
+            <field name="model_id" ref="model_keykeep_credential_reveal"/>
+            <field name="groups" eval="[(4, ref('group_user'))]"/>
+            <field name="domain_force">[('credential_id.subscription_id.company_id', '=', user.company_id.id)]</field>
+        </record>
     </data>
 
     <!-- Admins (base.group_system) are automatically Keykeep administrators →

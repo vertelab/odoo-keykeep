@@ -1,0 +1,1 @@
+"serviceWorker"in navigator&&navigator.serviceWorker.register("service-worker.js").then(e=>{}).catch(e=>{console.log("Service Worker registration failed: ",e)});

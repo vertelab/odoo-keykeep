@@ -3,16 +3,19 @@
 <odoo>
 
     <!-- KeyKeep checkbox in the standard form — anchored on the base field company_type
-         (independent of bifrost/bifrost_keykeep). -->
+         (independent of bifrost/bifrost_keykeep). Visible only for keykeep groups and
+         placed inline on the same row as company_type (radio). -->
     <record id="view_partner_keykeep_checkbox" model="ir.ui.view">
         <field name="name">res.partner.keykeep.checkbox</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
             <field name="company_type" position="after">
-                <div class="o_row">
+                <div class="d-inline-flex align-items-center"
+                     groups="keykeep.group_user,keykeep.group_manager,keykeep.group_devops,keykeep.group_admin"
+                     invisible="company_type != 'company'">
                     <field name="is_keykeep_partner"/>
-                    <label for="is_keykeep_partner" string="KeyKeep"/>
+                    <label for="is_keykeep_partner" string="KeyKeep" class="mb-0 ms-1"/>
                 </div>
             </field>
         </field>
@@ -124,52 +127,6 @@
                     </notebook>
                 </sheet>
             </form>
-        </field>
-    </record>
-
-    <!-- Remove auto-created view rows from the old action definition so the
-         explicit view_ids below can bind kanban/list/pivot/graph/form in order.
-         Without this, the unique constraint (act_window_id, view_mode) blocks
-         creating the explicit rows (drift lesson 2026-08-19). -->
-    <delete model="ir.actions.act_window.view"
-            search="[('act_window_id', '=', ref('action_keykeep_suppliers'))]"/>
-
-    <!-- Suppliers action — explicit view order: kanban, list, pivot, graph, form.
-         Explicit view_ids binding is REQUIRED so the keykeep supplier kanban is
-         used (otherwise res.partner's base kanban is shown) and the switcher
-         order is kanban → list → pivot → graph. -->
-    <record id="action_keykeep_suppliers" model="ir.actions.act_window">
-        <field name="name">Suppliers</field>
-        <field name="res_model">res.partner</field>
-        <field name="view_mode">kanban,list,pivot,graph,form</field>
-        <field name="domain">[('is_keykeep_partner', '=', True)]</field>
-        <field name="context">{'default_is_keykeep_partner': True}</field>
-        <field name="view_ids">
-            <record id="action_keykeep_suppliers_view_kanban" model="ir.actions.act_window.view">
-                <field name="sequence" eval="1"/>
-                <field name="view_mode">kanban</field>
-                <field name="view_id" ref="view_keykeep_supplier_kanban"/>
-            </record>
-            <record id="action_keykeep_suppliers_view_list" model="ir.actions.act_window.view">
-                <field name="sequence" eval="2"/>
-                <field name="view_mode">list</field>
-                <field name="view_id" ref="view_keykeep_supplier_list"/>
-            </record>
-            <record id="action_keykeep_suppliers_view_pivot" model="ir.actions.act_window.view">
-                <field name="sequence" eval="3"/>
-                <field name="view_mode">pivot</field>
-                <field name="view_id" ref="view_keykeep_supplier_pivot"/>
-            </record>
-            <record id="action_keykeep_suppliers_view_graph" model="ir.actions.act_window.view">
-                <field name="sequence" eval="4"/>
-                <field name="view_mode">graph</field>
-                <field name="view_id" ref="view_keykeep_supplier_graph"/>
-            </record>
-            <record id="action_keykeep_suppliers_view_form" model="ir.actions.act_window.view">
-                <field name="sequence" eval="5"/>
-                <field name="view_mode">form</field>
-                <field name="view_id" ref="view_keykeep_supplier_form"/>
-            </record>
         </field>
     </record>
 
@@ -324,7 +281,37 @@
         </field>
     </record>
 
+    <!-- Suppliers action (efter vyerna — undviker framåtreferens) -->
+    <record id="action_keykeep_suppliers" model="ir.actions.act_window">
+        <field name="name">Suppliers</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,list,pivot,graph,form</field>
+        <field name="view_id" eval="False"/>
+        <field name="domain">[('is_keykeep_partner', '=', True)]</field>
+        <field name="context">{'default_is_keykeep_partner': True}</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'sequence': 10, 'view_mode': 'kanban', 'view_id': ref('view_keykeep_supplier_kanban')}),
+            (0, 0, {'sequence': 20, 'view_mode': 'list', 'view_id': ref('view_keykeep_supplier_list')}),
+            (0, 0, {'sequence': 30, 'view_mode': 'pivot', 'view_id': ref('view_keykeep_supplier_pivot')}),
+            (0, 0, {'sequence': 40, 'view_mode': 'graph', 'view_id': ref('view_keykeep_supplier_graph')}),
+            (0, 0, {'sequence': 50, 'view_mode': 'form', 'view_id': ref('view_keykeep_supplier_form')}),
+        ]"/>
+    </record>
+
     <!-- OBS: Gamla delete av view_partner_keykeep_form togs bort — xmliden
          no longer exists in the DB, and deleting a missing xmlid crashes
          the module upgrade (drift lesson 2026-08-12). -->
+
+    <!-- Filter på Kontakter-sökvyn (res.partner): Keykeep-partners -->
+    <record id="view_partner_keykeep_search" model="ir.ui.view">
+        <field name="name">res.partner.keykeep.search</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <filter name="type_company" position="after">
+                <filter string="Keykeep" name="keykeep_partner"
+                        domain="[('is_keykeep_partner', '=', True)]"/>
+            </filter>
+        </field>
+    </record>
 </odoo>

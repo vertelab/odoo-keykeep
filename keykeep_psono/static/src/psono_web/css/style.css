@@ -1,0 +1,95 @@
+/* Generic styles */
+html {
+  height: 100%;}
+body {
+  font-family: 'Open Sans', sans-serif;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  min-width: 320px;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body.loading {
+  background-color: #0f1118;
+}
+
+html, body {
+  -webkit-tap-highlight-color: transparent;
+}
+
+h1, h2 {
+  font-size: 20px;
+  margin: 0; }
+
+h3 {
+  font-size: 24px;
+  margin: 0;
+}
+
+h4 {
+  font-size: 18px;
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 500;
+}
+
+h4, h5, h6 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+h1, h2, h3 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+a {
+  color: #151f2b; }
+
+.btn-link {
+  color: #151f2b; }
+
+#panel {
+  padding: 10px; }
+
+#logo {
+  margin-bottom: 10px; }
+
+.infolabel .fa-info-circle {
+  vertical-align: top;
+}
+
+.wrapper {
+  overflow: auto;
+  max-height: 100vh; }
+
+/* for the fixed dropdown menu that pops when someone right clicks an entry*/
+.dropdown-rightclick {
+  margin-left: -265px;
+  margin-top: -50px;
+  z-index: 20; }
+
+.modal-body .dropdown-rightclick {
+  margin-left: -335px;
+  margin-top: -30px; }
+
+.dropdown-menu .fa {
+  margin-right: 10px;
+  width: 15px; }
+
+/* classes for error handling */
+.form-group.has-error .help-block {
+  display: block; }
+
+.drag {
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+}
+.nodrag {
+  -webkit-app-region: no-drag;
+}

@@ -74,6 +74,17 @@ class ResPartner(models.Model):
         compute="_compute_partner_semaphore",
         help="Worst renewal_semaphore across the partner's subscriptions.",
     )
+    billing_model = fields.Selection(
+        selection=[
+            ("prepaid", "Prepaid"),
+            ("postpaid", "Postpaid"),
+            ("unknown", "Unknown"),
+        ],
+        string="Billing Model",
+        compute="_compute_billing_model",
+        store=True,
+        help="Dominant billing model across the partner's subscriptions.",
+    )
 
     @api.depends("subscription_ids", "subscription_ids.renewal_semaphore")
     def _compute_partner_semaphore(self):
@@ -117,6 +128,15 @@ class ResPartner(models.Model):
                 if partner.next_renewal_date
                 else 0
             )
+
+    @api.depends("subscription_ids.billing_model")
+    def _compute_billing_model(self):
+        for partner in self:
+            models_ = [m for m in partner.subscription_ids.mapped("billing_model") if m]
+            if not models_ or len(set(models_)) > 1:
+                partner.billing_model = "unknown"
+            else:
+                partner.billing_model = models_[0]
 
     @api.depends(
         "subscription_ids",

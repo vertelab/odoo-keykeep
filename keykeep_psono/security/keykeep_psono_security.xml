@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Vertel AB - License AGPL-3.0 -->
+<odoo>
+    <data noupdate="1">
+        <record id="module_category_keykeep_psono" model="ir.module.category">
+            <field name="name">Keykeep Psono</field>
+            <field name="sequence">110</field>
+        </record>
+    </data>
+</odoo>

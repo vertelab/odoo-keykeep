@@ -39,6 +39,7 @@ class KeykeepCredentialAccessLog(models.Model):
         selection=[
             ("password", "Password"),
             ("key_value", "Key Value"),
+            ("username", "Username"),
             ("both", "Both"),
             ("versions", "Versions"),
         ],

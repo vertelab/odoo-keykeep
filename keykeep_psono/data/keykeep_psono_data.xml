@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Vertel AB - License AGPL-3.0 -->
+<odoo>
+    <data>
+        <!-- Runtime configuration defaults (non-secret).
+             The server identity keys are NOT stored here — they live in
+             odoo.conf / env / keys file (see config.py + hooks.py). -->
+        <record id="psono_config_replay_window" model="ir.config_parameter">
+            <field name="key">keykeep_psono.replay_window_seconds</field>
+            <field name="value">20</field>
+        </record>
+        <record id="psono_config_registration" model="ir.config_parameter">
+            <field name="key">keykeep_psono.allow_registration</field>
+            <field name="value">1</field>
+        </record>
+        <record id="psono_config_token_valid" model="ir.config_parameter">
+            <field name="key">keykeep_psono.token_valid_seconds</field>
+            <field name="value">2592000</field>
+        </record>
+    </data>
+</odoo>
