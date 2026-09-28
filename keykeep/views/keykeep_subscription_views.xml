@@ -42,7 +42,7 @@
                                     <t t-else="">
                                         <div class="d-flex align-items-center justify-content-center bg-100 bg-gradient"
                                              style="width: 48px; height: 48px; border-radius: 8px;">
-                                            <i class="fa fa-cubes fa-2x text-secondary opacity-50"/>
+                                            <i class="fa fa-cubes fa-2x text-secondary opacity-50" title="Logo"/>
                                         </div>
                                     </t>
                                 </div>
@@ -98,22 +98,28 @@
                                 <div class="d-flex align-items-center gap-2">
                                     <span class="badge text-bg-secondary"><field name="contract_type"/></span>
                                     <span class="badge text-bg-light" t-if="record.category_id.raw_value">
-                                        <field name="category_id"/>
+                                        <a type="action" name="keykeep.action_keykeep_category">
+                                            <field name="category_id"/>
+                                        </a>
                                     </span>
                                 </div>
                                 <div class="d-flex align-items-center gap-2 text-muted small">
-                                    <span t-if="record.credential_count.raw_value &gt; 0" title="API Keys">
+                                    <a type="object" name="action_view_credentials"
+                                       t-if="record.credential_count.raw_value &gt; 0" title="API Keys">
                                         <i class="fa fa-key"/> <t t-esc="record.credential_count.value"/>
-                                    </span>
-                                    <span t-if="record.invoice_count.raw_value &gt; 0" title="Invoices">
+                                    </a>
+                                    <a type="object" name="action_view_invoices"
+                                       t-if="record.invoice_count.raw_value &gt; 0" title="Invoices">
                                         <i class="fa fa-file-text-o"/> <t t-esc="record.invoice_count.value"/>
-                                    </span>
-                                    <span t-if="record.forecast_count.raw_value &gt; 0" title="Forecast">
+                                    </a>
+                                    <a type="object" name="action_view_forecast"
+                                       t-if="record.forecast_count.raw_value &gt; 0" title="Forecast">
                                         <i class="fa fa-line-chart"/> <t t-esc="record.forecast_count.value"/>
-                                    </span>
-                                    <span t-if="record.topup_count.raw_value &gt; 0 and (record.contract_type.raw_value == 'top_up' or record.contract_type.raw_value == 'subscription_plus_topup')" title="Top-ups">
+                                    </a>
+                                    <a type="object" name="action_view_topups"
+                                       t-if="record.topup_count.raw_value &gt; 0 and (record.contract_type.raw_value == 'top_up' or record.contract_type.raw_value == 'subscription_plus_topup')" title="Top-ups">
                                         <i class="fa fa-arrow-up"/> <t t-esc="record.topup_count.value"/>
-                                    </span>
+                                    </a>
                                 </div>
                             </div>
                         </div>

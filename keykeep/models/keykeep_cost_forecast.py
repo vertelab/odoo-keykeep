@@ -64,6 +64,45 @@ class KeykeepCostForecast(models.Model):
         store=True,
     )
 
+    # Company-currency conversion of forecast_amount — stored so pivot/graph
+    # totals work across mixed original currencies (same pattern as
+    # subscription.monthly_forecast_amount).
+    company_currency_id = fields.Many2one(
+        comodel_name="res.currency",
+        string="Company Currency",
+        related="company_id.currency_id",
+        store=True,
+    )
+    forecast_amount_company = fields.Monetary(
+        currency_field="company_currency_id",
+        string="Forecast (Company Currency)",
+        compute="_compute_forecast_amount_company",
+        store=True,
+        help="forecast_amount converted to the company currency at today's rate.",
+    )
+
+    @api.depends(
+        "forecast_amount",
+        "currency_id",
+        "company_id",
+        "company_currency_id",
+    )
+    def _compute_forecast_amount_company(self):
+        today = fields.Date.today()
+        for rec in self:
+            if not rec.forecast_amount or not rec.company_currency_id:
+                rec.forecast_amount_company = 0.0
+                continue
+            if rec.currency_id.id == rec.company_currency_id.id:
+                rec.forecast_amount_company = rec.forecast_amount
+                continue
+            rec.forecast_amount_company = rec.currency_id._convert(
+                rec.forecast_amount,
+                rec.company_currency_id,
+                rec.company_id,
+                today,
+            )
+
     _sql_constraints = [
         (
             "sub_forecast_month_uniq",
