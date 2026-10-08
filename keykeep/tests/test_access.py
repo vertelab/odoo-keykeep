@@ -1,4 +1,4 @@
-# Copyright (C) 2026 Vertel AB — Keykeep access-rights tests.
+# Copyright (C) 2026 Vertel Sverige AB — Keykeep access-rights tests.
 from odoo.tests.common import TransactionCase, tagged
 
 

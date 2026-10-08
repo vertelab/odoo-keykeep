@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2026 Vertel AB - License AGPL-3.0 -->
+<!-- Copyright 2026 Vertel Sverige AB - License AGPL-3.0 -->
 <odoo>
     <!-- Main Menu Items -->
     <menuitem id="menu_keykeep_root"

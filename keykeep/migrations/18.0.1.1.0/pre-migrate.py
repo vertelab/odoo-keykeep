@@ -1,4 +1,4 @@
-# Copyright 2026 Vertel AB
+# Copyright 2026 Vertel Sverige AB
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 """Migration script for keykeep 18.0.1.1.0.
 

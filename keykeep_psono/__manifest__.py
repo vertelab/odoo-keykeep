@@ -1,4 +1,4 @@
-# Copyright 2026 Vertel AB
+# Copyright 2026 Vertel Sverige AB
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
@@ -7,8 +7,8 @@
     "version": "18.0.1.0.1",
     "development_status": "Beta",
     "category": "Productivity",
-    "website": "https://vertel.se/apps/odoo-keykeep/keykeep_psono",
-    "author": "Vertel AB",
+    "website": "https://github.com/vertelab/odoo-keykeep",
+    "author": "Vertel Sverige AB",
     "license": "AGPL-3",
     "application": False,
     "installable": True,

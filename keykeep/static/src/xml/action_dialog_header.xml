@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2026 Vertel AB - License AGPL-3.0 -->
+<!-- Copyright 2026 Vertel Sverige AB - License AGPL-3.0 -->
 <!-- Adds the fullscreen/expand icon (fa-expand, same as calendar.event's
      FormViewDialog) to act_window form dialogs opened via target="new"
      (ActionDialog). Clicking it re-opens the record as a main-area form

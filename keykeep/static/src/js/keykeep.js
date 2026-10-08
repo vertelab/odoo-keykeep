@@ -1,6 +1,6 @@
 /** @odoo-module **/
 /* Keykeep — SaaS Subscription Manager client logic */
-/* Copyright 2026 Vertel AB — License AGPL-3.0 */
+/* Copyright 2026 Vertel Sverige AB — License AGPL-3.0 */
 
 import { registry } from "@web/core/registry";
 import { patch } from "@web/core/utils/patch";
