@@ -143,7 +143,10 @@ class PsonoBase(object):
                 token.secret_key, validator["nonce"], validator["text"]
             )
             return json.loads(decrypted.decode())
-        except (KeyError, ValueError) as exc:
+        except Exception as exc:  # noqa: BLE001
+            # A malformed or undecryptable validator must yield a clean 401,
+            # never a 500. Note: nacl raises CryptoError, which is NOT a
+            # ValueError — catching only (KeyError, ValueError) let it escape.
             raise PsonoError(
                 "Invalid token header. Incorrect format in token header.",
                 status=401,

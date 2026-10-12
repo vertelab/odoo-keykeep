@@ -11,6 +11,7 @@
                     <page name="personal_vault" string="Personal Vault">
                         <group>
                             <group string="Vault Status">
+                                <field name="psono_vault_state" string="State" widget="badge"/>
                                 <field name="psono_registered" string="Vault Registered"/>
                                 <field name="psono_verified" string="Email Verified"/>
                             </group>
@@ -22,12 +23,24 @@
                                 <button name="action_open_vault_export" type="object"
                                         string="Export Passwords" class="btn-secondary"/>
                             </group>
+                            <group string="Recovery">
+                                <field name="psono_recovery_registered" string="Recovery Enabled" widget="boolean_toggle" readonly="1"/>
+                                <field name="psono_recovery_created_at" string="Registered At" readonly="1"/>
+                            </group>
                         </group>
                         <div>
                             <p>
                                 Your personal vault is end-to-end encrypted. Passwords can be
                                 imported from Firefox, Vaultwarden/Bitwarden, KeePass and more,
                                 and exported to JSON, CSV or KeePass — all inside your browser.
+                            </p>
+                            <p class="text-muted">
+                                <strong>Recovery:</strong> the recovery code is shown
+                                <strong>once</strong> by the vault client when you create it.
+                                Store it outside this system (password manager, printed copy,
+                                safe). This system never stores the code and
+                                <strong>cannot recreate or display it</strong> — only you can
+                                recover your vault with it.
                             </p>
                         </div>
                     </page>
@@ -47,6 +60,7 @@
                     <page name="personal_vault" string="Personal Vault">
                         <group>
                             <group string="Vault Status">
+                                <field name="psono_vault_state" string="State" widget="badge"/>
                                 <field name="psono_registered" string="Vault Registered"/>
                                 <field name="psono_verified" string="Email Verified"/>
                             </group>
@@ -58,12 +72,24 @@
                                 <button name="action_open_vault_export" type="object"
                                         string="Export Passwords" class="btn-secondary"/>
                             </group>
+                            <group string="Recovery">
+                                <field name="psono_recovery_registered" string="Recovery Enabled" widget="boolean_toggle" readonly="1"/>
+                                <field name="psono_recovery_created_at" string="Registered At" readonly="1"/>
+                            </group>
                         </group>
                         <div>
                             <p>
                                 Your personal vault is end-to-end encrypted. Passwords can be
                                 imported from Firefox, Vaultwarden/Bitwarden, KeePass and more,
                                 and exported to JSON, CSV or KeePass — all inside your browser.
+                            </p>
+                            <p class="text-muted">
+                                <strong>Recovery:</strong> the recovery code is shown
+                                <strong>once</strong> by the vault client when you create it.
+                                Store it outside this system (password manager, printed copy,
+                                safe). This system never stores the code and
+                                <strong>cannot recreate or display it</strong> — only you can
+                                recover your vault with it.
                             </p>
                         </div>
                     </page>

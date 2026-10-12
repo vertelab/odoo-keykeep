@@ -60,12 +60,38 @@ class KeykeepPsonoUser(models.Model):
     activation_code = fields.Char(string="Activation Code (hash)")
     activation_code_expire = fields.Datetime(string="Activation Code Expiry")
 
+    # ── Recovery material (design D7 — the code itself is NEVER stored) ──
+    # The client generates the recovery code locally and sends only:
+    #   recovery_authkey = scrypt(recovery_code, ...)      → verifiable
+    #   recovery_data    = encrypt({private_key, secret_key},
+    #                              recovery_code, recovery_sauce)
+    #                                                      → opaque E2E blob
+    # The server can verify a submitted code and hand the blob back, but can
+    # never read it. Same principle as authkey (bcrypt) and private_key
+    # (wrapped by the master password).
+    recovery_authkey = fields.Char(
+        string="Recovery Authkey",
+        help="scrypt-derived authkey for the recovery code. Verifiable, never reversible.",
+    )
+    recovery_data = fields.Text(
+        string="Recovery Data (E2E encrypted)",
+        help="Opaque client-encrypted payload. The server must never parse or decrypt it.",
+    )
+    recovery_data_nonce = fields.Char(string="Recovery Data Nonce")
+    recovery_sauce = fields.Char(string="Recovery Sauce")
+    recovery_created_at = fields.Datetime(string="Recovery Registered At")
+
     _sql_constraints = [
         ("username_uniq", "unique (username)", "A vault user with this username already exists."),
         ("user_uniq", "unique (user_id)", "An Odoo user can have only one vault."),
     ]
 
     # ── helpers ────────────────────────────────────────────────────
+
+    def has_recovery(self):
+        """True when recovery material is registered (design D9)."""
+        self.ensure_one()
+        return bool(self.recovery_authkey and self.recovery_data)
 
     def _log(self, action, detail=None):
         """Record a content-agnostic access log entry (never payload)."""

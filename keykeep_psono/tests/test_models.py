@@ -7,6 +7,8 @@ Verifies: token never stores the clear key (only sha512), secret
 create/update auto-snapshots history, vault user is tied 1:1 to res.users.
 """
 
+import uuid
+
 from odoo.tests.common import TransactionCase
 
 from .. import crypto
@@ -21,7 +23,7 @@ class TestPsonoModels(TransactionCase):
         self.odoo_user = self.env["res.users"].create(
             {
                 "name": "Vault Test User",
-                "login": "vaulttest%d@test.local" % self.env["res.users"].search_count([]),
+                "login": "vaulttest-%s@test.local" % uuid.uuid4().hex[:12],
                 "groups_id": [(6, 0, [self.env.ref("base.group_user").id])],
             }
         )

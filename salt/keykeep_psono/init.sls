@@ -48,7 +48,33 @@ keykeep-psono-keys:
     - runas: root
 {% endif %}
 
-# 3. Install / upgrade the module (checkmodule handles service restart).
+# 3. Client-configuration system parameters (design D1/D2).
+#    Global policy for the generated config.json. Set via pillar so operators
+#    can change client behaviour without a deploy.
+{% for key, default in [
+    ('allow_registration', '1'),
+    ('allow_lost_password', '1'),
+    ('allow_delete_account', '0'),
+    ('allow_custom_server', '1'),
+    ('require_email_verification_for_web', '1'),
+] %}
+keykeep-psono-param-{{ key }}:
+  cmd.run:
+    - name: |
+        odoo shell -c {{ conf }} -d ledningssystem --no-http <<'PYEOF'
+        env['ir.config_parameter'].sudo().set_param(
+            'keykeep_psono.{{ key }}', '{{ pillar.get('keykeep_psono:params:' + key, default) }}')
+        env.cr.commit()
+        PYEOF
+    - runas: odoo
+    - unless: |
+        odoo shell -c {{ conf }} -d ledningssystem --no-http <<'PYEOF' | grep -q '^1$'
+        print(1 if env['ir.config_parameter'].sudo().get_param(
+            'keykeep_psono.{{ key }}', '') == '{{ pillar.get('keykeep_psono:params:' + key, default) }}' else 0)
+        PYEOF
+{% endfor %}
+
+# 4. Install / upgrade the module (checkmodule handles service restart).
 keykeep-psono-install:
   cmd.run:
     - name: checkmodule -d ledningssystem -m keykeep_psono
@@ -56,7 +82,7 @@ keykeep-psono-install:
     - onchanges:
         - file: keykeep-psono-module
 
-# 4. Caddy rate_limit on auth endpoints (apply via caddy_site on the master).
+# 5. Caddy rate_limit on auth endpoints (apply via caddy_site on the master).
 #    Add to the ledningssystem Caddy site (/srv/salt/caddy/sites/ledningssystem.yml):
 #
 #      handle_path /keykeep/psono/authentication/prelogin* {
@@ -89,11 +115,23 @@ keykeep-psono-install:
 #          }
 #          reverse_proxy odoo-ledningssystem
 #      }
+#      # Recovery endpoints are UNAUTHENTICATED (called while logged out) and
+#      # must be rate-limited like login (design: risk list).
+#      handle_path /keykeep/psono/password* {
+#          rate_limit {
+#              zone dynamic {
+#                  key {remote_host}
+#                  events 10
+#                  window 1m
+#              }
+#          }
+#          reverse_proxy odoo-ledningssystem
+#      }
 #      handle /keykeep/psono/* {
 #          reverse_proxy odoo-ledningssystem
 #      }
 
-# 5. Zabbix check (on the Zabbix server):
+# 6. Zabbix check (on the Zabbix server):
 #    HTTP check: https://ledningssystem.vertel.se/keykeep/psono/info/ -> 200
 #    Name: Odoo keykeep_psono /info/
 #    Triggers: HTTP response code != 200 or no data

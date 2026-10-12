@@ -17,5 +17,26 @@
             <field name="key">keykeep_psono.token_valid_seconds</field>
             <field name="value">2592000</field>
         </record>
+
+        <!-- Client configuration flags (design D1/D2). Global policy is read
+             from these; personal values (language) come from the session.
+             allow_custom_server is a SECURITY flag and must never become
+             per-user. -->
+        <record id="psono_config_allow_lost_password" model="ir.config_parameter">
+            <field name="key">keykeep_psono.allow_lost_password</field>
+            <field name="value">1</field>
+        </record>
+        <record id="psono_config_allow_delete_account" model="ir.config_parameter">
+            <field name="key">keykeep_psono.allow_delete_account</field>
+            <field name="value">0</field>
+        </record>
+        <record id="psono_config_allow_custom_server" model="ir.config_parameter">
+            <field name="key">keykeep_psono.allow_custom_server</field>
+            <field name="value">1</field>
+        </record>
+        <record id="psono_config_require_email_verification" model="ir.config_parameter">
+            <field name="key">keykeep_psono.require_email_verification_for_web</field>
+            <field name="value">1</field>
+        </record>
     </data>
 </odoo>

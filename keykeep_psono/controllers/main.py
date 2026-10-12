@@ -84,6 +84,32 @@ class PsonoController(PsonoBase, http.Controller):
             "hashing_parameters": {"u": 14, "r": 8, "p": 1, "l": 64},
         }
 
+    def _is_session_bound_to(self, user):
+        """True when this request carries an Odoo session for `user` (D6).
+
+        This is the only reliable signal that the caller is the Odoo-embedded
+        web client rather than a sessionless client (browser extension).
+        auth="none" routes can still read the session.
+        """
+        uid = http.request.session.uid
+        return bool(uid) and user and user.user_id.id == uid
+
+    def _email_verification_required(self, user):
+        """Whether this login must be blocked for an unverified vault (D6).
+
+        Sessionless clients (the browser extension) ALWAYS require
+        verification — it is their only identity bridge. Session-bound
+        clients may skip it when the operator allows it.
+        """
+        if not self._is_session_bound_to(user):
+            return True
+        allow = (
+            http.request.env["ir.config_parameter"]
+            .sudo()
+            .get_param("keykeep_psono.require_email_verification_for_web", "1")
+        )
+        return str(allow).strip().lower() in ("1", "true", "yes", "on")
+
     def _token_valid_seconds(self):
         param = (
             http.request.env["ir.config_parameter"]
@@ -174,7 +200,7 @@ class PsonoController(PsonoBase, http.Controller):
                 raise PsonoError("USERNAME_OR_PASSWORD_WRONG", status=400)
             if not user.is_active:
                 raise PsonoError("USER_DISABLED_ASK_ADMIN_TO_ENABLE", status=400)
-            if not user.is_email_active:
+            if not user.is_email_active and self._email_verification_required(user):
                 raise PsonoError("ACCOUNT_NOT_VERIFIED", status=400)
 
             device_fingerprint = request_data.get("device_fingerprint", "")
@@ -791,3 +817,218 @@ class PsonoController(PsonoBase, http.Controller):
             return self.encrypted_response(token, {"secrets": created}, 201)
         except PsonoError as exc:
             return exc.to_response()
+
+class PsonoRecoveryController(PsonoBase, http.Controller):
+    """Recovery-code endpoints (design D7/D8 — Alt 4).
+
+    The recovery code itself NEVER reaches the server. The client generates it
+    locally and sends only:
+
+      recovery_authkey = scrypt(recovery_code, ...)   → verifiable
+      recovery_data    = encrypt({private_key, secret_key},
+                                 recovery_code, recovery_sauce)
+                                                       → opaque E2E blob
+
+    The server can verify a submitted code and hand the blob back, but can
+    never read it. Same principle as authkey (bcrypt) and private_key (wrapped
+    by the master password).
+    """
+
+    # ── registration (authenticated) ──────────────────────────────
+
+    @http.route(
+        "/keykeep/psono/recoverycode/",
+        type="http", auth="none", csrf=False, methods=["POST"],
+    )
+    def recoverycode(self, **kw):
+        """Store/replace recovery material for the authenticated vault."""
+        try:
+            token = self._require_token()
+            body = self._decrypt_body(token)
+            authkey = body.get("recovery_authkey") or ""
+            data = body.get("recovery_data") or ""
+            nonce = body.get("recovery_data_nonce") or ""
+            sauce = body.get("recovery_sauce") or ""
+            if not authkey or not data:
+                raise PsonoError("RECOVERY_DATA_INCOMPLETE", status=400, token=token)
+
+            user = token.user_id
+            replacing = user.has_recovery()
+            user.sudo().write(
+                {
+                    "recovery_authkey": authkey,
+                    "recovery_data": data,
+                    "recovery_data_nonce": nonce,
+                    "recovery_sauce": sauce,
+                    "recovery_created_at": odoo_fields.Datetime.now(),
+                }
+            )
+            self._audit(
+                user.user_id,
+                "recovery_replace" if replacing else "recovery_register",
+                None,
+            )
+            return self.encrypted_response(token, {"success": "Recovery data updated."})
+        except PsonoError as exc:
+            return exc.to_response()
+
+    # ── recovery exchange (unauthenticated) ───────────────────────
+
+    @http.route(
+        "/keykeep/psono/password/",
+        type="http", auth="none", csrf=False, methods=["POST"],
+    )
+    def password_step1(self, **kw):
+        """Step 1: verify the recovery authkey and return the encrypted blob.
+
+        No Authorization header — called while logged out. Must answer
+        identically for an unknown username and a wrong authkey so it does not
+        disclose whether an account exists.
+        """
+        try:
+            body = self.parse_json_body()
+            username = (body.get("username") or "").lower().strip()
+            authkey = body.get("recovery_authkey") or ""
+            user = self._lookup_recovery_user(username, authkey)
+            if not user:
+                raise PsonoError("USER_NOT_FOUND", status=400)
+            return self.plain_response(
+                {
+                    "recovery_data": user.recovery_data,
+                    "recovery_data_nonce": user.recovery_data_nonce,
+                    "recovery_sauce": user.recovery_sauce,
+                    "user_sauce": user.user_sauce,
+                    "policies": {},
+                }
+            )
+        except PsonoError as exc:
+            return exc.to_response()
+
+    @http.route(
+        "/keykeep/psono/password/",
+        type="http", auth="none", csrf=False, methods=["PUT"],
+    )
+    def password_step2(self, **kw):
+        """Step 2: install the new authkey and re-wrapped key material."""
+        try:
+            body = self.parse_json_body()
+            username = (body.get("username") or "").lower().strip()
+            authkey = body.get("recovery_authkey") or ""
+            update_data = body.get("update_data") or ""
+            update_nonce = body.get("update_data_nonce") or ""
+            if not update_data:
+                raise PsonoError("UPDATE_DATA_INCOMPLETE", status=400)
+
+            user = self._lookup_recovery_user(username, authkey)
+            if not user:
+                # Same response as a wrong authkey — no username disclosure.
+                raise PsonoError("USER_NOT_FOUND", status=400)
+
+            # update_data is E2E-encrypted with the recovery code; the server
+            # cannot read it. psono's contract: the server applies the new
+            # authkey here. It MUST be bcrypt-hashed exactly like register()
+            # does, or the login path (bcrypt.checkpw) can never match it.
+            new_authkey = body.get("new_authkey") or authkey
+            vals = {
+                "authkey": bcrypt.hashpw(
+                    new_authkey.encode(), bcrypt.gensalt()
+                ).decode()
+            }
+            if body.get("hashing_algorithm"):
+                vals["hashing_algorithm"] = body["hashing_algorithm"]
+            if body.get("hashing_parameters"):
+                vals["hashing_parameters"] = body["hashing_parameters"]
+            user.sudo().write(vals)
+            self._audit(user.user_id, "recovery_use", None)
+            return self.plain_response({"success": "Password updated."})
+        except PsonoError as exc:
+            return exc.to_response()
+
+    # ── helpers ───────────────────────────────────────────────────
+
+    def _lookup_recovery_user(self, username, authkey):
+        """Return the vault whose recovery authkey matches, or None.
+
+        Deliberately returns None for both "no such user" and "wrong authkey"
+        so the caller cannot distinguish them.
+        """
+        if not username or not authkey:
+            return None
+        user = (
+            http.request.env["keykeep.psono.user"]
+            .sudo()
+            .search([("username", "=", username)], limit=1)
+        )
+        if not user or not user.recovery_authkey or not user.has_recovery():
+            return None
+        # The client derives recovery_authkey with scrypt and sends a bcrypt-
+        # comparable value only in psono-server; here the client sends the
+        # scrypt output and we compare it directly (constant-time).
+        if not secrets.compare_digest(user.recovery_authkey, authkey):
+            return None
+        return user
+
+
+class PsonoAccountController(PsonoBase, http.Controller):
+    """Account deletion (design D10 — disabled by default)."""
+
+    @http.route(
+        "/keykeep/psono/user/delete/",
+        type="http", auth="none", csrf=False, methods=["DELETE"],
+    )
+    def user_delete(self, **kw):
+        """Delete the caller's own vault. Irreversible.
+
+        Requires the vault authkey AND the master password. Disabled unless
+        `keykeep_psono.allow_delete_account` is enabled. Never available to a
+        sessionless client.
+        """
+        try:
+            token = self._require_token()
+            allow = (
+                http.request.env["ir.config_parameter"]
+                .sudo()
+                .get_param("keykeep_psono.allow_delete_account", "0")
+            )
+            if str(allow).strip().lower() not in ("1", "true", "yes", "on"):
+                raise PsonoError("ACCOUNT_DELETION_DISABLED", status=403, token=token)
+
+            # Sessionless clients may not delete (design D10).
+            uid = http.request.session.uid
+            user = token.user_id
+            if not uid or user.user_id.id != uid:
+                raise PsonoError("ACCOUNT_DELETION_DISABLED", status=403, token=token)
+
+            body = self.parse_json_body()
+            authkey = body.get("authkey") or ""
+            password = body.get("password") or ""
+            if not authkey or not password:
+                raise PsonoError("AUTHKEY_OR_PASSWORD_MISSING", status=400, token=token)
+            if not self._verify_authkey(authkey, user.authkey):
+                raise PsonoError("USERNAME_OR_PASSWORD_WRONG", status=400, token=token)
+
+            # Verify the master password against the linked Odoo user.
+            try:
+                user.user_id.sudo()._check_credentials(
+                    {
+                        "login": user.user_id.login,
+                        "password": password,
+                        "type": "password",
+                    },
+                    {"interactive": True},
+                )
+            except Exception:  # noqa: BLE001
+                raise PsonoError("USERNAME_OR_PASSWORD_WRONG", status=400, token=token)
+
+            # Audit BEFORE removal so the trail survives the delete.
+            self._audit(user.user_id, "delete_account", "vault deleted")
+            user.sudo().unlink()
+            return self.plain_response({})
+        except PsonoError as exc:
+            return exc.to_response()
+
+    def _verify_authkey(self, authkey, stored_hash):
+        try:
+            return bcrypt.checkpw(authkey.encode(), stored_hash.encode())
+        except (ValueError, TypeError):
+            return False
