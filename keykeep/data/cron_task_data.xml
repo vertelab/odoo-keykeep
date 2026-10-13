@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Vertel Sverige AB - License AGPL-3.0 -->
+<odoo>
+    <data noupdate="1">
+        <!--
+            Cron tasks for keykeep, run by the cron_tick engine.
+
+            Migrated from data/ir_cron_data.xml, where the ir.cron records are
+            kept but deactivated. The schedules are unchanged: all seven ran
+            daily or weekly, which the engine's cadences express exactly.
+
+            The engine calls the method on the model class (no recordset), so
+            every method below is @api.model.
+        -->
+
+        <record id="cron_task_update_renewal_dates" model="cron.task">
+            <field name="name">Keykeep: Update Renewal Dates</field>
+            <field name="technical_name">keykeep_update_renewal_dates</field>
+            <field name="model_name">keykeep.subscription</field>
+            <field name="method_name">_cron_update_renewal_dates</field>
+            <field name="cadence">daily</field>
+            <field name="module">keykeep</field>
+        </record>
+
+        <record id="cron_task_send_renewal_notifications" model="cron.task">
+            <field name="name">Keykeep: Send Renewal Notifications</field>
+            <field name="technical_name">keykeep_send_renewal_notifications</field>
+            <field name="model_name">keykeep.subscription</field>
+            <field name="method_name">_cron_send_renewal_notifications</field>
+            <field name="cadence">daily</field>
+            <field name="module">keykeep</field>
+        </record>
+
+        <record id="cron_task_check_credential_expiry" model="cron.task">
+            <field name="name">Keykeep: Check Credential Expiry</field>
+            <field name="technical_name">keykeep_check_credential_expiry</field>
+            <field name="model_name">keykeep.subscription</field>
+            <field name="method_name">_cron_check_credential_expiry</field>
+            <field name="cadence">daily</field>
+            <field name="module">keykeep</field>
+        </record>
+
+        <record id="cron_task_check_credential_rotation" model="cron.task">
+            <field name="name">Keykeep: Check Credential Rotation Health</field>
+            <field name="technical_name">keykeep_check_credential_rotation</field>
+            <field name="model_name">keykeep.subscription</field>
+            <field name="method_name">_cron_check_credential_rotation</field>
+            <field name="cadence">daily</field>
+            <field name="module">keykeep</field>
+        </record>
+
+        <record id="cron_task_cleanup_access_logs" model="cron.task">
+            <field name="name">Keykeep: Cleanup Old Access Logs</field>
+            <field name="technical_name">keykeep_cleanup_access_logs</field>
+            <field name="model_name">keykeep.subscription</field>
+            <field name="method_name">_cron_cleanup_access_logs</field>
+            <field name="cadence">daily</field>
+            <field name="module">keykeep</field>
+        </record>
+
+        <record id="cron_task_purge_credential_versions" model="cron.task">
+            <field name="name">Keykeep: Purge Old Credential Versions</field>
+            <field name="technical_name">keykeep_purge_credential_versions</field>
+            <field name="model_name">keykeep.credential</field>
+            <field name="method_name">_cron_purge_credential_versions</field>
+            <field name="cadence">daily</field>
+            <field name="module">keykeep</field>
+        </record>
+
+        <record id="cron_task_generate_cost_forecast" model="cron.task">
+            <field name="name">Keykeep: Generate Cost Forecast</field>
+            <field name="technical_name">keykeep_generate_cost_forecast</field>
+            <field name="model_name">keykeep.cost.forecast</field>
+            <field name="method_name">generate_forecast</field>
+            <field name="cadence">week</field>
+            <field name="module">keykeep</field>
+        </record>
+    </data>
+</odoo>
