@@ -9,6 +9,11 @@ from dateutil.relativedelta import relativedelta
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 
+# `Markup`/`escape` live in markupsafe, not in odoo.tools (Odoo imports them
+# the same way in ir_qweb and ir_module). A wrong import here breaks the whole
+# registry load — it is module-level, so every model fails.
+from markupsafe import Markup, escape
+
 _logger = logging.getLogger(__name__)
 
 
@@ -610,29 +615,104 @@ class KeykeepSubscription(models.Model):
 
     # --- Cron: Send notifications ---
 
+    def _renewal_reminder_already_sent(self, notify_date):
+        """Has a renewal reminder for this renewal already been posted?
+
+        The cron must be idempotent: it is retried by the scheduler (a slow
+        run is retried, a crashed worker is restarted, a manual trigger can
+        be fired) and a non-idempotent reminder turns every retry into a new
+        message. Once, a single reminder loop produced 34 840 messages on
+        these subscriptions — 33 592 of them exact duplicates — because
+        nothing stopped it from re-posting the same reminder.
+
+        The marker is the RENEWAL DATE, because that is what the message
+        body contains (`... is due for renewal on 2026-11-23`). Matching on
+        the notify date instead would never find the message it is looking
+        for — the notify date is not in the body.
+
+        The reminder for 2026-11-23 is due on 2026-11-09 and must be posted
+        exactly once for that renewal, however many times the cron runs.
+        """
+        self.ensure_one()
+        if not self.next_renewal_date:
+            return False
+        # The body is HTML: `Renewal Reminder</strong>: <name>` — the tag sits
+        # between the label and the name, so a single contiguous marker never
+        # matches. `ilike` terms are ANDed, so matching label and renewal date
+        # as SEPARATE terms is both correct and resistant to markup changes.
+        return bool(self.env["mail.message"].sudo().search_count([
+            ("model", "=", self._name),
+            ("res_id", "=", self.id),
+            ("body", "ilike", "Renewal Reminder"),
+            ("body", "ilike", fields.Date.to_string(self.next_renewal_date)),
+        ]))
+
+    def _credential_notice_already_sent(self, cred, kind, period=None):
+        """Has a credential notice of `kind` for `cred` already been posted?
+
+        Same idempotency argument as `_renewal_reminder_already_sent`: the
+        crons are retried by the scheduler, and without this check every
+        retry posts the notice again.
+
+        `period` narrows the check to a window (the rotation warning uses
+        the month), because "not rotated for 200 days" stays true forever
+        and would otherwise be reported once and never again.
+        """
+        self.ensure_one()
+        marker = "%s: '%s'" % (kind, cred.name or "")
+        domain = [
+            ("model", "=", self._name),
+            ("res_id", "=", self.id),
+            ("body", "ilike", marker),
+        ]
+        if period:
+            domain.append(("body", "ilike", period))
+        return bool(
+            self.env["mail.message"].sudo().search_count(domain))
+
     @api.model
     def _cron_send_renewal_notifications(self):
-        """Daily cron: notify responsible users about upcoming renewals."""
+        """Daily cron: notify responsible users about upcoming renewals.
+
+        Idempotent per (subscription, renewal date) — see
+        `_renewal_reminder_already_sent`. A reminder that has already been
+        posted for this renewal is never posted again, so a retried or
+        re-triggered run cannot flood the chatter.
+        """
         today = date.today()
-        subs = self.search([("state", "=", "active"), ("next_renewal_date", "!=", False), ("responsible_id", "!=", False)])
+        subs = self.search([
+            ("state", "=", "active"),
+            ("next_renewal_date", "!=", False),
+            ("responsible_id", "!=", False),
+        ])
+        sent = 0
         for sub in subs:
             if not sub.notify_days_before:
                 continue
             notify_date = sub.next_renewal_date - timedelta(days=sub.notify_days_before)
-            if notify_date == today:
-                sub.message_post(
-                    body=_(
-                        "⏰ **Renewal Reminder**: %(name)s is due for renewal on %(date)s.\n"
-                        "Cost: %(amount)s %(currency)s"
-                    )
-                    % {
-                        "name": sub.name,
-                        "date": sub.next_renewal_date,
-                        "amount": sub.cost_amount,
-                        "currency": sub.currency_id.name,
-                    },
-                    partner_ids=sub.responsible_id.partner_id.ids,
-                )
+            if notify_date != today:
+                continue
+            if sub._renewal_reminder_already_sent(notify_date):
+                continue
+            body = Markup(
+                "<p>⏰ <strong>Renewal Reminder</strong>: %(name)s is due for "
+                "renewal on %(date)s.<br/>Cost: %(amount)s %(currency)s</p>"
+            ) % {
+                "name": escape(sub.name),
+                "date": fields.Date.to_string(sub.next_renewal_date),
+                "amount": sub.cost_amount,
+                "currency": escape(sub.currency_id.name or ""),
+            }
+            sub.message_post(
+                body=body,
+                partner_ids=sub.responsible_id.partner_id.ids,
+                message_type="comment",
+                subtype_xmlid="mail.mt_note",
+            )
+            sent += 1
+        _logger.info(
+            "Keykeep: Sent %d renewal reminders (of %d candidates).",
+            sent, len(subs))
 
     # --- Cron: Credential expiry warnings ---
 
@@ -645,46 +725,78 @@ class KeykeepSubscription(models.Model):
             ("expiry_date", "!=", False),
             ("renewal_reminder", "=", True),
         ])
+        sent = 0
         for cred in creds:
             days_left = (cred.expiry_date - today).days
-            if days_left in thresholds:
-                cred.subscription_id.message_post(
-                    body=_(
-                        "⚠️ **Credential Expiry**: '%(cred)s' (%(type)s) for %(sub)s "
-                        "expires in %(days)d days on %(date)s."
-                    )
-                    % {
-                        "cred": cred.name,
-                        "type": cred.get_credential_type_display(),
-                        "sub": cred.subscription_id.name,
-                        "days": days_left,
-                        "date": cred.expiry_date,
-                    },
-                    partner_ids=cred.subscription_id.responsible_id.partner_id.ids,
-                )
+            if days_left not in thresholds:
+                continue
+            sub = cred.subscription_id
+            # A credential without a subscription has nowhere to post; the
+            # old code called message_post() on an empty recordset, which
+            # raises and aborts the whole cron for every later credential.
+            if not sub:
+                continue
+            if sub._credential_notice_already_sent(cred, "Credential Expiry"):
+                continue
+            sub.message_post(
+                body=Markup(
+                    "<p>⚠️ <strong>Credential Expiry</strong>: '%(cred)s' "
+                    "(%(type)s) for %(sub)s expires in %(days)d days on "
+                    "%(date)s.</p>"
+                ) % {
+                    "cred": escape(cred.name),
+                    "type": escape(cred.get_credential_type_display() or ""),
+                    "sub": escape(sub.name),
+                    "days": days_left,
+                    "date": fields.Date.to_string(cred.expiry_date),
+                },
+                partner_ids=sub.responsible_id.partner_id.ids,
+                message_type="comment",
+                subtype_xmlid="mail.mt_note",
+            )
+            sent += 1
+        _logger.info(
+            "Keykeep: Sent %d credential expiry warnings.", sent)
 
     # --- Cron: Credential rotation health ---
 
     @api.model
     def _cron_check_credential_rotation(self):
-        """Daily cron: warn about credentials not rotated for >90 days."""
+        """Daily cron: warn about credentials not rotated for >90 days.
+
+        Idempotent per (credential, month): a credential that has been stale
+        for 200 days must not produce a new message every single day.
+        """
         today = date.today()
         creds = self.env["keykeep.credential"].search([])
+        sent = 0
         for cred in creds:
-            if cred.rotation_age and cred.rotation_age > 90:
-                cred.subscription_id.message_post(
-                    body=_(
-                        "🔄 **Rotation Needed**: '%(cred)s' (%(type)s) for %(sub)s "
-                        "has not been rotated for %(days)d days."
-                    )
-                    % {
-                        "cred": cred.name,
-                        "type": cred.get_credential_type_display(),
-                        "sub": cred.subscription_id.name,
-                        "days": cred.rotation_age,
-                    },
-                    partner_ids=cred.subscription_id.responsible_id.partner_id.ids,
-                )
+            if not cred.rotation_age or cred.rotation_age <= 90:
+                continue
+            sub = cred.subscription_id
+            if not sub:
+                continue
+            if sub._credential_notice_already_sent(
+                    cred, "Rotation Needed", period=today.strftime("%Y-%m")):
+                continue
+            sub.message_post(
+                body=Markup(
+                    "<p>🔄 <strong>Rotation Needed</strong>: '%(cred)s' "
+                    "(%(type)s) for %(sub)s has not been rotated for "
+                    "%(days)d days.</p>"
+                ) % {
+                    "cred": escape(cred.name),
+                    "type": escape(cred.get_credential_type_display() or ""),
+                    "sub": escape(sub.name),
+                    "days": cred.rotation_age,
+                },
+                partner_ids=sub.responsible_id.partner_id.ids,
+                message_type="comment",
+                subtype_xmlid="mail.mt_note",
+            )
+            sent += 1
+        _logger.info(
+            "Keykeep: Sent %d credential rotation warnings.", sent)
 
     # --- Cron: Access log cleanup ---
 
