@@ -1,7 +1,7 @@
 # Copyright 2026 Vertel Sverige AB
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-"""Pre-migrate 18.0.1.54.0 → 18.0.1.58.0 — role separation.
+"""Pre-migrate 18.0.1.54.0 → 18.0.1.59.0 — role separation.
 
 Before this version keykeep leaked accounting rights:
 
@@ -11,7 +11,7 @@ Before this version keykeep leaked accounting rights:
                 └→ account.group_account_invoice
 
 Every Settings user therefore got invoicing rights without opting in. The XML
-definitions are fixed in 18.0.1.58.0, but the fix alone is not enough:
+definitions are fixed in 18.0.1.59.0, but the fix alone is not enough:
 
 Odoo's ``GroupsImplied.write`` runs a recursive SQL that inserts the
 *transitively implied* groups as **direct** memberships in
@@ -110,7 +110,7 @@ def _remove_direct(env, group_id, user_ids, group_name, reason):
     removed = env.cr.rowcount or 0
     for uid in sorted(user_ids):
         _logger.info(
-            "keykeep 18.0.1.58.0: removed %s from %s (uid %s) — %s",
+            "keykeep 18.0.1.59.0: removed %s from %s (uid %s) — %s",
             group_name,
             logins.get(uid, "?"),
             uid,
@@ -130,7 +130,7 @@ def migrate(cr, version):
 
     g_invoice = _gid(env, ACCOUNT_INVOICE)
     if not g_invoice:
-        _logger.info("keykeep 18.0.1.58.0: account module absent, nothing to do")
+        _logger.info("keykeep 18.0.1.59.0: account module absent, nothing to do")
         return
 
     g_manager = _gid(env, KK_MANAGER)
@@ -146,7 +146,7 @@ def migrate(cr, version):
     # ── Step 0: drop the implied link in the group definition ──────────────
     # The security groups live in <data noupdate="1">, so the XML change to
     # group_manager.implied_ids is never written on upgrade — only on fresh
-    # install. Verified on luke18 2026-11-17: after upgrading to 18.0.1.58.0
+    # install. Verified on luke18 2026-11-17: after upgrading to 18.0.1.59.0
     # group_manager still implied account.group_account_invoice. The XML states
     # the intent for new databases; this migration enforces it on existing ones.
     if g_manager and g_invoice:
@@ -156,37 +156,11 @@ def migrate(cr, version):
         )
         if env.cr.rowcount:
             _logger.info(
-                "keykeep 18.0.1.58.0: step 0 — removed %s from "
+                "keykeep 18.0.1.59.0: step 0 — removed %s from "
                 "%s.implied_ids",
                 ACCOUNT_INVOICE,
                 KK_MANAGER,
             )
-
-    # ── Step 0b: drop base.group_system → keykeep links ────────────────────
-    # The <data noupdate="1"> wrapper means the rows written by the old
-    # `base.group_system → group_admin` record stay in res_groups_implied_rel
-    # even after the XML block is deleted: removing a record from XML does not
-    # delete the data it once created. Verified on luke18 2026-11-17 — after
-    # the upgrade group_system still reached Keykeep Admin/Manager/DevOps/User.
-    # Also catches group_devops and group_user, since group_admin implied them
-    # transitively and Users would otherwise keep credential access.
-    if g_system:
-        kk_ids = [
-            x for x in (_gid(env, KK_ACCOUNTING), g_admin, g_manager, g_devops)
-            if x
-        ]
-        if kk_ids:
-            env.cr.execute(
-                "DELETE FROM res_groups_implied_rel "
-                "WHERE gid = %s AND hid = ANY(%s)",
-                (g_system, kk_ids),
-            )
-            if env.cr.rowcount:
-                _logger.info(
-                    "keykeep 18.0.1.58.0: step 0b — removed %s implied "
-                    "keykeep link(s) from base.group_system",
-                    env.cr.rowcount,
-                )
 
     # ── Step 1: invoicing rights that only keykeep carried ─────────────────
     # A user keeps account.group_account_invoice when at least one carrier is
@@ -217,10 +191,10 @@ def migrate(cr, version):
         to_remove,
         ACCOUNT_INVOICE,
         "implied by keykeep only; keykeep no longer grants invoicing "
-        "(role separation 18.0.1.58.0)",
+        "(role separation 18.0.1.59.0)",
     )
     _logger.info(
-        "keykeep 18.0.1.58.0: step 1 — %s removed, %s kept via Odoo invoicing groups",
+        "keykeep 18.0.1.59.0: step 1 — %s removed, %s kept via Odoo invoicing groups",
         removed,
         kept_because_odoo,
     )
@@ -244,13 +218,45 @@ def migrate(cr, version):
                 to_remove,
                 gname,
                 "implied by base.group_system only, which no longer grants "
-                "keykeep access (role separation 18.0.1.58.0)",
+                "keykeep access (role separation 18.0.1.59.0)",
             )
             _logger.info(
-                "keykeep 18.0.1.58.0: step 2 — %s direct %s membership(s) removed",
+                "keykeep 18.0.1.59.0: step 2 — %s direct %s membership(s) removed",
                 removed,
                 gname,
             )
+
+    # ── Step 0b: drop base.group_system → keykeep links ────────────────────
+    # The <data noupdate="1"> wrapper means the rows written by the old
+    # `base.group_system → group_admin` record stay in res_groups_implied_rel
+    # even after the XML block is deleted: removing a record from XML does not
+    # delete the data it once created. Verified on luke18 2026-11-17 — after
+    # the upgrade group_system still reached Keykeep Admin/Manager/DevOps/User.
+    # Also catches group_devops and group_user, since group_admin implied them
+    # transitively and Users would otherwise keep credential access.
+    #
+    # ORDER MATTERS: this runs AFTER step 2. Step 2 asks which groups carry
+    # group_admin/group_manager for each user — if the base.group_system link
+    # is already gone, every carrier looks "explicit" and nobody is cleaned up.
+    # Verified on ledningssystem 2026-11-17: running 0b first left all 5
+    # Settings users with group_admin intact.
+    if g_system:
+        kk_ids = [
+            x for x in (_gid(env, KK_ACCOUNTING), g_admin, g_manager, g_devops)
+            if x
+        ]
+        if kk_ids:
+            env.cr.execute(
+                "DELETE FROM res_groups_implied_rel "
+                "WHERE gid = %s AND hid = ANY(%s)",
+                (g_system, kk_ids),
+            )
+            if env.cr.rowcount:
+                _logger.info(
+                    "keykeep 18.0.1.59.0: step 0b — removed %s implied "
+                    "keykeep link(s) from base.group_system",
+                    env.cr.rowcount,
+                )
 
     # ── Step 3: do not lose credential access silently ─────────────────────
     # Settings users who just lost group_admin keep group_devops. They can be
@@ -267,7 +273,7 @@ def migrate(cr, version):
             )
             for uid, login in _log_users(env, missing).items():
                 _logger.info(
-                    "keykeep 18.0.1.58.0: step 3 — kept %s for %s (uid %s) "
+                    "keykeep 18.0.1.59.0: step 3 — kept %s for %s (uid %s) "
                     "so credential access is not lost",
                     KK_DEVOPS,
                     login,
@@ -275,4 +281,4 @@ def migrate(cr, version):
                 )
 
     env.registry.clear_cache("groups")
-    _logger.info("keykeep 18.0.1.58.0: role separation migration done")
+    _logger.info("keykeep 18.0.1.59.0: role separation migration done")
