@@ -57,11 +57,46 @@ Skriptet är **idempotent** — körs bara för credentials som saknar `secret_k
 - Versions-snapshots: `keykeep.credential_version_retention` (default 10), daglig cron
   "Keykeep: Purge Old Credential Versions" — purgen loggas per credential
 
+## Behörighetsmodell (18.0.1.57.0) — rollseparation
+
+Fem grupper i kategorin **Keykeep**. Ingen av dem implicerar en annan moduls
+behörigheter — utom `group_accounting`, som är den enda vägen till bokföring.
+
+| Grupp | Ärver | Kan | Ger bokföring? |
+|---|---|---|---|
+| **Keykeep User** | Intern användare | Läsa prenumerationer, credentials (utan reveal) | nej |
+| **Keykeep Manager** | User | Hantera prenumerationer, kategorier, betalningssätt | **nej** |
+| **Keykeep DevOps** | User | Full credential-hantering + reveal | nej |
+| **Keykeep Accounting** | User + Bokföring/Fakturering | Skapa verifikation och leverantörsfaktura från abonnemang | **ja** |
+| **Keykeep Admin** | Manager + DevOps | Allt ovan utom bokföring | nej |
+
+**Regeln:** behörighet tilldelas, den ärvs inte tvärs modulgrupper.
+`base.group_system` (Inställningar) ger **ingen** keykeep-åtkomst — en
+administratör ser inte Keykeep-menyn förrän hen fått en keykeep-grupp.
+
+Den som både administrerar hemligheter och bokför abonnemangskostnader tar
+**Admin + Accounting**.
+
+### Vad som ändrades i 18.0.1.57.0
+
+Före denna version implicerade `group_manager` `account.group_account_invoice`,
+och `base.group_system` implicerade `group_admin`. Kedjan gav varje
+Inställningar-användare full faktureringsrätt utan att någon valt det.
+
+Både kopplingarna och de direkta medlemskap de lämnat i
+`res_groups_users_rel` städas av `migrations/18.0.1.57.0/pre-migrate.py`.
+Migrationen rör **bara** användare där keykeep var bärare — den som har
+faktureringsrätt via Odoos egna Basic/Bookkeeper/Accountant påverkas inte.
+
+⚠️ Säkerhetsgrupperna ligger i `<data noupdate="1">`. XML-ändringen gäller
+därför bara nya databaser; befintliga kräver migrationen.
+
 ## Record rules
 
 - Manager/devops: ser bara credentials inom eget företag (subscription.company_id)
 - Admin: global åtkomst
 - Versioner + access-log följer credentialns scope via stored `company_id`
+- Accounting har **ingen** credential-ACL — bokföringsrollen ser inga hemligheter
 
 ## Reveal-flöde (18.0.1.51.0) — fullskärm + chatter
 

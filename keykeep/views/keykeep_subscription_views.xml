@@ -270,7 +270,9 @@
                                            invisible="state != 'cancelled'"/>
                                            
                                            					 <field name="currency_id" />
-                                    <field name="cost_amount"  class="o_input_13ch" widget='monetary' options="{'currency_field': 'currency_id'}" /> 
+                                    <field name="cost_amount" class="o_input_13ch" widget='monetary'
+                                           groups="keykeep.group_manager,keykeep.group_accounting"
+                                           options="{'currency_field': 'currency_id'}"/>
                                            
                   
                                     <field name="payment_method_id"/>
